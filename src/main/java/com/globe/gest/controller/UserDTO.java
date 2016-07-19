@@ -28,10 +28,54 @@ public class UserDTO implements Serializable {
     @Size(max = 50, message = "{error.user.password.max}")
     private String password;
     
+    @NotNull(message = "mail null")
+    @NotEmpty(message = "mail empty")
+    @Size(max = 50, message = "mail max 50")
+    private String mail;
+    
+    @NotNull(message = "phone null")
+    @NotEmpty(message = "phone empty")
+    @Size(max = 50, message = "phone max 50")
+    private String phone;
+    
+    @NotNull(message = "fname null")
+    @NotEmpty(message = "fname empty")
+    @Size(max = 50, message = "fname max 50")
+    private String fname;
+    
+    @NotNull(message = "lname null")
+    @NotEmpty(message = "lname empty")
+    @Size(max = 50, message = "lname max 50")
+    private String lname;
+    
     private boolean enabled;
     private int roleId;
     
-    public int getId() {
+    public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	public String getLname() {
+		return lname;
+	}
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+	public int getId() {
         return id;
     }
     public void setId(int id) {
@@ -64,11 +108,15 @@ public class UserDTO implements Serializable {
     
     @Override
     public String toString() {
-        return String.format("%s(id=%d, username=%s, password=%s, enabled=%b, roleID=%d)", 
+        return String.format("%s(id=%d, username=%s, password=%s, mail=%s, phone=%s, fname=%s, lname=%s, enabled=%b, roleID=%d)", 
                 this.getClass().getSimpleName(), 
                 this.getId(), 
                 this.getUsername(), 
                 this.getPassword(), 
+                this.getMail(), 
+                this.getPhone(), 
+                this.getFname(), 
+                this.getLname(), 
                 this.getEnabled(),
                 this.getRoleId());
     }
@@ -85,6 +133,10 @@ public class UserDTO implements Serializable {
             return Objects.equal(getId(), other.getId())
                     && Objects.equal(getUsername(), other.getUsername())
                     && Objects.equal(getPassword(), other.getPassword())
+                    && Objects.equal(getMail(), other.getMail())
+                    && Objects.equal(getPhone(), other.getPhone())
+                    && Objects.equal(getFname(), other.getFname())
+                    && Objects.equal(getLname(), other.getLname())
                     && Objects.equal(getEnabled(), other.getEnabled())
                     && Objects.equal(getRoleId(), other.getRoleId());
         }
@@ -93,7 +145,7 @@ public class UserDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getUsername(), getPassword(), getEnabled(), getRoleId());
+        return Objects.hashCode(getId(), getUsername(), getPassword(), getMail(), getPhone(), getFname(), getLname(), getEnabled(), getRoleId());
     }
 
 

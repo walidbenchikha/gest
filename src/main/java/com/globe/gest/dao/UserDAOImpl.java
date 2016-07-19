@@ -81,6 +81,10 @@ public class UserDAOImpl implements UserDAO {
 	    try {
 	        User userCheck = getUser(user.getUsername());
 	        if (userCheck.getId() == userToUpdate.getId()) {
+	        	userToUpdate.setMail(user.getMail());
+	        	userToUpdate.setPhone(user.getPhone());
+	        	userToUpdate.setFname(user.getFname());
+	        	userToUpdate.setLname(user.getLname());
 	            userToUpdate.setEnabled(user.getEnabled());
 	            userToUpdate.setPassword(user.getPassword());
 	            userToUpdate.setUsername(user.getUsername());
@@ -91,6 +95,10 @@ public class UserDAOImpl implements UserDAO {
 	            throw new DuplicateUserException(message);
 	        }
 	    } catch (UserNotFoundException e) {
+	    	userToUpdate.setMail(user.getMail());
+        	userToUpdate.setPhone(user.getPhone());
+        	userToUpdate.setFname(user.getFname());
+        	userToUpdate.setLname(user.getLname());
 	        userToUpdate.setEnabled(user.getEnabled());
 	        userToUpdate.setPassword(user.getPassword());
 	        userToUpdate.setUsername(user.getUsername());

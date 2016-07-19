@@ -31,6 +31,10 @@ public class User extends BaseEntity implements UserDetails {
             `ID`       int(6) NOT NULL AUTO_INCREMENT,  
             `USERNAME` VARCHAR(50) NOT NULL UNIQUE,
             `PASSWORD` VARCHAR(50) NOT NULL,
+            `MAIL` VARCHAR(50) NOT NULL,
+            `PHONE` VARCHAR(50) NOT NULL,
+            `FNAME` VARCHAR(50) NOT NULL,
+            `LNAME` VARCHAR(50) NOT NULL,
             `ENABLED`  BOOLEAN NOT NULL,
             PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
@@ -51,7 +55,33 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "password", length = 50)
     private String password;
     
-    @Column(name = "enabled")
+    @NotNull(message = "mail null")
+    @NotEmpty(message = "mail empty")
+    @Size(max = 50, message = "mail max 50")
+    @Column(name = "mail", length = 50)
+    private String mail;
+    
+    @NotNull(message = "phone null")
+    @NotEmpty(message = "phone empty")
+    @Size(max = 50, message = "phone max 50")
+    @Column(name = "phone", length = 50)
+    private String phone;
+    
+    @NotNull(message = "fname null")
+    @NotEmpty(message = "fname empty")
+    @Size(max = 50, message = "fname max 50")
+    @Column(name = "fname", length = 50)
+    private String fname;
+    
+    @NotNull(message = "lname null")
+    @NotEmpty(message = "lname empty")
+    @Size(max = 50, message = "lname max 50")
+    @Column(name = "lname", length = 50)
+    private String lname;
+    
+    
+
+	@Column(name = "enabled")
     private boolean enabled;
     
     @OneToOne(fetch = FetchType.EAGER)  
@@ -76,7 +106,39 @@ public class User extends BaseEntity implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public String getMail() {
+		return mail;
+	}
 
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getFname() {
+		return fname;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	public String getLname() {
+		return lname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+	
     public boolean getEnabled() {
         return enabled;
     }
@@ -99,7 +161,11 @@ public class User extends BaseEntity implements UserDetails {
                 this.getClass().getSimpleName(), 
                 this.getId(), 
                 this.getUsername(), 
-                this.getPassword(), 
+                this.getPassword(),
+                this.getMail(),
+                this.getPhone(),
+                this.getFname(),
+                this.getLname(),
                 this.getEnabled());
     }
 
@@ -115,6 +181,10 @@ public class User extends BaseEntity implements UserDetails {
             return Objects.equal(getId(), other.getId())
                     && Objects.equal(getUsername(), other.getUsername())
                     && Objects.equal(getPassword(), other.getPassword())
+                    && Objects.equal(getMail(), other.getMail())
+                    && Objects.equal(getPhone(), other.getPhone())
+                    && Objects.equal(getFname(), other.getFname())
+                    && Objects.equal(getLname(), other.getLname())
                     && Objects.equal(getEnabled(), other.getEnabled());
         }
         return false;
@@ -122,7 +192,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getUsername(), getPassword(), getEnabled());
+        return Objects.hashCode(getId(), getUsername(), getPassword(), getMail(), getPhone(), getFname(), getLname(),getEnabled());
     }
 
     @Transient

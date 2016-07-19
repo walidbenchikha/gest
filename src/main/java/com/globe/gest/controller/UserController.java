@@ -223,6 +223,10 @@ public class UserController {
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
         userDTO.setPassword(user.getPassword());
+        userDTO.setMail(user.getMail());
+        userDTO.setPhone(user.getPhone());
+        userDTO.setFname(user.getFname());
+        userDTO.setLname(user.getLname());
         userDTO.setEnabled(user.getEnabled());
         
         Role role = new Role();
@@ -250,6 +254,10 @@ public class UserController {
 
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
+        user.setMail(userDTO.getMail());
+        user.setPhone(userDTO.getPhone());
+        user.setFname(userDTO.getFname());
+        user.setLname(userDTO.getLname());
         user.setEnabled(userDTO.getEnabled());
         return user;
     }
