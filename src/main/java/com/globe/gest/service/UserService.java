@@ -17,8 +17,11 @@ public interface UserService extends UserDetailsService {
     public User getUser(String username) throws UserNotFoundException;
 
     public void updateUser(User user) throws UserNotFoundException, DuplicateUserException;
-
+    
     public void deleteUser(int userId) throws UserNotFoundException;
 
     public List<User> getUsers();
+    public List<User> getAuditors();
+
+	
 }

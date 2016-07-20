@@ -53,6 +53,11 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getUsers();
 	}
 	
+	@Override
+	public List<User> getAuditors() {
+		return userDAO.getAuditors();
+	}
+	
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {

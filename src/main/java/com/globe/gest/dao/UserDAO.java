@@ -19,5 +19,7 @@ public interface UserDAO {
     public void deleteUser(int userId) throws UserNotFoundException;
 
     public List<User> getUsers();
+    
+    public List<User> getAuditors();
 
 }

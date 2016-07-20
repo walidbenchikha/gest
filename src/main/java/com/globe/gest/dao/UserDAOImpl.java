@@ -121,4 +121,11 @@ public class UserDAOImpl implements UserDAO {
         String hql = "FROM User u ORDER BY u.id";
         return getCurrentSession().createQuery(hql).list();
     }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> getAuditors() {
+    	Query query = getCurrentSession().createQuery("FROM User u where u.role.rolename='ROLE_AUDITOR'");
+        return query.list();
+    }
 }
