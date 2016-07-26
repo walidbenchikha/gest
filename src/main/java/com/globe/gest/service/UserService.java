@@ -22,6 +22,7 @@ public interface UserService extends UserDetailsService {
 
     public List<User> getUsers();
     public List<User> getAuditors();
+    public List<User> getAuditorsByName(String name,String mail);
 
 	
 }

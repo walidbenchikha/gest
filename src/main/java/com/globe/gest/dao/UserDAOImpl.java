@@ -128,4 +128,30 @@ public class UserDAOImpl implements UserDAO {
     	Query query = getCurrentSession().createQuery("FROM User u where u.role.rolename='ROLE_AUDITOR'");
         return query.list();
     }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> getAuditorsByName(String name, String mail) {
+    	if (name==""){
+    		if (mail==""){
+    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR'";
+    			return getCurrentSession().createQuery(hql).list();
+    		}
+    		else{
+    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR'  and u.mail=:mail";
+    	        return getCurrentSession().createQuery(hql).setParameter("mail",mail).list();
+    		}
+    	}
+    	else{
+    		if (mail==""){
+    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR' and u.username= :name";
+    			return getCurrentSession().createQuery(hql).setParameter("name",name).list();
+    		}
+    		else{
+    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR' and u.username= :name and u.mail=:mail";
+    	        return getCurrentSession().createQuery(hql).setParameter("name",name).setParameter("mail",mail).list();
+    		}
+    		
+    	}
+    }
 }

@@ -58,6 +58,11 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getAuditors();
 	}
 	
+	@Override
+	public List<User> getAuditorsByName(String name, String mail) {
+		return userDAO.getAuditorsByName(name, mail);
+	}
+	
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {

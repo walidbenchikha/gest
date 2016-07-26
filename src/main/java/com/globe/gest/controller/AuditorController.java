@@ -75,6 +75,27 @@ public class AuditorController {
         }
         return "auditor-list";
     }
+    
+    @RequestMapping(value = {"/", "/search"}, method = RequestMethod.GET)
+    @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+    public String searchUsers(@RequestParam(value = "username", required = false)
+    String username,
+    @RequestParam(value = "mail", required = false) String mail,
+    Model model, RedirectAttributes redirectAttrs) {
+        logger.debug("IN: User/list-GET");
+
+        List<User> users = userService.getAuditorsByName(username,mail);
+        model.addAttribute("users", users);
+
+        // if there was an error in /add, we do not want to overwrite
+        // the existing user object containing the errors.
+        if (!model.containsAttribute("userDTO")) {
+            logger.debug("Adding UserDTO object to model");
+            UserDTO userDTO = new UserDTO();
+            model.addAttribute("userDTO", userDTO);
+        }
+        return "auditor-list";
+    }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @PreAuthorize("hasRole('CTRL_USER_ADD_POST')")
