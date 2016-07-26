@@ -58,7 +58,7 @@
 
             <ul class="nav navbar-top-links navbar-right" data-th-with="currentUser=${#httpServletRequest.userPrincipal?.name}">
                     <li><a href="#"            >Map</a></li>
-                    <li><a href="#"     >Shops</a></li>
+                    <li><a href="#" data-th-href="@{/shops/list}"    >Shops</a></li>
                     <li><a href="#" data-th-href="@{/auditor/list}"><i class="fa fa-user fa-fw"></i>Auditors</a></li>
                     <li><a href="#"       >Planning</a></li>
                     <li class="dropdown" >
