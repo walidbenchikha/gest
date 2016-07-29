@@ -58,7 +58,23 @@
 
             <ul class="nav navbar-top-links navbar-right" data-th-with="currentUser=${#httpServletRequest.userPrincipal?.name}">
                     <li><a href="#"            >Map</a></li>
-                    <li><a href="#" data-th-href="@{/shops/list}"    >Shops</a></li>
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-th-href="@{/shops/list}"    >
+                    
+                    	
+		                        <font color="#049cbd" >Audity</font>
+		                        <i class="fa fa-caret-down"></i>
+                    
+                    
+                    </a>
+                    	<ul class="dropdown-menu dropdown-user">
+			                    <li><a href="#" data-th-href="@{/institutions/list}"><i class="fa fa-user fa-fw"></i>Institutions</a></li>
+			                    <li><a href="#" data-th-href="@{/shops/list}"><i class="fa fa-gear fa-fw"></i>Shops</a></li>
+			                    <li><a href="#" data-th-href="@{/camion/list}"><i class="fa fa-gear fa-fw"></i>Camion</a></li>
+                            </ul>
+                    
+                    
+                    </li>
                     <li><a href="#" data-th-href="@{/auditor/list}"><i class="fa fa-user fa-fw"></i>Auditors</a></li>
                     <li><a href="#"       >Planning</a></li>
                     <li class="dropdown" >

@@ -3,6 +3,8 @@ package com.globe.gest.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,14 +24,29 @@ import com.google.common.base.Objects;
 
 @Entity
 @Table(name="AUDITE")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn( name = "dtype" )
+
+@DiscriminatorValue(value="audite")
 public class Audite implements Serializable {
 	
 	private static final long serialVersionUID = 96285180113476324L;
     static Logger logger = LoggerFactory.getLogger(Strategy.class);
     
+    @Column(name="dtype" ,insertable=false , updatable=false)
+    private String dtype;
     
-    @Id
+    
+    public String getDtype() {
+		return dtype;
+	}
+
+	public void setDtype(String dtype) {
+		this.dtype = dtype;
+	}
+
+
+	@Id
     @GeneratedValue
     @Column(name="ID_AUDITE")
     private int ID_AUDITE;	
@@ -43,11 +60,11 @@ public class Audite implements Serializable {
 	}
 
 	
-	@NotNull(message = "{error.audite.Nom_Audité.null}")
-    @NotEmpty(message = "{error.audite.Nom_Audité.empty}")
-    @Size(max = 50, message = "{error.audite.Nom_Audité.max}")
-    @Column(name = "Nom_Audité", length = 64)
-    private String Nom_Audité;
+	@NotNull(message = "{error.audite.nom_audite.null}")
+    @NotEmpty(message = "{error.audite.nom_audite.empty}")
+    @Size(max = 50, message = "{error.audite.nom_audite.max}")
+    @Column(name = "nom_audite", length = 64)
+    private String nom_audite;
 	
 	
 	@NotNull(message = "{error.audite.isValid.null}")
@@ -56,7 +73,7 @@ public class Audite implements Serializable {
     @Column(name = "isValid", length = 64)
     private int isValid;
 	
-	
+	/*
 	@NotNull(message = "{error.audite.ID_OP.null}")
     @NotEmpty(message = "{error.audite.ID_OP.empty}")
     @Size(max = 50, message = "{error.audite.ID_OP.max}")
@@ -69,13 +86,28 @@ public class Audite implements Serializable {
     @Size(max = 50, message = "{error.audite.ID_Gouv.max}")
     @Column(name = "ID_Gouv", length = 64)
     private int ID_Gouv;
+	*/
+	
+//	@ManyToOne
+//	@JoinColumn(name="ID_Gouv" , insertable=false , updatable=false )
+//	private Gouvernorat gouvernorat;
+//
+//	
+//
+//	public Gouvernorat getGouvernorat() {
+//		return gouvernorat;
+//	}
+//
+//	public void setGouvernorat(Gouvernorat gouvernorat) {
+//		this.gouvernorat = gouvernorat;
+//	}
 
-	public String getNom_Audité() {
-		return Nom_Audité;
+	public String getNom_audite() {
+		return nom_audite;
 	}
 
-	public void setNom_Audité(String nom_Audité) {
-		Nom_Audité = nom_Audité;
+	public void setNom_audite(String nom_Audite) {
+		nom_audite = nom_Audite;
 	}
 
 	public int getIsValid() {
@@ -86,32 +118,32 @@ public class Audite implements Serializable {
 		this.isValid = isValid;
 	}
 
-	public int getID_OP() {
-		return ID_OP;
-	}
-
-	public void setID_OP(int iD_OP) {
-		ID_OP = iD_OP;
-	}
-
-	public int getID_Gouv() {
-		return ID_Gouv;
-	}
-
-	public void setID_Gouv(int iD_Gouv) {
-		ID_Gouv = iD_Gouv;
-	}
+//	public int getID_OP() {
+//		return ID_OP;
+//	}
+//
+//	public void setID_OP(int iD_OP) {
+//		ID_OP = iD_OP;
+//	}
+//
+//	public int getID_Gouv() {
+//		return ID_Gouv;
+//	}
+//
+//	public void setID_Gouv(int iD_Gouv) {
+//		ID_Gouv = iD_Gouv;
+//	}
 	
 	
 	@Override
     public String toString() {
-        return String.format("%s(ID_AUDITE=%d, Nom_Audité=%s, isValid=%d, ID_OP=%d, ID_Gouv=%d)", 
+        return String.format("%s(ID_AUDITE=%d, Nom_Audite=%s, isValid=%d)", 
                 this.getClass().getSimpleName(), 
                 this.getID_AUDITE(), 
-                this.getNom_Audité(), 
-                this.getIsValid(),
-                this.getID_OP(),
-                this.getID_Gouv());
+                this.getNom_audite(), 
+                this.getIsValid());
+                //this.getID_OP(),
+               // this.getID_Gouv());
     }
 
     @Override
@@ -124,10 +156,10 @@ public class Audite implements Serializable {
         if (o instanceof Audite) {
             final Audite other = (Audite) o;
             return Objects.equal(getID_AUDITE(), other.getID_AUDITE())
-                    && Objects.equal(getNom_Audité(), other.getNom_Audité())
-                    && Objects.equal(getIsValid(), other.getIsValid())
-                    && Objects.equal(getID_OP(), other.getID_OP())
-                    && Objects.equal(getID_Gouv(), other.getID_Gouv());
+                    && Objects.equal(getNom_audite(), other.getNom_audite())
+                    && Objects.equal(getIsValid(), other.getIsValid());
+//                    && Objects.equal(getID_OP(), other.getID_OP())
+//                    && Objects.equal(getID_Gouv(), other.getID_Gouv());
                    
         }
         return false;
@@ -135,7 +167,7 @@ public class Audite implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getID_AUDITE(), getNom_Audité(), getIsValid(), getID_OP(), getID_Gouv());
+        return Objects.hashCode(getID_AUDITE(), getNom_audite(), getIsValid());
     }
 	
 	

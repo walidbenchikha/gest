@@ -11,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.globe.gest.model.Shops;
-import com.globe.gest.service.ShopsService;
+import com.globe.gest.model.Audite;
+import com.globe.gest.service.AuditeService;
 
 @Controller
 @RequestMapping(value="/shops")
@@ -21,27 +21,27 @@ public class ShopsController {
 	
 	
 	static Logger logger = LoggerFactory.getLogger(ShopsController.class);
-    static String businessObject = "shops"; //used in RedirectAttributes messages 
+    static String businessObject = "audite"; //used in RedirectAttributes messages 
     
     @Autowired
-    private ShopsService shopsService;
+    private AuditeService auditeService;
     
     @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
     @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
     public String listShops(Model model) {
         logger.debug("IN: User/list-GET");
 
-        List<Shops> shops = shopsService.getShops();
-        model.addAttribute("shops", shops);
+        List<Audite> audite = auditeService.getAudite();
+        model.addAttribute("audite", audite);
 
         // if there was an error in /add, we do not want to overwrite
         // the existing user object containing the errors.
-        if (!model.containsAttribute("shopsDTO")) {
-            logger.debug("Adding shopsDTO object to model");
-            ShopsDTO shopsDTO = new ShopsDTO();
-            model.addAttribute("shopsDTO", shopsDTO);
-        }
-        return "shops-list";
+//        if (!model.containsAttribute("auditeDTO")) {
+//            logger.debug("Adding shopsDTO object to model");
+//            AuditeDTO auditeDTO = new AuditeDTO();
+//            model.addAttribute("auditeDTO", auditeDTO);
+//        }
+        return "audite-list";
     }
     
     
