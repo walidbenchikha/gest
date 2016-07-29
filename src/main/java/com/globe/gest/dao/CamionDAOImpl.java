@@ -9,15 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
-import com.globe.gest.model.Shops;
-import com.globe.gest.model.User;
+import com.globe.gest.model.Audite;
+import com.globe.gest.model.Camion;
+import com.globe.gest.model.Institution;
 
 @Repository
-public class ShopsDAOImpl implements ShopsDAO {
+public class CamionDAOImpl implements CamionDAO {
 	
 	
-	static Logger logger = LoggerFactory.getLogger(ShopsDAOImpl.class);
+	static Logger logger = LoggerFactory.getLogger(CamionDAOImpl.class);
 	
 	@Autowired
     private SessionFactory sessionFactory;
@@ -28,8 +28,8 @@ public class ShopsDAOImpl implements ShopsDAO {
     
     @Override
     @SuppressWarnings("unchecked")
-    public List<Shops> getShops() {
-        String hql = "from Audite where dtype='shops'";
+    public List<Camion> getCamion() {
+        String hql = "from Audite where dtype='camion'";
     	//String hql = "select AUDITE.ID_AUDITE , AUDITE.Nom_Audité from Audite AUDITE join Audite.Shops";
         return getCurrentSession().createQuery(hql).list();
     }

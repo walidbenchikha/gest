@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col-xs-12">
             
-				<h4 class="page-header" data-th-text="#{shops.list.table.title}">Configured Shops</h4>
+				<h4 class="page-header" data-th-text="#{audite.list.table.title}">Configured Audites</h4>
 				<div class="table responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
@@ -68,18 +68,44 @@
                             <th class="col-xs-1" >Longitude</th>
                             <th class="col-xs-2" >Adresse</th>
                             <th class="col-xs-1" >Phone</th>
+                            <th class="col-xs-1" >Matricule</th>
+                            <th class="col-xs-1" >Raison Sociale</th>
                             
 							<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr data-th-each="shop : ${shops}">
-							<td data-th-text="${shop.nom_audite}">Nom Audite</td>
-							<td data-th-text="${shop.latitude_boutique}">latitude</td>
-                            <td data-th-text="${shop.longitude_boutique}">longitude</td>
-                            <td data-th-text="${shop.adresse_boutique}">adresse</td>
-                            <td data-th-text="${shop.phone_boutique}">phone</td>
-                          
+						<tr data-th-each="audite : ${audite}">
+						<td data-th-text="${audite.nom_audite}">Nom Audite</td>
+						<div th:switch="${audite.dtype}">
+						
+						    <span th:case="shops">
+							<td data-th-text="${audite.latitude_boutique}">latitude</td>
+                            <td data-th-text="${audite.longitude_boutique}">longitude</td>
+                            <td data-th-text="${audite.adresse_boutique}">adresse</td>
+                            <td data-th-text="${audite.phone_boutique}">phone</td>
+                             <td >null</td>
+                             <td >null</td>
+                             </span>
+                             
+                             <span th:case="camion">
+						 		<td >null</td>
+						 		 <td >null</td>
+						  		 <td >null</td>
+						   		 <td >null</td>
+                           		 <td data-th-text="${audite.matricule}">matricule</td>
+                             <td >null</td>
+                             </span>
+                             
+                              <span th:case="institution">
+							<td data-th-text="${audite.latitude_boutique}">latitude</td>
+                            <td data-th-text="${audite.longitude_boutique}">longitude</td>
+                            <td data-th-text="${audite.adresse_boutique}">adresse</td>
+                            <td data-th-text="${audite.phone_boutique}">phone</td>
+                             <td >null</td>
+                             <td data-th-text="${audite.raison_sociale}">raison</td>
+                             </span>
+                          </div>
                             
 							<td>
 								<div class="btn-group">
@@ -105,11 +131,12 @@
 							</td>
 						</tr>
 						<tr data-th-remove="all">
-							
+							<td>nom Audite2</td>
 							<td>latitude2</td>
                             <td>longitude2</td>
                             <td>adresse2</td>
                             <td>phone2</td>
+                            <td>matricule2</td>
                             <td>
                                 <div class="btn-group">
                                   <button class="btn btn-warning btn-xs dropdown-toggle" type="button" data-toggle="dropdown" 

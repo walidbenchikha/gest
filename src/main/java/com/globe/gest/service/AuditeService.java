@@ -4,10 +4,8 @@ import java.util.List;
 
 import com.globe.gest.model.Audite;
 
-import com.globe.gest.model.Shops;
-
-public interface ShopsService {
+public interface AuditeService {
 	
-	public List<Shops> getShops();
+	public List<Audite> getAudite();
 
 }

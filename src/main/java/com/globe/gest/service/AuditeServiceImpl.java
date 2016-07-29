@@ -8,24 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.globe.gest.dao.ShopsDAO;
-
-import com.globe.gest.model.Shops;
+import com.globe.gest.dao.AuditeDAO;
+import com.globe.gest.model.Audite;
 
 
 @Service
 @Transactional
-public class ShopsServiceImpl implements ShopsService {
+public class AuditeServiceImpl implements AuditeService {
 	
-	static Logger logger = LoggerFactory.getLogger(ShopsServiceImpl.class);
+	static Logger logger = LoggerFactory.getLogger(AuditeServiceImpl.class);
 	
 	
 	@Autowired
-    private ShopsDAO shopsDAO;
+    private AuditeDAO auditeDAO;
 	
 	@Override
-	public List<Shops> getShops() {
-		return shopsDAO.getShops();
+	public List<Audite> getAudite() {
+		return auditeDAO.getAudite();
 	}
 	
 	

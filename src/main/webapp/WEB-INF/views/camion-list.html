@@ -43,7 +43,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-    <title data-th-text="#{shops.list.page.title}">Title</title>
+    <title data-th-text="#{camion.list.page.title}">Title</title>
 </head>
 
 <body>
@@ -64,21 +64,17 @@
 					<thead>
 						<tr>
 							<th class="col-xs-1" >Nom Audite</th>
-							<th class="col-xs-1" >Latitude</th>
-                            <th class="col-xs-1" >Longitude</th>
-                            <th class="col-xs-2" >Adresse</th>
-                            <th class="col-xs-1" >Phone</th>
+							<th class="col-xs-1" >Matricule</th>
+                            
                             
 							<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr data-th-each="shop : ${shops}">
-							<td data-th-text="${shop.nom_audite}">Nom Audite</td>
-							<td data-th-text="${shop.latitude_boutique}">latitude</td>
-                            <td data-th-text="${shop.longitude_boutique}">longitude</td>
-                            <td data-th-text="${shop.adresse_boutique}">adresse</td>
-                            <td data-th-text="${shop.phone_boutique}">phone</td>
+						<tr data-th-each="camion : ${camion}">
+							<td data-th-text="${camion.nom_audite}">Nom Audite</td>
+							<td data-th-text="${camion.matricule}">Matricule</td>
+                          
                           
                             
 							<td>

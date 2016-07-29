@@ -11,28 +11,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.globe.gest.model.Shops;
-import com.globe.gest.service.ShopsService;
+import com.globe.gest.model.Audite;
+import com.globe.gest.model.Camion;
+import com.globe.gest.service.AuditeService;
+import com.globe.gest.service.CamionService;
 
 @Controller
-@RequestMapping(value="/shops")
+@RequestMapping(value="/camion")
 @PreAuthorize("denyAll")
-public class ShopsController {
+public class CamionController {
 	
 	
-	static Logger logger = LoggerFactory.getLogger(ShopsController.class);
-    static String businessObject = "audite"; //used in RedirectAttributes messages 
+	static Logger logger = LoggerFactory.getLogger(CamionController.class);
+    static String businessObject = "camion"; //used in RedirectAttributes messages 
     
     @Autowired
-    private ShopsService shopsService;
+    private CamionService camionService;
     
     @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
     @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
     public String listShops(Model model) {
         logger.debug("IN: User/list-GET");
 
-        List<Shops> shops = shopsService.getShops();
-        model.addAttribute("shops", shops);
+        List<Camion> camion = camionService.getCamion();
+        model.addAttribute("camion", camion);
 
         // if there was an error in /add, we do not want to overwrite
         // the existing user object containing the errors.
@@ -41,7 +43,7 @@ public class ShopsController {
 //            AuditeDTO auditeDTO = new AuditeDTO();
 //            model.addAttribute("auditeDTO", auditeDTO);
 //        }
-        return "shops-list";
+        return "camion-list";
     }
     
     
