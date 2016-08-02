@@ -27,8 +27,8 @@ public class Camion  extends Audite implements Serializable {
     
     
 
-//	@NotNull(message = "{error.shops.latitude_boutique.null}")
-//    @NotEmpty(message = "{error.shops.latitude_boutique.empty}")
+    @NotNull(message = "{error.shops.matricule.null}")
+    @NotEmpty(message = "{error.shops.matricule.empty}")
     @Size(max = 50, message = "{error.camion.matricule.max}")
     @Column(name = "matricule", length = 20)
 	  private String matricule;

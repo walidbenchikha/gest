@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.CamionDAO;
 import com.globe.gest.dao.InstitutionDAO;
+import com.globe.gest.exception.DuplicateUserException;
+import com.globe.gest.exception.UserNotFoundException;
 import com.globe.gest.model.Camion;
 import com.globe.gest.model.Institution;
+import com.globe.gest.model.User;
 
 
 @Service
@@ -23,6 +26,26 @@ public class CamionServiceImpl implements CamionService {
 	
 	@Autowired
     private CamionDAO camionDAO;
+	
+	@Override
+	public void addCamion(Camion camion) {
+		camionDAO.addCamion(camion);
+	}
+
+    @Override
+    public Camion getCamion(int camionId)  {
+        return camionDAO.getCamion(camionId);
+    }
+
+	@Override
+	public void updateCamion(Camion camion){
+		camionDAO.updateCamion(camion);
+	}
+
+	@Override
+	public void deleteCamion(int camionId)  {
+		camionDAO.deleteCamion(camionId);
+	}
 	
 	@Override
 	public List<Camion> getCamion() {

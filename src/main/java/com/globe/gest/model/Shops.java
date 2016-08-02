@@ -6,10 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,9 +24,18 @@ public class Shops  extends Audite implements Serializable {
     static Logger logger = LoggerFactory.getLogger(Strategy.class);
     
     
-    
+    @Column(name="stype", insertable=false, updatable=false)
+    private String stype;
 
-//	@NotNull(message = "{error.shops.latitude_boutique.null}")
+public String getStype() {
+		return stype;
+	}
+
+	public void setStype(String stype) {
+		this.stype = stype;
+	}
+
+	//	@NotNull(message = "{error.shops.latitude_boutique.null}")
 //    @NotEmpty(message = "{error.shops.latitude_boutique.empty}")
     @Size(max = 50, message = "{error.shops.latitude_boutique.max}")
     @Column(name = "latitude_boutique", length = 20)
@@ -58,12 +65,7 @@ public class Shops  extends Audite implements Serializable {
     
     
     
-    @Override
-    public String toString() {
-        return String.format("%s(latitude_boutique='%s', longitude_boutique=%s,adresse_boutique=%s , phone_boutique=%s)", 
-                this.getClass().getSimpleName(),
-                this.getLatitude_boutique(), this.getLongitude_boutique(), this.getAdresse_boutique(),this.getPhone_boutique());
-    }
+   
 
     public String getLatitude_boutique() {
 		return latitude_boutique;
@@ -98,29 +100,62 @@ public class Shops  extends Audite implements Serializable {
 	}
 
 	@Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
+	public String toString() {
+		return "Shops [stype=" + stype + ", latitude_boutique=" + latitude_boutique + ", longitude_boutique="
+				+ longitude_boutique + ", adresse_boutique=" + adresse_boutique + ", phone_boutique=" + phone_boutique
+				+ "]";
+	}
 
-        if (o instanceof Shops) {
-            final Shops other = (Shops) o;
-            return 
-            		
-            		Objects.equal(getLatitude_boutique(), other.getLatitude_boutique())
-                    && Objects.equal(getLongitude_boutique(), other.getLongitude_boutique())
-                    && Objects.equal(getAdresse_boutique(), other.getAdresse_boutique())
-                    && Objects.equal(getPhone_boutique(), other.getPhone_boutique());
-        }
-        return false;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((adresse_boutique == null) ? 0 : adresse_boutique.hashCode());
+		result = prime * result + ((latitude_boutique == null) ? 0 : latitude_boutique.hashCode());
+		result = prime * result + ((longitude_boutique == null) ? 0 : longitude_boutique.hashCode());
+		result = prime * result + ((phone_boutique == null) ? 0 : phone_boutique.hashCode());
+		result = prime * result + ((stype == null) ? 0 : stype.hashCode());
+		return result;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getLatitude_boutique(), getLongitude_boutique(),getAdresse_boutique(),getPhone_boutique());
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Shops other = (Shops) obj;
+		if (adresse_boutique == null) {
+			if (other.adresse_boutique != null)
+				return false;
+		} else if (!adresse_boutique.equals(other.adresse_boutique))
+			return false;
+		if (latitude_boutique == null) {
+			if (other.latitude_boutique != null)
+				return false;
+		} else if (!latitude_boutique.equals(other.latitude_boutique))
+			return false;
+		if (longitude_boutique == null) {
+			if (other.longitude_boutique != null)
+				return false;
+		} else if (!longitude_boutique.equals(other.longitude_boutique))
+			return false;
+		if (phone_boutique == null) {
+			if (other.phone_boutique != null)
+				return false;
+		} else if (!phone_boutique.equals(other.phone_boutique))
+			return false;
+		if (stype == null) {
+			if (other.stype != null)
+				return false;
+		} else if (!stype.equals(other.stype))
+			return false;
+		return true;
+	}
 
+	
 	
 	
 	
