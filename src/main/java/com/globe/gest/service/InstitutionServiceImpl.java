@@ -23,6 +23,26 @@ public class InstitutionServiceImpl implements InstitutionService {
     private InstitutionDAO institutionDAO;
 	
 	@Override
+	public void addInstitution(Institution institution) {
+		institutionDAO.addInstitution(institution);
+	}
+
+    @Override
+    public Institution getInstitution(int institutionId)  {
+        return institutionDAO.getInstitution(institutionId);
+    }
+
+	@Override
+	public void updateInstitution(Institution institution){
+		institutionDAO.updateInstitution(institution);
+	}
+
+	@Override
+	public void deleteInstitution(int institutionId)  {
+		institutionDAO.deleteInstitution(institutionId);
+	}
+	
+	@Override
 	public List<Institution> getInstitution() {
 		return institutionDAO.getInstitution();
 	}

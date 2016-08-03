@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
 
 
 @Entity
@@ -24,7 +23,7 @@ public class Shops  extends Audite implements Serializable {
     static Logger logger = LoggerFactory.getLogger(Strategy.class);
     
     
-    @Column(name="stype", insertable=false, updatable=false)
+    @Column(name="stype")
     private String stype;
 
 public String getStype() {

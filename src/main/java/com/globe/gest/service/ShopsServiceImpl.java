@@ -9,27 +9,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.ShopsDAO;
-
 import com.globe.gest.model.Shops;
-
 
 @Service
 @Transactional
 public class ShopsServiceImpl implements ShopsService {
-	
+
 	static Logger logger = LoggerFactory.getLogger(ShopsServiceImpl.class);
-	
-	
+
 	@Autowired
-    private ShopsDAO shopsDAO;
-	
+	private ShopsDAO shopsDAO;
+
+	@Override
+	public void addShops(Shops shops) {
+		shopsDAO.addShops(shops);
+	}
+
+	@Override
+	public Shops getShops(int shopsId) {
+		return shopsDAO.getShops(shopsId);
+	}
+
+	@Override
+	public void updateShops(Shops shops) {
+		shopsDAO.updateShops(shops);
+	}
+
+	@Override
+	public void deleteShops(int shopsId) {
+		shopsDAO.deleteShops(shopsId);
+	}
+
 	@Override
 	public List<Shops> getShops() {
 		return shopsDAO.getShops();
 	}
-	
-	
-	
-	
 
 }

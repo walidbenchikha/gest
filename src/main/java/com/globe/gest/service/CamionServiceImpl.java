@@ -9,12 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.CamionDAO;
-import com.globe.gest.dao.InstitutionDAO;
-import com.globe.gest.exception.DuplicateUserException;
-import com.globe.gest.exception.UserNotFoundException;
 import com.globe.gest.model.Camion;
-import com.globe.gest.model.Institution;
-import com.globe.gest.model.User;
 
 
 @Service

@@ -9,30 +9,67 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
 import com.globe.gest.model.Shops;
-import com.globe.gest.model.User;
 
 @Repository
 public class ShopsDAOImpl implements ShopsDAO {
-	
-	
-	static Logger logger = LoggerFactory.getLogger(ShopsDAOImpl.class);
-	
-	@Autowired
-    private SessionFactory sessionFactory;
 
-    private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
-    
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Shops> getShops() {
-        String hql = "from Audite where dtype='shops'";
-    	//String hql = "select AUDITE.ID_AUDITE , AUDITE.Nom_Audité from Audite AUDITE join Audite.Shops";
-        return getCurrentSession().createQuery(hql).list();
-    }
-	
+	static Logger logger = LoggerFactory.getLogger(ShopsDAOImpl.class);
+
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	private Session getCurrentSession() {
+		return sessionFactory.getCurrentSession();
+	}
+
+	@Override
+	public void addShops(Shops shops) {
+		// logger.debug("UserDAOImpl.addUser() - [" + shops.getUsername() +
+		// "]");
+		
+		getCurrentSession().save(shops);
+		logger.debug("***********************************");
+		logger.debug("***********************************");
+		logger.debug(shops.toString());
+	}
+
+	@Override
+	public Shops getShops(int shopsId) {
+		logger.debug("UserDAOImpl.getUser() - [" + shopsId + "]");
+		Shops shopsObject = (Shops) getCurrentSession().get(Shops.class, shopsId);
+		return shopsObject;
+	}
+
+	@Override
+	public void updateShops(Shops shops) {
+		Shops shopsToUpdate = getShops(shops.getID_AUDITE());
+
+		shopsToUpdate.setNom_audite(shops.getNom_audite());
+		shopsToUpdate.setDtype(shops.getDtype());
+		shopsToUpdate.setIsValid(shops.getIsValid());
+		shopsToUpdate.setLatitude_boutique(shops.getLatitude_boutique());
+		shopsToUpdate.setLongitude_boutique(shops.getLongitude_boutique());
+		shopsToUpdate.setAdresse_boutique(shops.getAdresse_boutique());
+		shopsToUpdate.setPhone_boutique(shops.getPhone_boutique());
+		shopsToUpdate.setStype(shops.getStype());
+		getCurrentSession().update(shopsToUpdate);
+
+	}
+
+	@Override
+	public void deleteShops(int shopsId) {
+		Shops shops = getShops(shopsId);
+		if (shops != null) {
+			getCurrentSession().delete(shops);
+		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Shops> getShops() {
+		String hql = "from Audite where dtype='shops'";
+		return getCurrentSession().createQuery(hql).list();
+	}
 
 }

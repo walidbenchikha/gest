@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -24,103 +23,94 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.common.base.Objects;
 
-@Entity  
-@Table(name="USERS")
+@Entity
+@Table(name = "USERS")
 public class User extends BaseEntity implements UserDetails {
-    /*
-        CREATE TABLE `USERS` (
-            `ID`       int(6) NOT NULL AUTO_INCREMENT,  
-            `USERNAME` VARCHAR(50) NOT NULL UNIQUE,
-            `PASSWORD` VARCHAR(50) NOT NULL,
-            `MAIL` VARCHAR(50) NOT NULL,
-            `PHONE` VARCHAR(50) NOT NULL,
-            `FNAME` VARCHAR(50) NOT NULL,
-            `LNAME` VARCHAR(50) NOT NULL,
-            `ENABLED`  BOOLEAN NOT NULL,
-            PRIMARY KEY (`ID`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
-    */
+	/*
+	 * CREATE TABLE `USERS` ( `ID` int(6) NOT NULL AUTO_INCREMENT, `USERNAME`
+	 * VARCHAR(50) NOT NULL UNIQUE, `PASSWORD` VARCHAR(50) NOT NULL, `MAIL`
+	 * VARCHAR(50) NOT NULL, `PHONE` VARCHAR(50) NOT NULL, `FNAME` VARCHAR(50)
+	 * NOT NULL, `LNAME` VARCHAR(50) NOT NULL, `ENABLED` BOOLEAN NOT NULL,
+	 * PRIMARY KEY (`ID`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	 */
 
-    private static final long serialVersionUID = 6311364761937265306L;
-    static Logger logger = LoggerFactory.getLogger(User.class);
-    
-    @NotNull(message = "{error.user.username.null}")
-    @NotEmpty(message = "{error.user.username.empty}")
-    @Size(max = 50, message = "{error.user.username.max}")
-    @Column(name = "username", length = 50)
-    private String username;
+	private static final long serialVersionUID = 6311364761937265306L;
+	static Logger logger = LoggerFactory.getLogger(User.class);
 
-    @NotNull(message = "{error.user.password.null}")
-    @NotEmpty(message = "{error.user.password.empty}")
-    @Size(max = 50, message = "{error.user.password.max}")
-    @Column(name = "password", length = 50)
-    private String password;
-    
-    @NotNull(message = "mail null")
-    @NotEmpty(message = "mail empty")
-    @Size(max = 50, message = "mail max 50")
-    @Column(name = "mail", length = 50)
-    private String mail;
-    
-    @NotNull(message = "phone null")
-    @NotEmpty(message = "phone empty")
-    @Size(max = 50, message = "phone max 50")
-    @Column(name = "phone", length = 50)
-    private String phone;
-    
-    @NotNull(message = "fname null")
-    @NotEmpty(message = "fname empty")
-    @Size(max = 50, message = "fname max 50")
-    @Column(name = "fname", length = 50)
-    private String fname;
-    
-    @NotNull(message = "lname null")
-    @NotEmpty(message = "lname empty")
-    @Size(max = 50, message = "lname max 50")
-    @Column(name = "lname", length = 50)
-    private String lname;
-    
-    
+	@NotNull(message = "{error.user.username.null}")
+	@NotEmpty(message = "{error.user.username.empty}")
+	@Size(max = 50, message = "{error.user.username.max}")
+	@Column(name = "username", length = 50)
+	private String username;
+
+	@NotNull(message = "{error.user.password.null}")
+	@NotEmpty(message = "{error.user.password.empty}")
+	@Size(max = 50, message = "{error.user.password.max}")
+	@Column(name = "password", length = 50)
+	private String password;
+
+	@NotNull(message = "mail null")
+	@NotEmpty(message = "mail empty")
+	@Size(max = 50, message = "mail max 50")
+	@Column(name = "mail", length = 50)
+	private String mail;
+
+	@NotNull(message = "phone null")
+	@NotEmpty(message = "phone empty")
+	@Size(max = 50, message = "phone max 50")
+	@Column(name = "phone", length = 50)
+	private String phone;
+
+	@NotNull(message = "fname null")
+	@NotEmpty(message = "fname empty")
+	@Size(max = 50, message = "fname max 50")
+	@Column(name = "fname", length = 50)
+	private String fname;
+
+	@NotNull(message = "lname null")
+	@NotEmpty(message = "lname empty")
+	@Size(max = 50, message = "lname max 50")
+	@Column(name = "lname", length = 50)
+	private String lname;
 
 	@Column(name = "enabled")
-    private boolean enabled;
-    
-    @OneToOne(fetch = FetchType.EAGER)  
-    @JoinTable(name = "user_roles",  
-        joinColumns        = {@JoinColumn(name = "user_id", referencedColumnName = "id")},  
-        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}  
-    )  
-    private Role role;
-    
-//    @ManyToOne
-//    @JoinColumn(name="ID_OP")
-//    private Operator operator;
-//    
-//    public Operator getOperator() {
-//		return operator;
-//	}
-//
-//	public void setOperator(Operator operator) {
-//		this.operator = operator;
-//	}
+	private boolean enabled;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "role_id", referencedColumnName = "id") })
+	private Role role;
+
+	// @ManyToOne
+	// @JoinColumn(name="ID_OP")
+	// private Operator operator;
+	//
+	// public Operator getOperator() {
+	// return operator;
+	// }
+	//
+	// public void setOperator(Operator operator) {
+	// this.operator = operator;
+	// }
 
 	public String getUsername() {
-        return username;
-    }
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getMail() {
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getMail() {
 		return mail;
 	}
 
@@ -151,100 +141,90 @@ public class User extends BaseEntity implements UserDetails {
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
-	
-    public boolean getEnabled() {
-        return enabled;
-    }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+	public boolean getEnabled() {
+		return enabled;
+	}
 
-    public Role getRole() {
-        return role;
-    }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	public Role getRole() {
+		return role;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("%s(id=%d, username=%s, password=%s, enabled=%b)", 
-                this.getClass().getSimpleName(), 
-                this.getId(), 
-                this.getUsername(), 
-                this.getPassword(),
-                this.getMail(),
-                this.getPhone(),
-                this.getFname(),
-                this.getLname(),
-                this.getEnabled());
-    }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
+	@Override
+	public String toString() {
+		return String.format("%s(id=%d, username=%s, password=%s, enabled=%b)", this.getClass().getSimpleName(),
+				this.getId(), this.getUsername(), this.getPassword(), this.getMail(), this.getPhone(), this.getFname(),
+				this.getLname(), this.getEnabled());
+	}
 
-        if (o instanceof User) {
-            final User other = (User) o;
-            return Objects.equal(getId(), other.getId())
-                    && Objects.equal(getUsername(), other.getUsername())
-                    && Objects.equal(getPassword(), other.getPassword())
-                    && Objects.equal(getMail(), other.getMail())
-                    && Objects.equal(getPhone(), other.getPhone())
-                    && Objects.equal(getFname(), other.getFname())
-                    && Objects.equal(getLname(), other.getLname())
-                    && Objects.equal(getEnabled(), other.getEnabled());
-        }
-        return false;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId(), getUsername(), getPassword(), getMail(), getPhone(), getFname(), getLname(),getEnabled());
-    }
+		if (o instanceof User) {
+			final User other = (User) o;
+			return Objects.equal(getId(), other.getId()) && Objects.equal(getUsername(), other.getUsername())
+					&& Objects.equal(getPassword(), other.getPassword()) && Objects.equal(getMail(), other.getMail())
+					&& Objects.equal(getPhone(), other.getPhone()) && Objects.equal(getFname(), other.getFname())
+					&& Objects.equal(getLname(), other.getLname()) && Objects.equal(getEnabled(), other.getEnabled());
+		}
+		return false;
+	}
 
-    @Transient
-    public Set<Permission> getPermissions() {
-        Set<Permission> perms = new HashSet<Permission>();
-        perms.addAll(role.getPermissions()); 
-        return perms;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId(), getUsername(), getPassword(), getMail(), getPhone(), getFname(), getLname(),
+				getEnabled());
+	}
 
-    @Override
-    @Transient
-    public Collection<GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        authorities.add(getRole());
-        authorities.addAll(getPermissions());
-        return authorities;
-    }
+	@Transient
+	public Set<Permission> getPermissions() {
+		Set<Permission> perms = new HashSet<Permission>();
+		perms.addAll(role.getPermissions());
+		return perms;
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        //return true = account is valid / not expired
-        return true; 
-    }
+	@Override
+	@Transient
+	public Collection<GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		authorities.add(getRole());
+		authorities.addAll(getPermissions());
+		return authorities;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        //return true = account is not locked
-        return true;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		// return true = account is valid / not expired
+		return true;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        //return true = password is valid / not expired
-        return true;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		// return true = account is not locked
+		return true;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return this.getEnabled();
-    }
-    
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// return true = password is valid / not expired
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.getEnabled();
+	}
+
 }
