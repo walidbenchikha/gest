@@ -2,7 +2,9 @@ package com.globe.gest.dao;
 
 import java.util.List;
 
+
 import com.globe.gest.model.Camion;
+
 
 public interface CamionDAO {
 
@@ -15,5 +17,6 @@ public interface CamionDAO {
 	public void deleteCamion(int camionId);
 
 	public List<Camion> getCamion();
+
 
 }

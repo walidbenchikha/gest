@@ -49,12 +49,12 @@ public class Camion  extends Audite implements Serializable {
 
 
 
-	@Override
-    public String toString() {
-        return String.format("%s(latitude_boutique='%s', longitude_boutique=%s,adresse_boutique=%s , phone_boutique=%s)", 
-                this.getClass().getSimpleName(),
-                this.getMatricule());
-    }
+//	@Override
+//    public String toString() {
+//        return String.format("%s(latitude_boutique=%s, longitude_boutique=%s,adresse_boutique=%s , phone_boutique=%s)", 
+//                this.getClass().getSimpleName(),
+//                this.getMatricule());
+//    }
 
     
 
@@ -76,6 +76,16 @@ public class Camion  extends Audite implements Serializable {
     }
 
     @Override
+	public String toString() {
+		return "Camion [matricule=" + matricule + ", getMatricule()=" + getMatricule() + ", hashCode()=" + hashCode()
+				+ ", getDtype()=" + getDtype() + ", getID_AUDITE()=" + getID_AUDITE() + ", getNom_audite()="
+				+ getNom_audite() + ", getIsValid()=" + getIsValid() + ", toString()=" + super.toString()
+				+ ", getClass()=" + getClass() + "]";
+	}
+
+
+
+	@Override
     public int hashCode() {
         return Objects.hashCode(getMatricule());
     }

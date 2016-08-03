@@ -1,6 +1,6 @@
 package com.globe.gest.controller;
-
-import java.util.List;
+ 
+ import java.util.List;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -21,19 +21,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.globe.gest.model.Institution;
 import com.globe.gest.service.InstitutionService;
+ 
+ @Controller
+ @RequestMapping(value = "/institution")
+ @PreAuthorize("denyAll")
+ public class InstitutionController {
+	
+	
 
-@Controller
-@RequestMapping(value = "/institution")
-@PreAuthorize("denyAll")
-public class InstitutionController {
-
-	static Logger logger = LoggerFactory.getLogger(InstitutionController.class);
-	static String businessObject = "audite"; // used in RedirectAttributes
-												// messages
-
-	@Autowired
-	private InstitutionService institutionService;
-
+ 	static Logger logger = LoggerFactory.getLogger(InstitutionController.class);
+    static String businessObject = "audite"; //used in RedirectAttributes messages 
+    
+    @Autowired
+    private InstitutionService institutionService;
+    
 	@Autowired
 	private MessageSource messageSource;
 
@@ -123,7 +124,6 @@ public class InstitutionController {
 	public String deleteInstitution(@RequestParam(value = "id", required = true) Integer id,
 			@RequestParam(value = "phase", required = true) String phase, Model model,
 			RedirectAttributes redirectAttrs) {
-
 		Institution institution;
 		institution = institutionService.getInstitution(id);
 
@@ -152,7 +152,7 @@ public class InstitutionController {
 		}
 
 		return "redirect:/institution/list";
-	}
+}
 
 	@PreAuthorize("hasAnyRole('CTRL_USER_EDIT_GET','CTRL_USER_DELETE_GET')")
 	public InstitutionDTO getInstitutionDTO(Institution institution) {
@@ -160,7 +160,7 @@ public class InstitutionController {
 		institutionDTO.setID_AUDITE(institution.getID_AUDITE());
 		institutionDTO.setNom_audite(institution.getNom_audite());
 		institutionDTO.setDtype(institution.getDtype());
-		institutionDTO.setIsValid(institution.getIsValid());
+	institutionDTO.setIsValid(institution.getIsValid());
 		institutionDTO.setLatitude_boutique(institution.getLatitude_boutique());
 		institutionDTO.setLongitude_boutique(institution.getLongitude_boutique());
 		institutionDTO.setAdresse_boutique(institution.getAdresse_boutique());
@@ -174,7 +174,7 @@ public class InstitutionController {
 		Institution institution = new Institution();
 		institution.setID_AUDITE(institutionDTO.getID_AUDITE());
 		institution.setNom_audite(institutionDTO.getNom_audite());
-		institution.setDtype(institutionDTO.getDtype());
+	institution.setDtype(institutionDTO.getDtype());
 		institution.setIsValid(institutionDTO.getIsValid());
 		institution.setLatitude_boutique(institutionDTO.getLatitude_boutique());
 		institution.setLongitude_boutique(institutionDTO.getLongitude_boutique());
@@ -183,5 +183,5 @@ public class InstitutionController {
 		institution.setRaison_sociale(institutionDTO.getRaison_sociale());
 		return institution;
 	}
-
-}
+ 
+ }

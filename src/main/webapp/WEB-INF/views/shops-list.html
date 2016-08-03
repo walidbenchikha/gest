@@ -52,8 +52,6 @@
 
 		<div data-th-replace="fragments/sb-admin :: top-nav"></div>
 
-		<div data-th-replace="fragments/sb-admin :: vert-nav"></div>
-
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-xs-12">
@@ -91,6 +89,7 @@
 												Actions<span class="caret"></span>
 											</button>
 											<!--   <ul class="dropdown-menu">
+
                                     <li>
 		                                <a href="#" data-th-href="@{/user/edit(id=${user.id})}">
 		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
@@ -135,6 +134,7 @@
                                         </a>
                                     </li>
                                   </ul>-->
+
 										</div>
 									</td>
 								</tr>
@@ -151,15 +151,13 @@
 								<thead>
 									<tr>
 										<th class="col-xs-1"></th>
-										<th class="col-xs-1">Nom Boutique</th>
-										<th class="col-xs-1">Type</th>
-										<th class="col-xs-2">Is Valid</th>
+										<th class="col-xs-1">Nom Shop</th>
 										<th class="col-xs-1">Latitude</th>
-										<th class="col-xs-1">Longitude</th>
-										<th class="col-xs-2">Adresse</th>
+										<th class="col-xs-2">Longitude</th>
+										<th class="col-xs-1">Adresse</th>
 										<th class="col-xs-1">Phone</th>
-										<th class="col-xs-1">Type boutique</th>
-										<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
+										<th class="col-xs-1">Type</th>
+										<th class="col-xs-1">Action</th>
 
 									</tr>
 								</thead>
@@ -170,39 +168,47 @@
 										<td><input class="form-control" type="text"
 											data-th-field="*{nom_audite}" placeholder="Nom"></input></td>
 										<td><input class="form-control" type="text"
-											data-th-field="*{dtype}" placeholder="Type"></input></td>
+											data-th-field="*{latitude_boutique}" placeholder="Latitude"></input></td>
 										<td><input class="form-control" type="text"
-											data-th-field="*{isValid}" placeholder="Valid"></input></td>
+											data-th-field="*{longitude_boutique}" placeholder="Longitude"></input></td>
 										<td><input class="form-control" type="text"
-											data-th-field="*{latitude_boutique}" placeholder="latitude"></input></td>
+											data-th-field="*{adresse_boutique}" placeholder="Adresse"></input></td>
 										<td><input class="form-control" type="text"
-											data-th-field="*{longitude_boutique}" placeholder="longitude"></input></td>
+											data-th-field="*{phone_boutique}" placeholder="Phone"></input></td>
 										<td><input class="form-control" type="text"
-											data-th-field="*{adresse_boutique}" placeholder="adresse"></input></td>
-										<td><input class="form-control" type="text"
-											data-th-field="*{phone_boutique}" placeholder="phone"></input></td>
-										<td><input class="form-control" type="text"
-											data-th-field="*{stype}" placeholder="type boutique"></input></td>
+											data-th-field="*{stype}" placeholder="type"></input></td>
+										<!--                                 <td> -->
+										<!--                                     <select class="form-control" th:field="*{enabled}"> -->
+										<!-- 							          <option th:each="type : ${enabledOptions}" th:value="${type}" th:text="${type}">Dropdown</option> -->
+										<!--                                     </select> -->
+										<!--                                 </td> -->
+										<!--                                 <td> -->
+										<!--                                     <select class="form-control" th:field="*{roleId}"> -->
+										<!--                                       <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.rolename}">Dropdown</option> -->
+										<!--                                     </select> -->
+										<!--                                 </td> -->
 										<td>
-											<button type="submit" class="btn btn-primary">Add
-												Shops</button>
+											<button type="submit" class="btn btn-primary"
+												data-th-text="#{button.label.add}">Add Shop</button>
 										</td>
 									</tr>
-									<!--  	<tr>
-								<td class="col-xs-1"></td>
-								<td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}">username error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}">password error</td>
-                                <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('mail')}" data-th-errors="*{mail}">mail error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('phone')}" data-th-errors="*{phone}">phone error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('fname')}" data-th-errors="*{fname}">fname error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('lname')}" data-th-errors="*{lname}">lname error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('enabled')}" data-th-errors="*{enabled}">enabled error</td>
-                                <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('roleId')}" data-th-errors="*{roleId}">role error</td>
-								<td class="col-xs-1"></td>
-							</tr>-->
+									<!-- 							<tr> -->
+									<!-- 								<td class="col-xs-1"></td> -->
+									<!-- 								<td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('')}" data-th-errors="*{username}">username error</td> -->
+									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}">password error</td> -->
+									<!--                                 <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('mail')}" data-th-errors="*{mail}">mail error</td> -->
+									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('phone')}" data-th-errors="*{phone}">phone error</td> -->
+									<!--                 ++                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('fname')}" data-th-errors="*{fname}">fname error</td> -->
+									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('lname')}" data-th-errors="*{lname}">lname error</td> -->
+									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('enabled')}" data-th-errors="*{enabled}">enabled error</td> -->
+									<!--                                 <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('roleId')}" data-th-errors="*{roleId}">role error</td> -->
+									<!-- 								<td class="col-xs-1"></td> -->
+									<!-- 							</tr> -->
 								</tbody>
 							</table>
+
 						</div>
+
 					</form>
 					<div class="alert alert-danger alert-dismissable"
 						th:if="${error != null}">
@@ -226,6 +232,7 @@
 		<!-- page wrapper -->
 	</div>
 	<!-- /#wrapper -->
+
 
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
