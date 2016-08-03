@@ -27,15 +27,33 @@ import com.globe.gest.service.ShopsService;
 @PreAuthorize("denyAll")
 public class ShopsController {
 
+	static Logger logger = LoggerFactory.getLogger(ShopsController.class);
 	static String businessObject = "audite"; // used in RedirectAttributes
 												// messages
-	static Logger logger = LoggerFactory.getLogger(ShopsController.class);
+
+	@Autowired
+	private ShopsService shopsService;
 
 	@Autowired
 	private MessageSource messageSource;
 
-	@Autowired
-	private ShopsService shopsService;
+	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	public String listShops(Model model) {
+		logger.debug("IN: User/list-GET");
+
+		List<Shops> shops = shopsService.getShops();
+		model.addAttribute("shops", shops);
+
+		// if there was an error in /add, we do not want to overwrite
+		// the existing user object containing the errors.
+		if (!model.containsAttribute("auditeDTO")) {
+			logger.debug("Adding shopsDTO object to model");
+			ShopsDTO shopsDTO = new ShopsDTO();
+			model.addAttribute("shopsDTO", shopsDTO);
+		}
+		return "shops-list";
+	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('CTRL_USER_ADD_POST')")
@@ -55,6 +73,49 @@ public class ShopsController {
 			shopsService.addShops(shops);
 			return "redirect:/shops/list";
 		}
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('CTRL_USER_EDIT_GET')")
+	public String editShopsPage(@RequestParam(value = "id", required = true) Integer id, Model model,
+			RedirectAttributes redirectAttrs) {
+
+		logger.debug("IN: Shops/edit-GET:  ID to query = " + id);
+
+		if (!model.containsAttribute("shopsDTO")) {
+			logger.debug("Adding shopsDTO object to model");
+			Shops shops = shopsService.getShops(id);
+			ShopsDTO shopsDTO = getShopsDTO(shops);
+			logger.debug("Shops/edit-GET:  " + shopsDTO.toString());
+			model.addAttribute("shopsDTO", shopsDTO);
+		}
+		return "shops-edit";
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('CTRL_USER_EDIT_POST')")
+	public String editShops(@Valid @ModelAttribute ShopsDTO shopsDTO, BindingResult result,
+			RedirectAttributes redirectAttrs, @RequestParam(value = "action", required = true) String action) {
+
+		logger.debug("IN: Shops/edit-POST: " + action);
+
+		if (action.equals(messageSource.getMessage("button.action.cancel", null, Locale.US))) {
+			// String message =
+			// messageSource.getMessage("ctrl.message.success.cancel",
+			// new Object[] {"Edit", businessObject,
+			// shopsDTO.getShopsname()}, Locale.US);
+			// redirectAttrs.addFlashAttribute("message", message);
+		} else if (result.hasErrors()) {
+			logger.debug("Shops-edit error: " + result.toString());
+			redirectAttrs.addFlashAttribute("org.springframework.validation.BindingResult.shopsDTO", result);
+			redirectAttrs.addFlashAttribute("shopsDTO", shopsDTO);
+			return "redirect:/shops/edit?id=" + shopsDTO.getID_AUDITE();
+		} else if (action.equals(messageSource.getMessage("button.action.save", null, Locale.US))) {
+			logger.debug("Shops/edit-POST:  " + shopsDTO.toString());
+			Shops shops = getShops(shopsDTO);
+			shopsService.updateShops(shops);
+		}
+		return "redirect:/shops/list";
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -92,64 +153,6 @@ public class ShopsController {
 		return "redirect:/shops/list";
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('CTRL_USER_EDIT_POST')")
-	public String editShops(@Valid @ModelAttribute ShopsDTO shopsDTO, BindingResult result,
-			RedirectAttributes redirectAttrs, @RequestParam(value = "action", required = true) String action) {
-
-		logger.debug("IN: Shops/edit-POST: " + action);
-
-		if (action.equals(messageSource.getMessage("button.action.cancel", null, Locale.US))) {
-			// String message =
-			// messageSource.getMessage("ctrl.message.success.cancel",
-			// new Object[] {"Edit", businessObject,
-			// shopsDTO.getShopsname()}, Locale.US);
-			// redirectAttrs.addFlashAttribute("message", message);
-		} else if (result.hasErrors()) {
-			logger.debug("Shops-edit error: " + result.toString());
-			redirectAttrs.addFlashAttribute("org.springframework.validation.BindingResult.shopsDTO", result);
-			redirectAttrs.addFlashAttribute("shopsDTO", shopsDTO);
-			return "redirect:/shops/edit?id=" + shopsDTO.getID_AUDITE();
-		} else if (action.equals(messageSource.getMessage("button.action.save", null, Locale.US))) {
-			logger.debug("Shops/edit-POST:  " + shopsDTO.toString());
-			Shops shops = getShops(shopsDTO);
-			shopsService.updateShops(shops);
-		}
-		return "redirect:/shops/list";
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_EDIT_GET')")
-	public String editShopsPage(@RequestParam(value = "id", required = true) Integer id, Model model,
-			RedirectAttributes redirectAttrs) {
-
-		logger.debug("IN: Shops/edit-GET:  ID to query = " + id);
-
-		if (!model.containsAttribute("shopsDTO")) {
-			logger.debug("Adding shopsDTO object to model");
-			Shops shops = shopsService.getShops(id);
-			ShopsDTO shopsDTO = getShopsDTO(shops);
-			logger.debug("Shops/edit-GET:  " + shopsDTO.toString());
-			model.addAttribute("shopsDTO", shopsDTO);
-		}
-		return "shops-edit";
-	}
-
-	@PreAuthorize("hasAnyRole('CTRL_USER_ADD_POST','CTRL_USER_EDIT_POST')")
-	public Shops getShops(ShopsDTO shopsDTO) {
-		Shops shops = new Shops();
-		shops.setID_AUDITE(shopsDTO.getID_AUDITE());
-		shops.setNom_audite(shopsDTO.getNom_audite());
-		shops.setDtype(shopsDTO.getDtype());
-		shops.setIsValid(shopsDTO.getIsValid());
-		shops.setLatitude_boutique(shopsDTO.getLatitude_boutique());
-		shops.setLongitude_boutique(shopsDTO.getLongitude_boutique());
-		shops.setAdresse_boutique(shopsDTO.getAdresse_boutique());
-		shops.setPhone_boutique(shopsDTO.getPhone_boutique());
-		shops.setStype(shopsDTO.getStype());
-		return shops;
-	}
-
 	@PreAuthorize("hasAnyRole('CTRL_USER_EDIT_GET','CTRL_USER_DELETE_GET')")
 	public ShopsDTO getShopsDTO(Shops shops) {
 		ShopsDTO shopsDTO = new ShopsDTO();
@@ -165,22 +168,19 @@ public class ShopsController {
 		return shopsDTO;
 	}
 
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
-	public String listShops(Model model) {
-		logger.debug("IN: User/list-GET");
-
-		List<Shops> shops = shopsService.getShops();
-		model.addAttribute("shops", shops);
-
-		// if there was an error in /add, we do not want to overwrite
-		// the existing user object containing the errors.
-		if (!model.containsAttribute("auditeDTO")) {
-			logger.debug("Adding shopsDTO object to model");
-			ShopsDTO shopsDTO = new ShopsDTO();
-			model.addAttribute("shopsDTO", shopsDTO);
-		}
-		return "shops-list";
+	@PreAuthorize("hasAnyRole('CTRL_USER_ADD_POST','CTRL_USER_EDIT_POST')")
+	public Shops getShops(ShopsDTO shopsDTO) {
+		Shops shops = new Shops();
+		shops.setID_AUDITE(shopsDTO.getID_AUDITE());
+		shops.setNom_audite(shopsDTO.getNom_audite());
+		shops.setDtype(shopsDTO.getDtype());
+		shops.setIsValid(shopsDTO.getIsValid());
+		shops.setLatitude_boutique(shopsDTO.getLatitude_boutique());
+		shops.setLongitude_boutique(shopsDTO.getLongitude_boutique());
+		shops.setAdresse_boutique(shopsDTO.getAdresse_boutique());
+		shops.setPhone_boutique(shopsDTO.getPhone_boutique());
+		shops.setStype(shopsDTO.getStype());
+		return shops;
 	}
 
 }

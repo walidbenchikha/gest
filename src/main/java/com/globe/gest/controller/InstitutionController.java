@@ -1,10 +1,9 @@
 package com.globe.gest.controller;
- 
- import java.util.List;
+
+import java.util.List;
 import java.util.Locale;
 
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ import com.globe.gest.service.InstitutionService;
  @PreAuthorize("denyAll")
  public class InstitutionController {
 	
-	
-
  	static Logger logger = LoggerFactory.getLogger(InstitutionController.class);
     static String businessObject = "audite"; //used in RedirectAttributes messages 
     
