@@ -11,23 +11,20 @@ import javax.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
-
-
 @Entity
-@Table(name="SHOPS")
-@DiscriminatorValue( value="shops" )
+@Table(name = "SHOPS")
+@DiscriminatorValue(value = "shops")
 
-public class Shops  extends Audite implements Serializable {
+public class Shops extends Audite implements Serializable {
 
 	private static final long serialVersionUID = 96285180113476324L;
-    static Logger logger = LoggerFactory.getLogger(Strategy.class);
-    
-    
-    @Column(name="stype", insertable=false, updatable=false)
-    private String stype;
+	static Logger logger = LoggerFactory.getLogger(Strategy.class);
 
-public String getStype() {
+	@Column(name = "stype")
+
+	private String stype;
+
+	public String getStype() {
 		return stype;
 	}
 
@@ -35,39 +32,31 @@ public String getStype() {
 		this.stype = stype;
 	}
 
-	//	@NotNull(message = "{error.shops.latitude_boutique.null}")
-//    @NotEmpty(message = "{error.shops.latitude_boutique.empty}")
-    @Size(max = 50, message = "{error.shops.latitude_boutique.max}")
-    @Column(name = "latitude_boutique", length = 20)
-	  private String latitude_boutique;
-    
-//    @NotNull(message = "{error.shops.longitude_boutique.null}")
-//    @NotEmpty(message = "{error.shops.longitude_boutique.empty}")
-    @Size(max = 50, message = "{error.shops.longitude_boutique.max}")
-    @Column(name = "longitude_boutique", length = 20)
-    private String longitude_boutique;
-    
-    
-//    @NotNull(message = "{error.shops.adresse_boutique.null}")
-//    @NotEmpty(message = "{error.shops.adresse_boutique.empty}")
-    @Size(max = 50, message = "{error.shops.adresse_boutique.max}")
-    @Column(name = "adresse_boutique", length = 20)
-    private String adresse_boutique;
-    
-//    @NotNull(message = "{error.shops.phone_boutique.null}")
-//    @NotEmpty(message = "{error.shops.phone_boutique.empty}")
-    @Size(max = 50, message = "{error.shops.phone_boutique.max}")
-    @Column(name = "phone_boutique", length = 20)
-    private String phone_boutique;
-    
-    
-    
-    
-    
-    
-   
+	// @NotNull(message = "{error.shops.latitude_boutique.null}")
+	// @NotEmpty(message = "{error.shops.latitude_boutique.empty}")
+	@Size(max = 50, message = "{error.shops.latitude_boutique.max}")
+	@Column(name = "latitude_boutique", length = 20)
+	private String latitude_boutique;
 
-    public String getLatitude_boutique() {
+	// @NotNull(message = "{error.shops.longitude_boutique.null}")
+	// @NotEmpty(message = "{error.shops.longitude_boutique.empty}")
+	@Size(max = 50, message = "{error.shops.longitude_boutique.max}")
+	@Column(name = "longitude_boutique", length = 20)
+	private String longitude_boutique;
+
+	// @NotNull(message = "{error.shops.adresse_boutique.null}")
+	// @NotEmpty(message = "{error.shops.adresse_boutique.empty}")
+	@Size(max = 50, message = "{error.shops.adresse_boutique.max}")
+	@Column(name = "adresse_boutique", length = 20)
+	private String adresse_boutique;
+
+	// @NotNull(message = "{error.shops.phone_boutique.null}")
+	// @NotEmpty(message = "{error.shops.phone_boutique.empty}")
+	@Size(max = 50, message = "{error.shops.phone_boutique.max}")
+	@Column(name = "phone_boutique", length = 20)
+	private String phone_boutique;
+
+	public String getLatitude_boutique() {
 		return latitude_boutique;
 	}
 
@@ -155,10 +144,4 @@ public String getStype() {
 		return true;
 	}
 
-	
-	
-	
-	
-	
-	
 }

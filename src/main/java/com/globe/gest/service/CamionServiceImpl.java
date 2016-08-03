@@ -9,51 +9,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.CamionDAO;
-import com.globe.gest.dao.InstitutionDAO;
-import com.globe.gest.exception.DuplicateUserException;
-import com.globe.gest.exception.UserNotFoundException;
-import com.globe.gest.model.Camion;
-import com.globe.gest.model.Institution;
-import com.globe.gest.model.User;
 
+import com.globe.gest.model.Camion;
 
 @Service
 @Transactional
 public class CamionServiceImpl implements CamionService {
-	
+
 	static Logger logger = LoggerFactory.getLogger(CamionServiceImpl.class);
-	
-	
+
 	@Autowired
-    private CamionDAO camionDAO;
-	
+	private CamionDAO camionDAO;
+
 	@Override
 	public void addCamion(Camion camion) {
 		camionDAO.addCamion(camion);
 	}
 
-    @Override
-    public Camion getCamion(int camionId)  {
-        return camionDAO.getCamion(camionId);
-    }
+	@Override
+	public Camion getCamion(int camionId) {
+		return camionDAO.getCamion(camionId);
+	}
 
 	@Override
-	public void updateCamion(Camion camion){
+	public void updateCamion(Camion camion) {
 		camionDAO.updateCamion(camion);
 	}
 
 	@Override
-	public void deleteCamion(int camionId)  {
+	public void deleteCamion(int camionId) {
 		camionDAO.deleteCamion(camionId);
 	}
-	
+
 	@Override
 	public List<Camion> getCamion() {
 		return camionDAO.getCamion();
 	}
-	
-	
-	
-	
 
 }
