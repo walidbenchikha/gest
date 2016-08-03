@@ -67,9 +67,7 @@ public class Audite implements Serializable {
     private String nom_audite;
 	
 	
-	@NotNull(message = "{error.audite.isValid.null}")
-    @NotEmpty(message = "{error.audite.isValid.empty}")
-    @Size(max = 50, message = "{error.audite.isValid.max}")
+
     @Column(name = "isValid", length = 64)
     private int isValid;
 	

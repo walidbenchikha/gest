@@ -82,21 +82,21 @@
 								  <button class="btn btn-warning btn-xs dropdown-toggle" type="button" data-toggle="dropdown" data-th-text="#{user.list.actions.label}">
 								    Actions<span class="caret"></span>
 								  </button>
-								  <!--   <ul class="dropdown-menu">
+								   <ul class="dropdown-menu">
                                     <li>
-		                                <a href="#" data-th-href="@{/user/edit(id=${user.id})}">
+		                                <a href="#" data-th-href="@{/camion/edit(id=${camion.ID_AUDITE})}">
 		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
 		                                    <span data-th-text="#{button.label.edit}">edit</span>
 		                                </a>
                                     </li>
                                     
                                     <li>
-		                                <a href="#" data-th-href="@{/user/delete(id=${user.id},phase=stage)}">
+		                                <a href="#" data-th-href="@{/camion/delete(id=${camion.ID_AUDITE},phase=stage)}">
 		                                   <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;
 		                                   <span data-th-text="#{button.label.delete}">delete</span>
 		                                </a>
                                     </li>
-								  </ul>-->
+								  </ul>
 								</div>							
 							</td>
 						</tr>
@@ -135,63 +135,48 @@
 				
 				<br />
 				
-			<!-- 	<form class="form" action="#" data-th-action="@{/user/add}" data-th-object="${userDTO}" method="post">
+				<form class="form" action="#" data-th-action="@{/camion/add}" data-th-object="${camionDTO}" method="post">
 				<div class="table responsive">
 					<table class="no-border-on-me table ">
 						<thead>
 							<tr>
 							<th class="col-xs-1"></th>	
-							<th class="col-xs-1" data-th-text="#{user.list.user.label}">Username</th>
-                            <th class="col-xs-1" data-th-text="#{user.list.pass.label}">Password</th>
-                            <th class="col-xs-2" >Mail</th>
-                            <th class="col-xs-1" >Phone</th>
-                            <th class="col-xs-1" >First Name</th>
-                            <th class="col-xs-1" >Last Name</th>
-                            <th class="col-xs-1" data-th-text="#{user.list.enabled.label}">Enabled</th>
-                            <th class="col-xs-2" data-th-text="#{user.list.role.label}">Role</th>
-							<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
+							<th class="col-xs-1" >Camion Name</th>
+                            <th class="col-xs-1" >Type</th>
+                            <th class="col-xs-2" >Is Valid</th>
+                            <th class="col-xs-1" >Matricule</th>
+							<th class="col-xs-1" >Action</th>
 							
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td><input type="text" hidden="hidden" data-th-field="*{id}"></input></td>
-								<td><input class="form-control" type="text"	data-th-field="*{username}" placeholder="Username"></input></td>
-                                <td><input class="form-control" type="text" data-th-field="*{password}" placeholder="Password"></input></td>
-                                <td><input class="form-control" type="text" data-th-field="*{mail}" placeholder="Mail"></input></td>
-                                <td><input class="form-control" type="text" data-th-field="*{phone}" placeholder="Phone"></input></td>
-                                <td><input class="form-control" type="text" data-th-field="*{fname}" placeholder="First Name"></input></td>
-                                <td><input class="form-control" type="text" data-th-field="*{lname}" placeholder="Last Name"></input></td>
-                                <td>
-                                    <select class="form-control" th:field="*{enabled}">
-							          <option th:each="type : ${enabledOptions}" th:value="${type}" th:text="${type}">Dropdown</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control" th:field="*{roleId}">
-                                      <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.rolename}">Dropdown</option>
-                                    </select>
-                                </td>
+								<td><input type="text" hidden="hidden" data-th-field="*{ID_AUDITE}"></input></td>
+								<td><input class="form-control" type="text"	data-th-field="*{nom_audite}" placeholder="Nom"></input></td>
+                                <td><input class="form-control" type="text" data-th-field="*{dtype}" placeholder="Type"></input></td>
+                                <td><input class="form-control" type="text" data-th-field="*{isValid}" placeholder="Valid"></input></td>
+                                <td><input class="form-control" type="text" data-th-field="*{matricule}" placeholder="Matricule"></input></td>
+                             
 								<td>
-									<button type="submit" class="btn btn-primary" data-th-text="#{button.label.add}">Add User</button>
+									<button type="submit" class="btn btn-primary" >Add Camion</button>
 								</td>
 							</tr>
-							<tr>
-								<td class="col-xs-1"></td>
-								<td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}">username error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}">password error</td>
-                                <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('mail')}" data-th-errors="*{mail}">mail error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('phone')}" data-th-errors="*{phone}">phone error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('fname')}" data-th-errors="*{fname}">fname error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('lname')}" data-th-errors="*{lname}">lname error</td>
-                                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('enabled')}" data-th-errors="*{enabled}">enabled error</td>
-                                <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('roleId')}" data-th-errors="*{roleId}">role error</td>
-								<td class="col-xs-1"></td>
-							</tr>
+<!-- 							<tr> -->
+<!-- 								<td class="col-xs-1"></td> -->
+<!-- 								<td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}">username error</td> -->
+<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}">password error</td> -->
+<!--                                 <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('mail')}" data-th-errors="*{mail}">mail error</td> -->
+<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('phone')}" data-th-errors="*{phone}">phone error</td> -->
+<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('fname')}" data-th-errors="*{fname}">fname error</td> -->
+<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('lname')}" data-th-errors="*{lname}">lname error</td> -->
+<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('enabled')}" data-th-errors="*{enabled}">enabled error</td> -->
+<!--                                 <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('roleId')}" data-th-errors="*{roleId}">role error</td> -->
+<!-- 								<td class="col-xs-1"></td> -->
+<!-- 							</tr> -->
 						</tbody>
 					</table>
 				</div>
-				</form> -->
+				</form> 
 		         <div class="alert alert-danger alert-dismissable" th:if="${error != null}">
 		            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		            <h4 data-th-text="${error}">Error!</h4>
