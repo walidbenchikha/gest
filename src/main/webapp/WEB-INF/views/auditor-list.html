@@ -72,6 +72,7 @@
                             <th class="col-xs-1" >Last Name</th>
                             <th class="col-xs-1" data-th-text="#{user.list.enabled.label}">Enabled</th>
                             <th class="col-xs-2" data-th-text="#{user.list.role.label}">Role</th>
+                             <th class="col-xs-2" >Operator</th>
 							<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 						</tr>
 					</thead>
@@ -86,6 +87,7 @@
                             <td data-th-text="${user.lname}">lname1</td>
                             <td data-th-text="${user.enabled}">true</td>
                             <td data-th-text="(${user.role == null} ? null : ${user.role.rolename})">ROLE_TEST1</td>
+							<td data-th-text="${user.operator.nom_op}">Operatro</td>
 							<td>
 								<div class="btn-group">
 								  <button class="btn btn-warning btn-xs dropdown-toggle" type="button" data-toggle="dropdown" data-th-text="#{user.list.actions.label}">

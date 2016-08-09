@@ -42,7 +42,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-<title data-th-text="#{shops.list.page.title}">Title</title>
+<title >Title</title>
 </head>
 
 <body>
@@ -72,7 +72,7 @@
 									<th class="col-xs-1">Phone</th>
 									<th class="col-xs-1">Raison sociale</th>
 
-									<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
+									<th class="col-xs-1" >Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -82,32 +82,31 @@
 									<td data-th-text="${institution.longitude_boutique}">longitude</td>
 									<td data-th-text="${institution.adresse_boutique}">adresse</td>
 									<td data-th-text="${institution.phone_boutique}">phone</td>
-									<td data-th-text="${institution.raison_sociale}">raison
-										sociale</td>
+									<td data-th-text="${institution.raison_sociale}">raison sociale</td>
 
 
 									<td>
 										<div class="btn-group">
 											<button class="btn btn-warning btn-xs dropdown-toggle"
 												type="button" data-toggle="dropdown"
-												data-th-text="#{user.list.actions.label}">
+												>
 												Actions<span class="caret"></span>
 											</button>
-											<!--   <ul class="dropdown-menu">
+											  <ul class="dropdown-menu">
                                     <li>
-		                                <a href="#" data-th-href="@{/user/edit(id=${user.id})}">
+		                                <a href="#" data-th-href="@{/institution/edit(id=${institution.ID_AUDITE})}">
 		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
 		                                    <span data-th-text="#{button.label.edit}">edit</span>
 		                                </a>
                                     </li>
                                     
                                     <li>
-		                                <a href="#" data-th-href="@{/user/delete(id=${user.id},phase=stage)}">
+		                                <a href="#" data-th-href="@{/institution/delete(id=${institution.ID_AUDITE},phase=stage)}">
 		                                   <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;
 		                                   <span data-th-text="#{button.label.delete}">delete</span>
 		                                </a>
                                     </li>
-								  </ul>-->
+								  </ul>
 										</div>
 									</td>
 								</tr>

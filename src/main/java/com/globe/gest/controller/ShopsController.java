@@ -1,7 +1,9 @@
 package com.globe.gest.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -17,10 +19,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.globe.gest.model.Gouvernorat;
+import com.globe.gest.model.Localisation;
+import com.globe.gest.model.Operator;
 import com.globe.gest.model.Shops;
+import com.globe.gest.model.Ville;
+import com.globe.gest.service.GouvernoratService;
+import com.globe.gest.service.LocalisationService;
+import com.globe.gest.service.OperatorService;
 import com.globe.gest.service.ShopsService;
+import com.globe.gest.service.VilleService;
 
 @Controller
 @RequestMapping(value = "/shops")
@@ -36,6 +47,48 @@ public class ShopsController {
 
 	@Autowired
 	private MessageSource messageSource;
+
+	@Autowired
+	private OperatorService operatorService;
+
+	@Autowired
+	private LocalisationService localisationService;
+
+	@Autowired
+	private VilleService villeService;
+
+	@Autowired
+	private GouvernoratService gouvernoratService;
+
+	@RequestMapping(value = "/ville")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public Set<String> getVille(int gouvernorat) {
+		Set<String> set = new HashSet<String>();
+		
+		List<Ville>  list= villeService.getVille(gouvernorat);
+		
+		for(Ville i:list){
+			set.add(i.getNom_Ville());
+			System.out.println(i.getNom_Ville());
+		}
+		
+		
+		return  set;
+	}
+
+	@ModelAttribute("allOperators")
+	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	public List<Operator> getAllOperators() {
+		
+		return operatorService.getOperators();
+	}
+
+	@ModelAttribute("allGouvernorat")
+	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	public List<Gouvernorat> getAllGouvernorat() {
+		return gouvernoratService.getGouvernorat();
+	}
 
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
@@ -165,6 +218,12 @@ public class ShopsController {
 		shopsDTO.setAdresse_boutique(shops.getAdresse_boutique());
 		shopsDTO.setPhone_boutique(shops.getPhone_boutique());
 		shopsDTO.setStype(shops.getStype());
+		Operator operator = new Operator();
+		operator = shops.getOperator();
+		shopsDTO.setID_OP(operator.getID_OP());
+		Localisation localisation = new Localisation();
+		localisation = shops.getLocalisation();
+		shopsDTO.setID_LOC(localisation.getID_LOC());
 		return shopsDTO;
 	}
 
@@ -180,6 +239,13 @@ public class ShopsController {
 		shops.setAdresse_boutique(shopsDTO.getAdresse_boutique());
 		shops.setPhone_boutique(shopsDTO.getPhone_boutique());
 		shops.setStype(shopsDTO.getStype());
+		Operator operator = new Operator();
+		operator = operatorService.getOperator(shopsDTO.getID_OP());
+		shops.setOperator(operator);
+		Localisation localisation = new Localisation();
+		localisation = localisationService.getLocalisation(shopsDTO.getID_LOC());
+		shops.setLocalisation(localisation);
+
 		return shops;
 	}
 

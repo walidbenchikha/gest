@@ -42,6 +42,33 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+
+</script>
+<script>
+function sendAjaxRequest(){
+	
+	var gouvernorat = $("#gouvernorat").val();
+	
+	$.get( "http://localhost:8080/gest/shops/ville?gouvernorat="+gouvernorat, function( data ) {
+		$("#ville").empty();
+		data.forEach(function(item, i) {
+			var option = "<option value = " + item + ">" + item + "</option>";
+			$("#ville").append(option);
+			});
+		});
+	}
+	
+	$(document).ready( function() {
+		$("#gouvernorat").change(function() {
+			sendAjaxRequest();
+			}); 
+		
+		}
+	);
+
+</script>
+
 <title data-th-text="#{shops.list.page.title}">Title</title>
 </head>
 
@@ -56,8 +83,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 
-					<h4 class="page-header" data-th-text="#{shops.list.table.title}">Configured
-						Shops</h4>
+					<h4 class="page-header" id="shops"> Shops</h4>
 					<div class="table responsive">
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
@@ -68,19 +94,26 @@
 									<th class="col-xs-2">Adresse</th>
 									<th class="col-xs-1">Phone</th>
 									<th class="col-xs-1">Type</th>
+									<th class="col-xs-1">Operator</th>
+									<th class="col-xs-1">Gouvernorat</th>
+									<th class="col-xs-1">Ville</th>
+									<th class="col-xs-1">Localisation</th>
 
 									<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-th-each="shop : ${shops}">
-									<td data-th-text="${shop.nom_audite}">Nom Audite</td>
-									<td data-th-text="${shop.latitude_boutique}">latitude</td>
-									<td data-th-text="${shop.longitude_boutique}">longitude</td>
-									<td data-th-text="${shop.adresse_boutique}">adresse</td>
-									<td data-th-text="${shop.phone_boutique}">phone</td>
-									<td data-th-text="${shop.stype}">type</td>
-
+								<tr data-th-each="shops : ${shops}">
+									<td data-th-text="${shops.nom_audite}">Nom Audite</td>
+									<td data-th-text="${shops.latitude_boutique}">latitude</td>
+									<td data-th-text="${shops.longitude_boutique}">longitude</td>
+									<td data-th-text="${shops.adresse_boutique}">adresse</td>
+									<td data-th-text="${shops.phone_boutique}">phone</td>
+									<td data-th-text="${shops.stype}">type</td>
+									<td data-th-text="${shops.operator.nom_op}">opertaor</td>
+									<td data-th-text="${shops.localisation.ville.gouvernorat.Nom_Gouver}">gouvernorat</td>
+									<td data-th-text="${shops.localisation.ville.Nom_Ville}">ville</td>
+									<td data-th-text="${shops.localisation.Nom_Loc}">Localisation</td>
 									<td>
 										<div class="btn-group">
 											<button class="btn btn-warning btn-xs dropdown-toggle"
@@ -88,22 +121,22 @@
 												data-th-text="#{user.list.actions.label}">
 												Actions<span class="caret"></span>
 											</button>
-											<!--   <ul class="dropdown-menu">
+											  <ul class="dropdown-menu">
 
                                     <li>
-		                                <a href="#" data-th-href="@{/user/edit(id=${user.id})}">
+		                                <a href="#" data-th-href="@{/shops/edit(id=${shops.ID_AUDITE})}">
 		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
 		                                    <span data-th-text="#{button.label.edit}">edit</span>
 		                                </a>
                                     </li>
                                     
                                     <li>
-		                                <a href="#" data-th-href="@{/user/delete(id=${user.id},phase=stage)}">
+		                                <a href="#" data-th-href="@{/shops/delete(id=${shops.ID_AUDITE},phase=stage)}">
 		                                   <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;
 		                                   <span data-th-text="#{button.label.delete}">delete</span>
 		                                </a>
                                     </li>
-								  </ul>-->
+								  </ul>
 										</div>
 									</td>
 								</tr>
@@ -157,6 +190,10 @@
 										<th class="col-xs-1">Adresse</th>
 										<th class="col-xs-1">Phone</th>
 										<th class="col-xs-1">Type</th>
+										<th class="col-xs-1">Operator</th>
+										<th class="col-xs-1">Gouvernorat</th>
+										<th class="col-xs-1">Ville</th>
+										<th class="col-xs-1">Localisation</th>
 										<th class="col-xs-1">Action</th>
 
 									</tr>
@@ -177,6 +214,25 @@
 											data-th-field="*{phone_boutique}" placeholder="Phone"></input></td>
 										<td><input class="form-control" type="text"
 											data-th-field="*{stype}" placeholder="type"></input></td>
+<!-- 											<td><input class="form-control" type="text" -->
+<!-- 											data-th-field="*{ID_OP}" placeholder="type"></input></td> -->
+											 <td>
+                                    			<select class="form-control" th:field="*{ID_OP}">
+                                     			 <option th:each="operator : ${allOperators}" th:value="${operator.ID_OP}" th:text="${operator.nom_op}">Dropdown</option>
+                                   				 </select>
+                                			</td>
+                                			<td>
+                                    			<select class="form-control" id="gouvernorat">
+                                     			 <option th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.ID_Gouv}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
+                                   				 </select>
+                                			</td>
+                                			<td>
+                                    			<select class="form-control" id="ville" >
+                                     			 
+                                   				 </select>
+                                			</td>
+											<td><input class="form-control" type="text"
+											data-th-field="*{ID_LOC}" placeholder="type"></input></td>
 										<!--                                 <td> -->
 										<!--                                     <select class="form-control" th:field="*{enabled}"> -->
 										<!-- 							          <option th:each="type : ${enabledOptions}" th:value="${type}" th:text="${type}">Dropdown</option> -->

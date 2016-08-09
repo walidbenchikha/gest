@@ -6,8 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,32 +28,33 @@ public class Institution  extends Audite implements Serializable {
     
     
 
-//	@NotNull(message = "{error.shops.latitude_boutique.null}")
-//    @NotEmpty(message = "{error.shops.latitude_boutique.empty}")
-    @Size(max = 50, message = "{error.shops.latitude_boutique.max}")
+	@NotNull(message = "{error.shops.latitude_boutique.null}")
+    @NotEmpty(message = "{error.shops.latitude_boutique.empty}")
+    @Size(max = 50, message = "{error.institution.latitude_boutique.max}")
     @Column(name = "latitude_boutique", length = 20)
 	  private String latitude_boutique;
     
-//    @NotNull(message = "{error.shops.longitude_boutique.null}")
-//    @NotEmpty(message = "{error.shops.longitude_boutique.empty}")
+    @NotNull(message = "{error.shops.longitude_boutique.null}")
+    @NotEmpty(message = "{error.shops.longitude_boutique.empty}")
     @Size(max = 50, message = "{error.shops.longitude_boutique.max}")
     @Column(name = "longitude_boutique", length = 20)
     private String longitude_boutique;
     
     
-//    @NotNull(message = "{error.shops.adresse_boutique.null}")
-//    @NotEmpty(message = "{error.shops.adresse_boutique.empty}")
+    @NotNull(message = "{error.shops.adresse_boutique.null}")
+    @NotEmpty(message = "{error.shops.adresse_boutique.empty}")
     @Size(max = 50, message = "{error.shops.adresse_boutique.max}")
     @Column(name = "adresse_boutique", length = 20)
     private String adresse_boutique;
     
-//    @NotNull(message = "{error.shops.phone_boutique.null}")
-//    @NotEmpty(message = "{error.shops.phone_boutique.empty}")
+    @NotNull(message = "{error.shops.phone_boutique.null}")
+    @NotEmpty(message = "{error.shops.phone_boutique.empty}")
     @Size(max = 50, message = "{error.shops.phone_boutique.max}")
     @Column(name = "phone_boutique", length = 20)
     private String phone_boutique;
     
-    
+    @NotNull(message = "{error.shops.raison_sociale.null}")
+    @NotEmpty(message = "{error.shops.raison_sociale.empty}")
     @Size(max = 50, message = "{error.shops.raison_sociale.max}")
     @Column(name = "raison_sociale", length = 20)
     private String raison_sociale;

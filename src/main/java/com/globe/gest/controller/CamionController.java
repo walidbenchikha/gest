@@ -86,7 +86,9 @@ public class CamionController {
         if (!model.containsAttribute("camionDTO")) {
 		    logger.debug("Adding camionDTO object to model");
 		    Camion camion = camionService.getCamion(id);
+		    System.out.println("/////////////////////////////////im heeeereee camion/////////////");
 		    CamionDTO camionDTO = getCamionDTO(camion);
+		    System.out.println("******************************"+camion.getNom_audite());
 		    logger.debug("Camion/edit-GET:  " + camionDTO.toString());
 		    model.addAttribute("camionDTO", camionDTO);
 		}
@@ -112,8 +114,12 @@ public class CamionController {
             return "redirect:/camion/edit?id=" + camionDTO.getID_AUDITE();
         } else if (action.equals(messageSource.getMessage("button.action.save",  null, Locale.US))) {
             logger.debug("Camion/edit-POST:  " + camionDTO.toString());
+            System.out.println("im in ediiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit");
             Camion camion = getCamion(camionDTO);
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+camion.getNom_audite());
 			camionService.updateCamion(camion);
+			System.out.println("updaaaaaaaaaaaaaaaaaaaateeeeeeeeeeeeeeeed");
+			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+camion.getNom_audite());
         }
         return "redirect:/camion/list";
     }

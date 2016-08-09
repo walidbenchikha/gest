@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -82,17 +83,17 @@ public class User extends BaseEntity implements UserDetails {
 					@JoinColumn(name = "role_id", referencedColumnName = "id") })
 	private Role role;
 
-	// @ManyToOne
-	// @JoinColumn(name="ID_OP")
-	// private Operator operator;
-	//
-	// public Operator getOperator() {
-	// return operator;
-	// }
-	//
-	// public void setOperator(Operator operator) {
-	// this.operator = operator;
-	// }
+	 @ManyToOne
+	 @JoinColumn(name="ID_OP")
+	 private Operator operator;
+	
+	 public Operator getOperator() {
+	 return operator;
+	 }
+	
+	 public void setOperator(Operator operator) {
+	 this.operator = operator;
+	 }
 
 	public String getUsername() {
 		return username;

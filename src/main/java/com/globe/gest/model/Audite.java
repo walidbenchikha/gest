@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,6 +18,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 import com.google.common.base.Objects;
 
@@ -81,20 +84,33 @@ public class Audite implements Serializable {
 	 * 
 	 * @Column(name = "ID_Gouv", length = 64) private int ID_Gouv;
 	 */
+	
+	@ManyToOne
+	@JoinColumn(name="ID_OP")
+	private Operator operator;
 
-	// @ManyToOne
-	// @JoinColumn(name="ID_Gouv" , insertable=false , updatable=false )
-	// private Gouvernorat gouvernorat;
-	//
-	//
-	//
-	// public Gouvernorat getGouvernorat() {
-	// return gouvernorat;
-	// }
-	//
-	// public void setGouvernorat(Gouvernorat gouvernorat) {
-	// this.gouvernorat = gouvernorat;
-	// }
+	 @ManyToOne
+	 @JoinColumn(name="ID_Loc" )
+	 public Localisation localisation;
+	
+	
+	
+
+	public Localisation getLocalisation() {
+		return localisation;
+	}
+
+	public void setLocalisation(Localisation localisation) {
+		this.localisation = localisation;
+	}
+
+	public Operator getOperator() {
+		return operator;
+	}
+
+	public void setOperator(Operator operator) {
+		this.operator = operator;
+	}
 
 	public String getNom_audite() {
 		return nom_audite;

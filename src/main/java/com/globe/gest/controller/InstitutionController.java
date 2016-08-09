@@ -27,7 +27,7 @@ import com.globe.gest.service.InstitutionService;
  public class InstitutionController {
 	
  	static Logger logger = LoggerFactory.getLogger(InstitutionController.class);
-    static String businessObject = "audite"; //used in RedirectAttributes messages 
+    static String businessObject = "institution"; //used in RedirectAttributes messages 
     
     @Autowired
     private InstitutionService institutionService;
@@ -38,7 +38,7 @@ import com.globe.gest.service.InstitutionService;
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	public String listShops(Model model) {
-		logger.debug("IN: User/list-GET");
+		logger.debug("IN: Institution/list-GET");
 
 		List<Institution> institution = institutionService.getInstitution();
 		model.addAttribute("institution", institution);
@@ -81,9 +81,13 @@ import com.globe.gest.service.InstitutionService;
 		logger.debug("IN: Institution/edit-GET:  ID to query = " + id);
 
 		if (!model.containsAttribute("institutionDTO")) {
+			System.out.println("//////////////////WELCOOOMEE INSTI");
 			logger.debug("Adding institutionDTO object to model");
 			Institution institution = institutionService.getInstitution(id);
+			System.out.println("/////////////////////////////////im heeeereee institution/////////////");
 			InstitutionDTO institutionDTO = getInstitutionDTO(institution);
+			System.out.println("**********************"+institution.getNom_audite());
+			
 			logger.debug("Institution/edit-GET:  " + institutionDTO.toString());
 			model.addAttribute("institutionDTO", institutionDTO);
 		}
@@ -104,15 +108,19 @@ import com.globe.gest.service.InstitutionService;
 			// institutionDTO.getInstitutionname()}, Locale.US);
 			// redirectAttrs.addFlashAttribute("message", message);
 		} else if (result.hasErrors()) {
+			System.out.println("errooooooooooooooooooooooooooor");
 			logger.debug("Institution-edit error: " + result.toString());
 			redirectAttrs.addFlashAttribute("org.springframework.validation.BindingResult.institutionDTO", result);
 			redirectAttrs.addFlashAttribute("institutionDTO", institutionDTO);
 			return "redirect:/institution/edit?id=" + institutionDTO.getID_AUDITE();
 		} else if (action.equals(messageSource.getMessage("button.action.save", null, Locale.US))) {
+			System.out.println("saaaaaaaaaaaaaaaaaaaaaaaaaaveeee");
 			logger.debug("Institution/edit-POST:  " + institutionDTO.toString());
+			System.out.println("im in ediiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit");
 			Institution institution = getInstitution(institutionDTO);
+			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+institution.getNom_audite());
 			institutionService.updateInstitution(institution);
-		}
+			System.out.println("updaaaaaaaaaaaaaaaaateeeeeeeeeeeeeeeeeed");}
 		return "redirect:/institution/list";
 	}
 
@@ -157,7 +165,7 @@ import com.globe.gest.service.InstitutionService;
 		institutionDTO.setID_AUDITE(institution.getID_AUDITE());
 		institutionDTO.setNom_audite(institution.getNom_audite());
 		institutionDTO.setDtype(institution.getDtype());
-	institutionDTO.setIsValid(institution.getIsValid());
+	    institutionDTO.setIsValid(institution.getIsValid());
 		institutionDTO.setLatitude_boutique(institution.getLatitude_boutique());
 		institutionDTO.setLongitude_boutique(institution.getLongitude_boutique());
 		institutionDTO.setAdresse_boutique(institution.getAdresse_boutique());
@@ -171,7 +179,7 @@ import com.globe.gest.service.InstitutionService;
 		Institution institution = new Institution();
 		institution.setID_AUDITE(institutionDTO.getID_AUDITE());
 		institution.setNom_audite(institutionDTO.getNom_audite());
-	institution.setDtype(institutionDTO.getDtype());
+	    institution.setDtype(institutionDTO.getDtype());
 		institution.setIsValid(institutionDTO.getIsValid());
 		institution.setLatitude_boutique(institutionDTO.getLatitude_boutique());
 		institution.setLongitude_boutique(institutionDTO.getLongitude_boutique());
