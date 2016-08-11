@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 @Entity
 @Table(name="boutiqueFranchise")
-@DiscriminatorValue(value="franchise")
+@DiscriminatorValue(value="Franchise")
 public class BoutiqueFranchise extends Shops implements Serializable {
 	
 	private static final long serialVersionUID = 96285180113476324L;

@@ -9,4 +9,5 @@ public interface VilleDAO {
 //	public Operator getOperator(int id);
 
 	public List<Ville> getVille(int gouvernorat);
+	public int getVille(String ville);
 }

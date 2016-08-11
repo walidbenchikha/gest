@@ -9,5 +9,6 @@ public interface VilleService {
 //	public Operator getOperator(int id);
 
 	public List<Ville> getVille(int gouvernorat);
+	public int getVille(String ville);
 
 }

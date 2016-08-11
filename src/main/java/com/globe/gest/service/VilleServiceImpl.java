@@ -28,5 +28,12 @@ public class VilleServiceImpl implements VilleService {
     public List<Ville> getVille(int gouvernorat) {
         return villeDAO.getVille(gouvernorat);
     }
+	
+	@Override
+    public int getVille(String ville) {
+        return villeDAO.getVille(ville);
+    }
+	
+	
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.globe.gest.model.Shops;
 
+
 @Repository
 public class ShopsDAOImpl implements ShopsDAO {
 
@@ -71,5 +72,37 @@ public class ShopsDAOImpl implements ShopsDAO {
 		String hql = "from Audite where dtype='shops'";
 		return getCurrentSession().createQuery(hql).list();
 	}
+	
+	
+	 @Override
+	    @SuppressWarnings("unchecked")
+	    public List<Shops> getShopsByName(String nom_audite,String stype) {
+		 System.out.println("///////////////////////////////////////"); 
+		 System.out.println(stype+"!");
+	    	if (nom_audite==""){
+	    		if (stype.equals("Tout")){
+	    			System.out.println("Touuuuuuuuuuuuuuuuuuuuuuuuuuuuuut");
+	    			String hql = "FROM Shops s ";
+	    			return getCurrentSession().createQuery(hql).list();
+	    		}
+	    		else{
+	    		String hql = "FROM Shops s where s.stype=:type";
+	    		return getCurrentSession().createQuery(hql).setParameter("type",stype).list();
+	    		
+	    		}
+	    	}
+	    	else{
+	    		if (stype.equals("Tout")){
+	    			String hql = "FROM Shops s where s.nom_audite=:name";
+	    			return getCurrentSession().createQuery(hql).setParameter("name",nom_audite).list();
+	    		}
+	    		else{
+	    		String hql = "FROM Shops s where s.nom_audite=:name and s.stype=:type";
+    	       
+	    	        return getCurrentSession().createQuery(hql).setParameter("name",nom_audite).setParameter("type",stype).list();
+	    		}
+	    		
+	    	}
+	    }
 
 }

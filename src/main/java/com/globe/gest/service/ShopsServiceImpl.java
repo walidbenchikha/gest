@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.ShopsDAO;
 import com.globe.gest.model.Shops;
+import com.globe.gest.model.User;
 
 @Service
 @Transactional
@@ -44,5 +45,11 @@ public class ShopsServiceImpl implements ShopsService {
 	public List<Shops> getShops() {
 		return shopsDAO.getShops();
 	}
+	
+	@Override
+	public List<Shops> getShopsByName(String nom_audite,String stype) {
+		return shopsDAO.getShopsByName(nom_audite,stype);
+	}
+	
 
 }

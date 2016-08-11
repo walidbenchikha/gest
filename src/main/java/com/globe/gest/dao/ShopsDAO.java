@@ -3,6 +3,7 @@ package com.globe.gest.dao;
 import java.util.List;
 
 import com.globe.gest.model.Shops;
+import com.globe.gest.model.User;
 
 public interface ShopsDAO {
 
@@ -15,5 +16,6 @@ public interface ShopsDAO {
 	public void deleteShops(int shopsId);
 
 	public List<Shops> getShops();
+	 public List<Shops> getShopsByName(String nom_audite, String stype);
 
 }

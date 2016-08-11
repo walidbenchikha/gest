@@ -1,6 +1,7 @@
 package com.globe.gest.controller;
 
 import java.util.HashSet;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -26,6 +27,7 @@ import com.globe.gest.model.Gouvernorat;
 import com.globe.gest.model.Localisation;
 import com.globe.gest.model.Operator;
 import com.globe.gest.model.Shops;
+import com.globe.gest.model.User;
 import com.globe.gest.model.Ville;
 import com.globe.gest.service.GouvernoratService;
 import com.globe.gest.service.LocalisationService;
@@ -71,12 +73,60 @@ public class ShopsController {
 		for(Ville i:list){
 			set.add(i.getNom_Ville());
 			System.out.println(i.getNom_Ville());
+			
 		}
+//		
+//		Iterator iter=set.iterator();
+//		while(iter.hasNext()){
+//			System.out.println(iter.next());
+//
+//		}
+//		
 		
 		
 		return  set;
 	}
 
+	
+	@RequestMapping(value = "/localisation")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public Set<String> getLocalisation(String ville) {
+		System.out.println("****************");
+		System.out.println("****************");
+		System.out.println("****************");
+		System.out.println(ville);
+
+		Set<String> set = new HashSet<String>();
+		int id = villeService.getVille(ville);
+		
+		List<Localisation>  list= localisationService.getLocalisations(id);
+		
+		for(Localisation i:list){
+			set.add(i.getNom_Loc());
+			System.out.println(i.getNom_Loc());
+		}
+		
+		
+		return  set;
+	}
+	
+	
+	@RequestMapping(value = "/loc")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public int getLoc(String localisation) {
+		System.out.println("****************");
+		System.out.println("****************");
+		System.out.println("****************");
+		//System.out.println(ville);
+
+		
+		int id = localisationService.getLocalisation(localisation);
+		System.out.println(id);
+		return id;
+	}
+	
 	@ModelAttribute("allOperators")
 	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
 	public List<Operator> getAllOperators() {
@@ -248,5 +298,29 @@ public class ShopsController {
 
 		return shops;
 	}
+	
+	
+	
+	@RequestMapping(value = {"/", "/search"}, method = RequestMethod.GET)
+    @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+    public String searchUsers(@RequestParam(value = "nom_audite", required = false)
+    String nom_audite,
+    @RequestParam(value = "stype", required = false) String stype,
+    Model model, RedirectAttributes redirectAttrs) {
+        logger.debug("IN: User/list-GET");
+
+        List<Shops> shops = shopsService.getShopsByName(nom_audite,stype);
+        model.addAttribute("shops", shops);
+
+        // if there was an error in /add, we do not want to overwrite
+        // the existing user object containing the errors.
+        if (!model.containsAttribute("shopsDTO")) {
+            logger.debug("Adding UserDTO object to model");
+            ShopsDTO shopsDTO = new ShopsDTO();
+            model.addAttribute("shopsDTO", shopsDTO);
+        }
+        return "shops-list";
+    }
+
 
 }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Core CSS - Include with every page -->
+    <link type="text/css" rel="stylesheet" href="../../../resources/css/bootstrap-3.1.1.min.css" 
+        data-th-href="@{/resources/css/bootstrap-3.1.1.min.css}" />
+        
+    <link type="text/css" rel="stylesheet" href="../../../resources/font-awesome/css/font-awesome.css" 
+        data-th-href="@{/resources/font-awesome/css/font-awesome.css}" />
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link type="text/css" rel="stylesheet" href="../../../resources/css/sb-admin.css" 
+        data-th-href="@{/resources/css/sb-admin.css}" />
+    
+    <style>
+        .no-border-on-me>thead>tr>th,
+        .no-border-on-me>tbody>tr>th,
+        .no-border-on-me>tfoot>tr>th,
+        .no-border-on-me>thead>tr>td,
+        .no-border-on-me>tbody>tr>td,
+        .no-border-on-me>tfoot>tr>td
+        {
+            border-top-style: none;
+            border-bottom-style: none;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+     <title >SB-Search</title>   
+</head>
+
+<body>
+    <div id="wrapper">
+
+        
+
+        <nav data-th-fragment="vert-nav" class="navbar-default navbar-static-side" >
+            <div class="sidebar-collapse">
+                
+               
+     <form class="form-horizontal" role="form" style="margin: 0px 8px 0px 8px;" action="#" data-th-action="@{/shops/search}"  method="get">
+   
+    <div>
+     <label for="nom_audite">Nom Boutique:</label>
+     <input type="text" class="form-control" id="name" ></input>
+   </div>
+   
+   
+    <div>
+     <label for="stype">Type :</label>
+     
+     
+     <select class="form-control"  id="stype">
+     	   <option th:value="Tout" >Tout</option>
+           <option th:value="Franchise" >Franchise</option>
+           <option th:value="Normale" >Normale</option>
+     </select>
+							
+   </div>
+     
+<!--       <div> -->
+<!--      <label for="mail">E-Mail:</label> -->
+<!--      <input type="email" class="form-control" id="mail" /> -->
+<!--    </div> -->
+
+<!--    <div > -->
+<!--      <label for="fname">First Name:</label> -->
+<!--      <input type="text" class="form-control" id="G" /> -->
+<!--    </div> -->
+   
+   
+<!--    <a href="#" onclick="this.href='search?nom_audite='+document.getElementById('name').value+'&amp;mail='+document.getElementById('mail').value"> -->
+    <a href="#" onclick="this.href='search?nom_audite='+document.getElementById('name').value+'&amp;stype='+document.getElementById('stype').value">
+	<button type="button" class="btn btn-primary" style="marging-top: 8px;" onSubmit="return saveField();">Submit</button></a>
+   
+   
+<!-- 
+<button type="submit" class="btn btn-primary" style="marging-top: 8px;">Submit</button>
+  -->
+</form>
+</div>
+                  
+        </nav>       
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Blank</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+</div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="../../../resources/js/jquery-1.11.0.min.js" 
+        data-th-src="@{/resources/js/jquery-1.11.0.min.js}"></script>
+        
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="../../../resources/js/bootstrap-3.1.1.min.js" 
+        data-th-src="@{/resources/js/bootstrap-3.1.1.min.js}"></script>
+
+    <!-- Core Scripts - Include with every page -->
+    <script type="text/javascript" src="../../../resources/js/plugins/metisMenu/jquery.metisMenu.js" 
+        data-th-src="@{/resources/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+        
+    <!-- SB Admin Scripts - Include with every page -->
+    <script type="text/javascript" src="../../../resources/js/sb-admin.js" 
+        data-th-src="@{/resources/js/sb-admin.js}"></script>
+
+</body>
+</html>
