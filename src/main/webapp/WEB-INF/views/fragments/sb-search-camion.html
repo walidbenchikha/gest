@@ -44,89 +44,86 @@
 <body>
     <div id="wrapper">
 
+        
 
+        <nav data-th-fragment="vert-nav" class="navbar-default navbar-static-side" >
+            <div class="sidebar-collapse">
+                
+               
+     <form class="form-horizontal" role="form" style="margin: 0px 8px 0px 8px;" action="#" data-th-action="@{/camion/search}"  method="get">
+   
+    <div>
+     <label for="nom_audite" id="momo">Nom Camion:</label>
+     <input type="text" class="form-control" id="name" ></input>
+   </div>
+   
+   
 
-		<nav data-th-fragment="vert-nav"
-			class="navbar-default navbar-static-side">
-			<div class="sidebar-collapse">
+   
+   
+   
+   <div>
+     <label for="operator">Operator :</label>
+     
+     
+   <select class="form-control" id="operator1">
+   <option th:value="Tout" >Tout</option>
+    <option th:each="operator : ${allOperators}" th:value="${operator.nom_op}" th:text="${operator.nom_op}">Dropdown</option>
+    </select>
+							
+   </div>
+   
+    <div>
+     <label for="Governorate">Governorate :</label>
+     
+     
+   <select class="form-control" id="gouvernorat1">
+   <option th:value="Tout" >Tout</option>
+    <option th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.Nom_Gouver}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
+    </select>
+							
+   </div>
 
+	<div>
+		<label for="Ville">Ville :</label> <select class="form-control"
+			id="ville1">
+			<option th:value="Tout" >Tout</option>
+		</select>
 
-				<form class="form-horizontal" role="form"
-					style="margin: 0px 8px 0px 8px;" action="#"
-					data-th-action="@{/shops/search}" method="get">
+	</div>
+<div>
+		<label for="Localisation">Localisation :</label> 
+		<select class="form-control" id="localisation1"  >
+		 <option th:value="Tout" >Tout</option>
+		 </select>
 
-					<div>
-						<label for="nom_audite" id="momo">Nom Boutique:</label> <input
-							type="text" class="form-control" id="name"></input>
-					</div>
-
-
-					<div>
-						<label for="stype">Type :</label> <select class="form-control"
-							id="stype">
-							<option th:value="Tout">Tout</option>
-							<option th:value="Franchise">Franchise</option>
-							<option th:value="Normale">Normale</option>
-						</select>
-
-					</div>
-
-
-
-					<div>
-						<label for="operator">Operator :</label> <select
-							class="form-control" id="operator1">
-							<option th:value="Tout">Tout</option>
-							<option th:each="operator : ${allOperators}"
-								th:value="${operator.nom_op}" th:text="${operator.nom_op}">Dropdown</option>
-						</select>
-
-					</div>
-
-					<div>
-						<label for="Governorate">Governorate :</label> <select
-							class="form-control" id="gouvernorat1">
-							<option th:value="Tout">Tout</option>
-							<option th:each="gouvernorat : ${allGouvernorat}"
-								th:value="${gouvernorat.Nom_Gouver}"
-								th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
-						</select>
-
-					</div>
-
-					<div>
-						<label for="Ville">Ville :</label> <select class="form-control"
-							id="ville1">
-							<option th:value="Tout">Tout</option>
-						</select>
-
-					</div>
-					<div>
-						<label for="Localisation">Localisation :</label> <select
-							class="form-control" id="localisation1">
-							<option th:value="Tout">Tout</option>
-						</select>
-
-					</div>
+	</div>
 
 
 
 
+					<!--       <div> -->
+<!--      <label for="mail">E-Mail:</label> -->
+<!--      <input type="email" class="form-control" id="mail" /> -->
+<!--    </div> -->
 
-					<a href="#"
-						onclick="this.href='search?nom_audite='+document.getElementById('name').value+'&amp;stype='+document.getElementById('stype').value+'&amp;operator='+document.getElementById('operator1').value+'&amp;Governorate='+document.getElementById('gouvernorat1').value+'&amp;Ville='+document.getElementById('ville1').value+'&amp;Localisation='+document.getElementById('localisation1').value">
-						<button type="button" class="btn btn-primary"
-							style="marging-top: 8px;">Submit</button>
-					</a>
+<!--    <div > -->
+<!--      <label for="fname">First Name:</label> -->
+<!--      <input type="text" class="form-control" id="G" /> -->
+<!--    </div> -->
+   
+   
+    <a href="#" onclick="this.href='search?nom_audite='+document.getElementById('name').value+'&amp;operator='+document.getElementById('operator1').value+'&amp;Governorate='+document.getElementById('gouvernorat1').value+'&amp;Ville='+document.getElementById('ville1').value+'&amp;Localisation='+document.getElementById('localisation1').value">
+	<button type="button" class="btn btn-primary" style="marging-top: 8px;" >Submit</button></a>
+   
+   
 
+</form>
+</div>
+                  
+        </nav>       
 
-
-				</form>
-			</div>
-
-		</nav>
-
-		<div id="page-wrapper">
+        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Blank</h1>

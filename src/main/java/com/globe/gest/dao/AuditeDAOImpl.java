@@ -31,6 +31,14 @@ public class AuditeDAOImpl implements AuditeDAO {
     	//String hql = "select AUDITE.ID_AUDITE , AUDITE.Nom_Audité from Audite AUDITE join Audite.Shops";
         return getCurrentSession().createQuery(hql).list();
     }
+    
+    @Override
+	public Audite getAudite(int audite_id) {
+		Audite auditeObject = (Audite) getCurrentSession().get(Audite.class, audite_id);
+
+		return auditeObject;
+
+	}
 	
 
 }

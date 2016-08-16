@@ -3,7 +3,6 @@ package com.globe.gest.service;
 import java.util.List;
 
 import com.globe.gest.model.Shops;
-import com.globe.gest.model.User;
 
 public interface ShopsService {
 
@@ -16,6 +15,8 @@ public interface ShopsService {
 	public void deleteShops(int shopsId);
 
 	public List<Shops> getShops();
-	public List<Shops> getShopsByName(String nom_audite, String stype);
+
+	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, String gouvernorat,
+			String ville, String localisation);
 
 }

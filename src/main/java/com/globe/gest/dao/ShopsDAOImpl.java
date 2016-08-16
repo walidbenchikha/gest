@@ -2,6 +2,7 @@ package com.globe.gest.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.globe.gest.model.Shops;
-
 
 @Repository
 public class ShopsDAOImpl implements ShopsDAO {
@@ -28,7 +28,7 @@ public class ShopsDAOImpl implements ShopsDAO {
 	public void addShops(Shops shops) {
 		// logger.debug("UserDAOImpl.addUser() - [" + shops.getUsername() +
 		// "]");
-		
+
 		getCurrentSession().save(shops);
 		logger.debug("***********************************");
 		logger.debug("***********************************");
@@ -72,37 +72,65 @@ public class ShopsDAOImpl implements ShopsDAO {
 		String hql = "from Audite where dtype='shops'";
 		return getCurrentSession().createQuery(hql).list();
 	}
-	
-	
-	 @Override
-	    @SuppressWarnings("unchecked")
-	    public List<Shops> getShopsByName(String nom_audite,String stype) {
-		 System.out.println("///////////////////////////////////////"); 
-		 System.out.println(stype+"!");
-	    	if (nom_audite==""){
-	    		if (stype.equals("Tout")){
-	    			System.out.println("Touuuuuuuuuuuuuuuuuuuuuuuuuuuuuut");
-	    			String hql = "FROM Shops s ";
-	    			return getCurrentSession().createQuery(hql).list();
-	    		}
-	    		else{
-	    		String hql = "FROM Shops s where s.stype=:type";
-	    		return getCurrentSession().createQuery(hql).setParameter("type",stype).list();
-	    		
-	    		}
-	    	}
-	    	else{
-	    		if (stype.equals("Tout")){
-	    			String hql = "FROM Shops s where s.nom_audite=:name";
-	    			return getCurrentSession().createQuery(hql).setParameter("name",nom_audite).list();
-	    		}
-	    		else{
-	    		String hql = "FROM Shops s where s.nom_audite=:name and s.stype=:type";
-    	       
-	    	        return getCurrentSession().createQuery(hql).setParameter("name",nom_audite).setParameter("type",stype).list();
-	    		}
-	    		
-	    	}
-	    }
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, String gouvernorat,
+			String ville, String localisation) {
+
+		String sql = "FROM Shops s  where 1=1 ";
+
+		if (!("".equals(nom_audite))) {
+			sql += " and s.nom_audite like :nom ";
+		}
+
+		if (!("Tout".equals(operator))) {
+			sql += " and s.operator.nom_op = :op ";
+		}
+
+		if (!("Tout".equals(stype))) {
+			sql += " and s.stype = :type ";
+		}
+
+		if (!("Tout".equals(localisation))) {
+			sql += " and s.localisation.Nom_Loc = :loc ";
+		}
+
+		if (!("Tout".equals(ville)) && ("Tout".equals(localisation))) {
+			sql += " and s.localisation.ville.Nom_Ville = :ville ";
+		}
+		if (!("Tout".equals(gouvernorat)) && ("Tout".equals(localisation)) && ("Tout".equals(ville))) {
+			sql += " and s.localisation.ville.gouvernorat.Nom_Gouver = :gouv ";
+		}
+
+		Query query = getCurrentSession().createQuery(sql);
+
+		if (!("".equals(nom_audite))) {
+			query.setParameter("nom", nom_audite + "%");
+		}
+
+		if (!("Tout".equals(operator))) {
+			query.setParameter("op", operator);
+		}
+
+		if (!("Tout".equals(stype))) {
+			query.setParameter("type", stype);
+		}
+
+		if (!("Tout".equals(localisation))) {
+			query.setParameter("loc", localisation);
+		}
+
+		if (!("Tout".equals(ville)) && ("Tout".equals(localisation))) {
+			query.setParameter("ville", ville);
+		}
+
+		if (!("Tout".equals(gouvernorat)) && ("Tout".equals(localisation)) && ("Tout".equals(ville))) {
+			query.setParameter("gouv", gouvernorat);
+		}
+
+		return query.list();
+
+	}
 
 }

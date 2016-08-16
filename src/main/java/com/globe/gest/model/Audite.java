@@ -1,6 +1,7 @@
 package com.globe.gest.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -11,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,6 +45,9 @@ public class Audite implements Serializable {
 	public void setDtype(String dtype) {
 		this.dtype = dtype;
 	}
+	
+	 @OneToMany(mappedBy="audite")
+	    private Set<Visite> visite;
 
 	@Id
 	@GeneratedValue

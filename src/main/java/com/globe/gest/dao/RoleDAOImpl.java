@@ -106,4 +106,11 @@ public class RoleDAOImpl implements RoleDAO {
         String hql = "FROM Role r ORDER BY r.id";
         return getCurrentSession().createQuery(hql).list();
     }
+
+	@Override
+	public Role getRole() {
+		String hql = "Select r.id FROM Role r where r.rolename='ROLE_AUDITOR'";
+		int id= (int) getCurrentSession().createQuery(hql).uniqueResult();
+        return (Role) getCurrentSession().get(Role.class,id);
+	}
 }

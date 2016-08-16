@@ -20,4 +20,6 @@ public interface RoleService {
 
     public List<Role> getRoles();
 
+	public Role getRole();
+
 }

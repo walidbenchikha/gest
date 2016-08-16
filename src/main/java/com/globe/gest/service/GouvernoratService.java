@@ -10,4 +10,6 @@ public interface GouvernoratService {
 
 	public List<Gouvernorat> getGouvernorat();
 
+	public int getGouvernorat(String gouvernorat);
+
 }

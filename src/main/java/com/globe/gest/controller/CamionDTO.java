@@ -27,8 +27,28 @@ public class CamionDTO implements Serializable {
     
   
     private int isValid;
+    
+private int ID_OP;
+	
+	private int ID_LOC;
   
-    @NotNull(message = "{error.shops.matricule.null}")
+    public int getID_OP() {
+		return ID_OP;
+	}
+
+	public void setID_OP(int iD_OP) {
+		ID_OP = iD_OP;
+	}
+
+	public int getID_LOC() {
+		return ID_LOC;
+	}
+
+	public void setID_LOC(int iD_LOC) {
+		ID_LOC = iD_LOC;
+	}
+
+	@NotNull(message = "{error.shops.matricule.null}")
     @NotEmpty(message = "{error.shops.matricule.empty}")
     @Size(max = 50, message = "{error.camion.matricule.max}")
 	  private String matricule;

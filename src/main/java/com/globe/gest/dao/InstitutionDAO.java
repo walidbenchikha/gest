@@ -16,4 +16,7 @@ public interface InstitutionDAO {
 
 	public List<Institution> getInstitution();
 
+	public List<Institution> getInstitutionByName(String nom_audite, String operator, String gouvernorat, String ville,
+			String localisation);
+
 }

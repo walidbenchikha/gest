@@ -42,7 +42,6 @@ public class VilleDAOImpl implements VilleDAO {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public int getVille(String ville) {
 		String hql = "select v.ID_ville FROM Ville v where v.Nom_Ville =:ville ";
 		

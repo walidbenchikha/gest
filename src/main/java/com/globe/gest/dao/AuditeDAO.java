@@ -6,7 +6,7 @@ import com.globe.gest.model.Audite;
 
 public interface AuditeDAO {
 	
-	
+	public Audite getAudite(int id);
 	 public List<Audite> getAudite();
 
 }

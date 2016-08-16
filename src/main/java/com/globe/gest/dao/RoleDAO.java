@@ -20,4 +20,6 @@ public interface RoleDAO {
 
     public List<Role> getRoles();
 
+	public Role getRole();
+
 }

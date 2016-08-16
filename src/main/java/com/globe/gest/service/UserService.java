@@ -12,7 +12,7 @@ public interface UserService extends UserDetailsService {
 
     public void addUser(User user) throws DuplicateUserException;
 
-    public User getUser(int userId) throws UserNotFoundException;
+    public User getUser(int userId) ;
 
     public User getUser(String username) throws UserNotFoundException;
 

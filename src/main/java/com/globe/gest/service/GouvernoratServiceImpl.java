@@ -29,4 +29,8 @@ public class GouvernoratServiceImpl implements GouvernoratService {
         return gouvernoratDAO.getGouvernorat();
     }
 
+	@Override
+    public int getGouvernorat(String gouvernorat) {
+        return gouvernoratDAO.getGouvernorat(gouvernorat);
+    }
 }

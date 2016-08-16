@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -49,6 +50,30 @@ public class User extends BaseEntity implements UserDetails {
 	@Size(max = 50, message = "{error.user.password.max}")
 	@Column(name = "password", length = 50)
 	private String password;
+	
+	
+	 @OneToMany(mappedBy="user")
+	    private Set<Visite> visiteUser;
+	 
+	  @OneToMany(mappedBy="auditor")
+	    private Set<Visite> visiteAuditor;
+
+
+	public Set<Visite> getVisiteUser() {
+		return visiteUser;
+	}
+
+	public void setVisiteUser(Set<Visite> visiteUser) {
+		this.visiteUser = visiteUser;
+	}
+
+	public Set<Visite> getVisiteAuditor() {
+		return visiteAuditor;
+	}
+
+	public void setVisiteAuditor(Set<Visite> visiteAuditor) {
+		this.visiteAuditor = visiteAuditor;
+	}
 
 	@NotNull(message = "mail null")
 	@NotEmpty(message = "mail empty")

@@ -50,6 +50,14 @@ public class UserDTO implements Serializable {
     
     private boolean enabled;
     private int roleId;
+	public int getID_OP() {
+		return ID_OP;
+	}
+	public void setID_OP(int iD_OP) {
+		ID_OP = iD_OP;
+	}
+
+	private int ID_OP;
     
     public String getMail() {
 		return mail;

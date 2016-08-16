@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:dt="http://github.com/dandelion/datatables">
+
+<head>
+<!-- <meta http-equiv="" content="text/html; charset=UTF-8" /> -->
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Core CSS - Include with every page -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/bootstrap-3.1.1.min.css"
+	data-th-href="@{/resources/css/bootstrap-3.1.1.min.css}" />
+
+<link type="text/css" rel="stylesheet"
+	href="../../resources/font-awesome/css/font-awesome.css"
+	data-th-href="@{/resources/font-awesome/css/font-awesome.css}" />
+
+<!-- SB Admin CSS - Include with every page -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/sb-admin.css"
+	data-th-href="@{/resources/css/sb-admin.css}" />
+
+<style>
+.no-border-on-me>thead>tr>th, .no-border-on-me>tbody>tr>th,
+	.no-border-on-me>tfoot>tr>th, .no-border-on-me>thead>tr>td,
+	.no-border-on-me>tbody>tr>td, .no-border-on-me>tfoot>tr>td {
+	border-top-style: none;
+	border-bottom-style: none;
+}
+</style>
+<style>
+.dropdown-menu {
+	min-width: 0px;
+}
+
+#map {         
+   width: 100%;         
+   height: 660px;   
+}
+</style>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+
+</script>
+
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js">
+</script>
+
+<title data-th-text="#{shops.list.page.title}">Title</title>
+</head>
+
+<body>
+
+	<div id="wrapper">
+		<!-- /#wrapper -->
+
+		<div data-th-replace="fragments/sb-admin :: top-nav"></div>
+	
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-xs-12">
+
+					<h4 class="page-header" id="shops"> MAP</h4>
+			
+						<div id="map"></div>
+			
+
+
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- page wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script type="text/javascript"
+		src="../../resources/js/jquery-1.11.0.min.js"
+		data-th-src="@{/resources/js/jquery-1.11.0.min.js}"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script type="text/javascript"
+		src="../../resources/js/bootstrap-3.1.1.min.js"
+		data-th-src="@{/resources/js/bootstrap-3.1.1.min.js}"></script>
+
+	<!-- Core Scripts - Include with every page -->
+	<script type="text/javascript"
+		src="../../resources/js/plugins/metisMenu/jquery.metisMenu.js"
+		data-th-src="@{/resources/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+
+	<!-- SB Admin Scripts - Include with every page -->
+	<script type="text/javascript" src="../../resources/js/sb-admin.js"
+		data-th-src="@{/resources/js/sb-admin.js}"></script>
+<script >
+var map = new L.Map('map');
+var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+var attrib = 'Map data (c)OpenStreetMap contributors';
+var osm = new L.TileLayer(url, {minZoom: 8, maxZoom: 16, attribution: attrib});
+map.setView(new L.LatLng(41.88,12.47),16);
+map.addLayer(osm);
+L.marker([41.88,12.47]).addTo(map).bindPopup("I’m here!").openPopup();
+</script>
+</body>
+</html>

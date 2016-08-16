@@ -1,7 +1,9 @@
 package com.globe.gest.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -16,10 +18,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.globe.gest.model.Gouvernorat;
 import com.globe.gest.model.Institution;
+import com.globe.gest.model.Localisation;
+import com.globe.gest.model.Operator;
+import com.globe.gest.model.Ville;
+import com.globe.gest.service.GouvernoratService;
 import com.globe.gest.service.InstitutionService;
+import com.globe.gest.service.LocalisationService;
+import com.globe.gest.service.OperatorService;
+import com.globe.gest.service.VilleService;
  
  @Controller
  @RequestMapping(value = "/institution")
@@ -34,6 +45,78 @@ import com.globe.gest.service.InstitutionService;
     
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private OperatorService operatorService;
+
+	@Autowired
+	private LocalisationService localisationService;
+
+	@Autowired
+	private VilleService villeService;
+
+	@Autowired
+	private GouvernoratService gouvernoratService;
+	
+	@RequestMapping(value = "/ville")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public Set<String> getVille(int gouvernorat) {
+		Set<String> set = new HashSet<String>();
+		List<Ville>  list= villeService.getVille(gouvernorat);
+		for(Ville i:list){
+			set.add(i.getNom_Ville());
+		}
+		return  set;
+	}
+	
+	@RequestMapping(value = "/ville1")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public Set<String> getVilles(String gouvernorat) {
+		Set<String> set = new HashSet<String>();
+		int id= gouvernoratService.getGouvernorat(gouvernorat);
+		List<Ville>  list= villeService.getVille(id);
+		for(Ville i:list){
+			set.add(i.getNom_Ville());
+		}
+		return  set;
+	}
+	
+	@RequestMapping(value = "/localisation")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public Set<String> getLocalisation(String ville) {
+		Set<String> set = new HashSet<String>();
+		int id = villeService.getVille(ville);
+		List<Localisation>  list= localisationService.getLocalisations(id);
+		for(Localisation i:list){
+			set.add(i.getNom_Loc());
+		}	
+		return  set;
+	}
+	
+	@RequestMapping(value = "/loc")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public int getLoc(String localisation) {
+		int id = localisationService.getLocalisation(localisation);
+		return id;
+	}
+	
+	@ModelAttribute("allOperators")
+	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	public List<Operator> getAllOperators() {
+		
+		return operatorService.getOperators();
+	}
+	
+	@ModelAttribute("allGouvernorat")
+	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	public List<Gouvernorat> getAllGouvernorat() {
+		return gouvernoratService.getGouvernorat();
+	}
+	
 
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
@@ -164,13 +247,18 @@ import com.globe.gest.service.InstitutionService;
 		InstitutionDTO institutionDTO = new InstitutionDTO();
 		institutionDTO.setID_AUDITE(institution.getID_AUDITE());
 		institutionDTO.setNom_audite(institution.getNom_audite());
-		institutionDTO.setDtype(institution.getDtype());
 	    institutionDTO.setIsValid(institution.getIsValid());
 		institutionDTO.setLatitude_boutique(institution.getLatitude_boutique());
 		institutionDTO.setLongitude_boutique(institution.getLongitude_boutique());
 		institutionDTO.setAdresse_boutique(institution.getAdresse_boutique());
 		institutionDTO.setPhone_boutique(institution.getPhone_boutique());
 		institutionDTO.setRaison_sociale(institution.getRaison_sociale());
+		Operator operator = new Operator();
+		operator = institution.getOperator();
+		institutionDTO.setID_OP(operator.getID_OP());
+		Localisation localisation = new Localisation();
+		localisation = institution.getLocalisation();
+		institutionDTO.setID_LOC(localisation.getID_LOC());
 		return institutionDTO;
 	}
 
@@ -179,14 +267,48 @@ import com.globe.gest.service.InstitutionService;
 		Institution institution = new Institution();
 		institution.setID_AUDITE(institutionDTO.getID_AUDITE());
 		institution.setNom_audite(institutionDTO.getNom_audite());
-	    institution.setDtype(institutionDTO.getDtype());
 		institution.setIsValid(institutionDTO.getIsValid());
 		institution.setLatitude_boutique(institutionDTO.getLatitude_boutique());
 		institution.setLongitude_boutique(institutionDTO.getLongitude_boutique());
 		institution.setAdresse_boutique(institutionDTO.getAdresse_boutique());
 		institution.setPhone_boutique(institutionDTO.getPhone_boutique());
 		institution.setRaison_sociale(institutionDTO.getRaison_sociale());
+		Operator operator = new Operator();
+		operator = operatorService.getOperator(institutionDTO.getID_OP());
+		institution.setOperator(operator);
+		Localisation localisation = new Localisation();
+		localisation = localisationService.getLocalisation(institutionDTO.getID_LOC());
+		institution.setLocalisation(localisation);
 		return institution;
 	}
+	
+	@RequestMapping(value = {"/", "/search"}, method = RequestMethod.GET)
+    @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+    public String searchUsers(@RequestParam(value = "nom_audite", required = false)
+    String nom_audite,
+    
+    @RequestParam(value = "operator", required = false) String operator,
+    @RequestParam(value = "Governorate", required = false) String gouvernorat,
+    @RequestParam(value = "Ville", required = false) String ville,
+    @RequestParam(value = "Localisation", required = false) String localisation,
+    Model model, RedirectAttributes redirectAttrs) {
+        logger.debug("IN: institution/list-GET");
+
+        List<Institution> institution = institutionService.getInstitutionByName(nom_audite,operator,gouvernorat,ville,localisation);
+        model.addAttribute("institution", institution);
+
+        // if there was an error in /add, we do not want to overwrite
+        // the existing user object containing the errors.
+        if (!model.containsAttribute("institutionDTO")) {
+            logger.debug("Adding UserDTO object to model");
+            InstitutionDTO institutionDTO = new InstitutionDTO();
+            model.addAttribute("institutionDTO", institutionDTO);
+        }
+        return "institution-list";
+    }
+	
+	
+	
+	
  
  }

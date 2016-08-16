@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.OperatorDAO;
 import com.globe.gest.model.Operator;
-import com.globe.gest.model.Role;
 
 @Service
 @Transactional
@@ -24,10 +23,10 @@ public class OperatorServiceImpl implements OperatorService {
 	public Operator getOperator(int id) {
 		return operatorDAO.getOperator(id);
 	}
-	
+
 	@Override
-    public List<Operator> getOperators() {
-        return operatorDAO.getOperators();
-    }
+	public List<Operator> getOperators() {
+		return operatorDAO.getOperators();
+	}
 
 }

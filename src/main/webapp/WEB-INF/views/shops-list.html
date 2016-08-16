@@ -47,15 +47,44 @@
 
 </script>
 <script>
+
+// document.write(getCookie("name"));
+// function getCookie(name)
+// {$("#momo").html("khdskjfhskdjfhs");
+//   var re = new RegExp(name + "=([^;]+)");
+//   var value = re.exec(document.cookie);
+  
+//   document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+//   return (value != null) ? unescape(value[1]) : null;
+// }
+
+
+//document.getElementById("name").value = localStorage.getItem("comment");
+
+// function saveComment() {
+// 	$("#momo").html("coco");
+//     var comment = document.getElementById("name").value;
+//     if (comment == "") {
+//         alert("Please enter a comment in first!");
+//         return false;
+//     }
+
+//     localStorage.setItem("comment", comment);
+//     alert("Your comment has been saved!");
+
+//     location.reload();
+//     return false;
+//     //return true;
+// }
 function sendAjaxRequest(){
 	var gouvernorat = $("#gouvernorat").val();
 	$.get( "http://localhost:8080/gest/shops/ville?gouvernorat="+gouvernorat, function( data ) {
 		$("#ville").empty();
 		$("#ville").append($("<option></option>")
-				.attr("value","-- --")
-                .text("-- --"));
+				.attr("value","Tout")
+                .text("Tout"));
 		data.forEach(function(item, i) {
-			
+			$("#momo").html("jhghgfgfdgfch");
 			$("#ville").append($("<option></option>")
 	                   .attr("value",item)
 	                   .text(item));
@@ -63,13 +92,27 @@ function sendAjaxRequest(){
 		});
 	}
 	
+function sendAjaxRequestA(){
+	var gouvernorat = $("#gouvernorat1").val();
+	$.get( "http://localhost:8080/gest/shops/ville1?gouvernorat="+gouvernorat, function( data ) {
+		$("#ville1").empty();
+		$("#ville1").append($("<option></option>")
+				.attr("value","Tout")
+                .text("Tout"));
+		data.forEach(function(item, i) {
+			$("#ville1").append($("<option></option>")
+	                   .attr("value",item)
+	                   .text(item));
+			});
+		});
+	}
 function sendAjaxRequest2(){
 	var ville = $("#ville").val();
 	$.get( "http://localhost:8080/gest/shops/localisation?ville="+ville, function( data ) {
 		$("#localisation").empty();
 		$("#localisation").append($("<option></option>")
-				.attr("value","-- --")
-                .text("-- --"));
+				.attr("value","Tout")
+                .text("Tout"));
 		data.forEach(function(item, i) {
 			
 			$("#localisation").append($("<option></option>")
@@ -78,6 +121,24 @@ function sendAjaxRequest2(){
 			});
 		});
 	}
+	
+function sendAjaxRequest2A(){
+	var ville = $("#ville1").val();
+	$.get( "http://localhost:8080/gest/shops/localisation?ville="+ville, function( data ) {
+		$("#localisation1").empty();
+		$("#localisation1").append($("<option></option>")
+				.attr("value","Tout")
+                .text("Tout"));
+		data.forEach(function(item, i) {
+			
+			$("#localisation1").append($("<option></option>")
+	                          .attr("value",item)
+	                          .text(item));
+			});
+		});
+	}
+	
+
 	
 function sendAjaxRequest3(){
 	
@@ -94,16 +155,36 @@ function sendAjaxRequest3(){
 	});
 	}
 	
+function sendAjaxRequestTest(){
+	
+	
+	
+	$.get( "http://localhost:8080/gest/shops/test", function( data ) {
+		$("#shops").html(data);
+			
+			
+	});
+	}
+	
 	
 	
 	$(document).ready( function() {
 		$("#gouvernorat").change(function() {
 			sendAjaxRequest();
 			
-			}); 
+			});
+		
+		$("#gouvernorat1").change(function() {
+			sendAjaxRequestA();
+			sendAjaxRequestTest();
+			});
 		
 		$("#ville").change(function() {
 			sendAjaxRequest2();
+			}); 
+		
+		$("#ville1").change(function() {
+			sendAjaxRequest2A();
 			}); 
 		
 		$("#localisation").change(function() {
@@ -269,8 +350,7 @@ function sendAjaxRequest3(){
 											
 											
 											</td>
-<!-- 											<td><input class="form-control" type="text" -->
-<!-- 											data-th-field="*{ID_OP}" placeholder="type"></input></td> -->
+
 											 <td>
                                     			<select class="form-control" th:field="*{ID_OP}">
                                      			 <option th:each="operator : ${allOperators}" th:value="${operator.ID_OP}" th:text="${operator.nom_op}">Dropdown</option>

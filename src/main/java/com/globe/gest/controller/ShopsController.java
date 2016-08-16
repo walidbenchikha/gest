@@ -1,5 +1,6 @@
 package com.globe.gest.controller;
 
+import java.security.Principal;
 import java.util.HashSet;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,29 +63,41 @@ public class ShopsController {
 
 	@Autowired
 	private GouvernoratService gouvernoratService;
+	
+	@RequestMapping(value = "/test")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public String getTest() {
+
+		System.out.println("****************");
+		Object s= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = (User) s;
+		return user.getPhone();
+	}
+	
 
 	@RequestMapping(value = "/ville")
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
 	public Set<String> getVille(int gouvernorat) {
 		Set<String> set = new HashSet<String>();
-		
 		List<Ville>  list= villeService.getVille(gouvernorat);
-		
 		for(Ville i:list){
 			set.add(i.getNom_Ville());
-			System.out.println(i.getNom_Ville());
-			
 		}
-//		
-//		Iterator iter=set.iterator();
-//		while(iter.hasNext()){
-//			System.out.println(iter.next());
-//
-//		}
-//		
-		
-		
+		return  set;
+	}
+	
+	@RequestMapping(value = "/ville1")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public Set<String> getVilles(String gouvernorat) {
+		Set<String> set = new HashSet<String>();
+		int id= gouvernoratService.getGouvernorat(gouvernorat);
+		List<Ville>  list= villeService.getVille(id);
+		for(Ville i:list){
+			set.add(i.getNom_Ville());
+		}
 		return  set;
 	}
 
@@ -92,22 +106,12 @@ public class ShopsController {
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
 	public Set<String> getLocalisation(String ville) {
-		System.out.println("****************");
-		System.out.println("****************");
-		System.out.println("****************");
-		System.out.println(ville);
-
 		Set<String> set = new HashSet<String>();
 		int id = villeService.getVille(ville);
-		
 		List<Localisation>  list= localisationService.getLocalisations(id);
-		
 		for(Localisation i:list){
 			set.add(i.getNom_Loc());
-			System.out.println(i.getNom_Loc());
-		}
-		
-		
+		}	
 		return  set;
 	}
 	
@@ -116,14 +120,7 @@ public class ShopsController {
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
 	public int getLoc(String localisation) {
-		System.out.println("****************");
-		System.out.println("****************");
-		System.out.println("****************");
-		//System.out.println(ville);
-
-		
 		int id = localisationService.getLocalisation(localisation);
-		System.out.println(id);
 		return id;
 	}
 	
@@ -306,10 +303,14 @@ public class ShopsController {
     public String searchUsers(@RequestParam(value = "nom_audite", required = false)
     String nom_audite,
     @RequestParam(value = "stype", required = false) String stype,
+    @RequestParam(value = "operator", required = false) String operator,
+    @RequestParam(value = "Governorate", required = false) String gouvernorat,
+    @RequestParam(value = "Ville", required = false) String ville,
+    @RequestParam(value = "Localisation", required = false) String localisation,
     Model model, RedirectAttributes redirectAttrs) {
-        logger.debug("IN: User/list-GET");
+        logger.debug("IN: Shops/list-GET");
 
-        List<Shops> shops = shopsService.getShopsByName(nom_audite,stype);
+        List<Shops> shops = shopsService.getShopsByName(nom_audite,stype,operator,gouvernorat,ville,localisation);
         model.addAttribute("shops", shops);
 
         // if there was an error in /add, we do not want to overwrite

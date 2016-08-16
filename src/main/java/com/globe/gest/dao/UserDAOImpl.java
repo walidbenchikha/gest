@@ -44,15 +44,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
     @Override
-    public User getUser(int userId) throws UserNotFoundException {
+    public User getUser(int userId) {
         logger.debug("UserDAOImpl.getUser() - [" + userId + "]");
         User userObject = (User) getCurrentSession().get(User.class, userId);
-
-        if (userObject == null) {
-            throw new UserNotFoundException("User id [" + userId + "] not found");
-        } else {
-            return userObject;
-        }
+        return userObject;
+        
     }
 
 	@SuppressWarnings("unchecked")

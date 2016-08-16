@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.AuditeDAO;
 import com.globe.gest.model.Audite;
+import com.globe.gest.model.Operator;
 
 
 @Service
@@ -27,6 +28,11 @@ public class AuditeServiceImpl implements AuditeService {
 		return auditeDAO.getAudite();
 	}
 	
+	@Override
+	public Audite getAudite(int id) {
+		return auditeDAO.getAudite(id);
+	}
+
 	
 	
 	

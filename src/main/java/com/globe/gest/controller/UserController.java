@@ -22,8 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.globe.gest.exception.DuplicateUserException;
 import com.globe.gest.exception.RoleNotFoundException;
 import com.globe.gest.exception.UserNotFoundException;
+import com.globe.gest.model.Operator;
 import com.globe.gest.model.Role;
 import com.globe.gest.model.User;
+import com.globe.gest.service.OperatorService;
 import com.globe.gest.service.RoleService;
 import com.globe.gest.service.UserService;
 
@@ -39,9 +41,19 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+	private OperatorService operatorService;
 
     @Autowired
     private MessageSource messageSource;
+    
+    @ModelAttribute("allOperators")
+   	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+   	public List<Operator> getAllOperators() {
+   		
+   		return operatorService.getOperators();
+   	}
 
     @ModelAttribute("allRoles")
     @PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
@@ -114,7 +126,7 @@ public class UserController {
 
         logger.debug("IN: User/edit-GET:  ID to query = " + id);
 
-        try {
+    
             if (!model.containsAttribute("userDTO")) {
                 logger.debug("Adding userDTO object to model");
                 User user = userService.getUser(id);
@@ -123,12 +135,7 @@ public class UserController {
                 model.addAttribute("userDTO", userDTO);
             }
             return "user-edit";
-        } catch (UserNotFoundException e) {
-            String message = messageSource.getMessage("ctrl.message.error.notfound", 
-                    new Object[] {"user id", id}, Locale.US);
-            model.addAttribute("error", message);
-            return "redirect:/user/list";
-        }
+       
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -179,14 +186,9 @@ public class UserController {
             Model model, RedirectAttributes redirectAttrs) {
 
         User user;
-        try {
+
             user = userService.getUser(id);
-        } catch (UserNotFoundException e) {
-            String message = messageSource.getMessage("ctrl.message.error.notfound", 
-                    new Object[] {"user id", id}, Locale.US);
-            redirectAttrs.addFlashAttribute("error", message);
-            return "redirect:/user/list";
-        }
+
 
         logger.debug("IN: User/delete-GET | id = " + id + " | phase = " + phase + " | " + user.toString());
 
@@ -236,6 +238,9 @@ public class UserController {
             role = user.getRole();
         }
         userDTO.setRoleId(role.getId());
+        Operator operator = new Operator();
+		operator = user.getOperator();
+		userDTO.setID_OP(operator.getID_OP());
         return userDTO;
     }
 
@@ -259,6 +264,9 @@ public class UserController {
         user.setFname(userDTO.getFname());
         user.setLname(userDTO.getLname());
         user.setEnabled(userDTO.getEnabled());
+        Operator operator = new Operator();
+		operator = operatorService.getOperator(userDTO.getID_OP());
+		user.setOperator(operator);
         return user;
     }
     

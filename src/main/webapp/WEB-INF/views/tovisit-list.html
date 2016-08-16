@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:dt="http://github.com/dandelion/datatables">
 
 <head>
 <meta charset="utf-8" />
@@ -41,111 +42,30 @@
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
-	
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+
 </script>
 <script>
-	function sendAjaxRequest() {
-		var gouvernorat = $("#gouvernorat").val();
-		$.get("http://localhost:8080/gest/camion/ville?gouvernorat="
-				+ gouvernorat, function(data) {
-			$("#ville").empty();
-			$("#ville").append(
-					$("<option></option>").attr("value", "Tout").text("Tout"));
-			data.forEach(function(item, i) {
-				$("#ville").append(
-						$("<option></option>").attr("value", item).text(item));
-			});
+
+function sendAjaxRequest(){
+	
+	$.get( "http://localhost:8080/gest/tovisit/user", function( data ) {
+		$("#user").val(data);
+		$("#shops").html(data);
 		});
 	}
 
-	function sendAjaxRequestA() {
-		var gouvernorat = $("#gouvernorat1").val();
-		$.get("http://localhost:8080/gest/camion/ville1?gouvernorat="
-				+ gouvernorat, function(data) {
-			$("#ville1").empty();
-			$("#ville1").append(
-					$("<option></option>").attr("value", "Tout").text("Tout"));
-			data.forEach(function(item, i) {
-				$("#ville1").append(
-						$("<option></option>").attr("value", item).text(item));
-			});
-		});
-	}
-	function sendAjaxRequest2() {
-		var ville = $("#ville").val();
-		$.get("http://localhost:8080/gest/camion/localisation?ville=" + ville,
-				function(data) {
-					$("#localisation").empty();
-					$("#localisation").append(
-							$("<option></option>").attr("value", "Tout").text(
-									"Tout"));
-					data.forEach(function(item, i) {
-
-						$("#localisation").append(
-								$("<option></option>").attr("value", item)
-										.text(item));
-					});
-				});
-	}
-
-	function sendAjaxRequest2A() {
-		var ville = $("#ville1").val();
-		$.get("http://localhost:8080/gest/camion/localisation?ville=" + ville,
-				function(data) {
-					$("#localisation1").empty();
-					$("#localisation1").append(
-							$("<option></option>").attr("value", "Tout").text(
-									"Tout"));
-					data.forEach(function(item, i) {
-
-						$("#localisation1").append(
-								$("<option></option>").attr("value", item)
-										.text(item));
-					});
-				});
-	}
-
-	function sendAjaxRequest3() {
-
-		var localisation = $("#localisation").val();
-
-		$.get("http://localhost:8080/gest/camion/loc?localisation="
-				+ localisation, function(data) {
-
-			document.getElementById('loco').value = data;
-
-		});
-	}
-
-	$(document).ready(function() {
-		$("#gouvernorat").change(function() {
+	$(document).ready( function() {
 			sendAjaxRequest();
 
-		});
-
-		$("#gouvernorat1").change(function() {
-			sendAjaxRequestA();
-
-		});
-
-		$("#ville").change(function() {
-			sendAjaxRequest2();
-		});
-
-		$("#ville1").change(function() {
-			sendAjaxRequest2A();
-		});
-
-		$("#localisation").change(function() {
-			sendAjaxRequest3();
-		});
-	});
+		}
+	);
+	
+	
 </script>
 
-
-<title data-th-text="#{camion.list.page.title}">Title</title>
+<title data-th-text="#{shops.list.page.title}">Title</title>
 </head>
 
 <body>
@@ -154,40 +74,38 @@
 		<!-- /#wrapper -->
 
 		<div data-th-replace="fragments/sb-admin :: top-nav"></div>
-		<div data-th-replace="fragments/sb-search-camion :: vert-nav"></div>
+<!-- 		<div data-th-replace="fragments/sb-search-shops :: vert-nav"></div> -->
 
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-xs-12">
 
-					<h4 class="page-header">Camions</h4>
+					<h4 class="page-header" id="shops"> Planning</h4>
 					<div class="table responsive">
-						<table class="table table-striped table-bordered table-hover">
+						<table class="table table-striped table-bordered table-hover" dt:table="true" id="myTable">
 							<thead>
 								<tr>
-									<th class="col-xs-1">Nom Audite</th>
-									<th class="col-xs-1">Matricule</th>
-									<th class="col-xs-1">Operator</th>
-									<th class="col-xs-1">Gouvernorat</th>
-									<th class="col-xs-1">Ville</th>
-									<th class="col-xs-1">Localisation</th>
-
+									
+									<th class="col-xs-1">date a visiter</th>
+									<th class="col-xs-1">Nom audite</th>
+									<th class="col-xs-1">Nom user</th>
+									<th class="col-xs-1">Nom auditor</th>
+									
 
 									<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-th-each="camion : ${camion}">
-									<td data-th-text="${camion.nom_audite}">Nom Audite</td>
-									<td data-th-text="${camion.matricule}">Matricule</td>
-									<td data-th-text="${camion.operator.nom_op}">opertaor</td>
-									<td
-										data-th-text="${camion.localisation.ville.gouvernorat.Nom_Gouver}">gouvernorat</td>
-									<td data-th-text="${camion.localisation.ville.Nom_Ville}">ville</td>
-									<td data-th-text="${camion.localisation.Nom_Loc}">Localisation</td>
-
-
-
+								<tr data-th-each="visite : ${visite}">
+									<td data-th-text="${visite.date_a_visiter}">date a visiter</td>
+									<td data-th-text="${visite.audite.nom_audite}">id audite</td>
+									<td data-th-text="${visite.user.username}">id user</td>
+									<td data-th-text="${visite.auditor.username}">id auditor</td>
+<!-- 									<td data-th-text="${shops.stype}">type</td> -->
+<!-- 									<td data-th-text="${shops.operator.nom_op}">opertaor</td> -->
+<!-- 									<td data-th-text="${shops.localisation.ville.gouvernorat.Nom_Gouver}">gouvernorat</td> -->
+<!-- 									<td data-th-text="${shops.localisation.ville.Nom_Ville}">ville</td> -->
+<!-- 									<td data-th-text="${shops.localisation.Nom_Loc}">Localisation</td> -->
 									<td>
 										<div class="btn-group">
 											<button class="btn btn-warning btn-xs dropdown-toggle"
@@ -195,19 +113,22 @@
 												data-th-text="#{user.list.actions.label}">
 												Actions<span class="caret"></span>
 											</button>
-											<ul class="dropdown-menu">
-												<li><a href="#"
-													data-th-href="@{/camion/edit(id=${camion.ID_AUDITE})}">
-														<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
-														<span data-th-text="#{button.label.edit}">edit</span>
-												</a></li>
+<!-- 											  <ul class="dropdown-menu"> -->
 
-												<li><a href="#"
-													data-th-href="@{/camion/delete(id=${camion.ID_AUDITE},phase=stage)}">
-														<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;
-														<span data-th-text="#{button.label.delete}">delete</span>
-												</a></li>
-											</ul>
+<!--                                     <li> -->
+<!-- 		                                <a href="#" data-th-href="@{/shops/edit(id=${shops.ID_AUDITE})}"> -->
+<!-- 		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp; -->
+<!-- 		                                    <span data-th-text="#{button.label.edit}">edit</span> -->
+<!-- 		                                </a> -->
+<!--                                     </li> -->
+                                    
+<!--                                     <li> -->
+<!-- 		                                <a href="#" data-th-href="@{/shops/delete(id=${shops.ID_AUDITE},phase=stage)}"> -->
+<!-- 		                                   <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp; -->
+<!-- 		                                   <span data-th-text="#{button.label.delete}">delete</span> -->
+<!-- 		                                </a> -->
+<!--                                     </li> -->
+<!-- 								  </ul> -->
 										</div>
 									</td>
 								</tr>
@@ -238,6 +159,7 @@
                                         </a>
                                     </li>
                                   </ul>-->
+
 										</div>
 									</td>
 								</tr>
@@ -246,72 +168,68 @@
 					</div>
 
 					<br />
-
-					<form class="form" action="#" data-th-action="@{/camion/add}"
-						data-th-object="${camionDTO}" method="post">
+					
+					
+					
+					<form class="form" action="#" data-th-action="@{/tovisit/add}"
+						data-th-object="${tovisitDTO}" method="post">
 						<div class="table responsive">
 							<table class="no-border-on-me table ">
 								<thead>
 									<tr>
-										<th class="col-xs-1"></th>
-										<th class="col-xs-1">Camion Name</th>
-										<th class="col-xs-2">Is Valid</th>
-										<th class="col-xs-1">Matricule</th>
-										<th class="col-xs-1">Operator</th>
-										<th class="col-xs-1">Gouvernorat</th>
-										<th class="col-xs-1">Ville</th>
-										<th class="col-xs-1">Localisation</th>
-										<th class="col-xs-1" style="visibility: hidden">Localisation</th>
-										<th class="col-xs-1">Action</th>
+										
+										<th class="col-xs-1">Date a visiter</th>
+										<th class="col-xs-1">Nom auditeur</th>
+										<th class="col-xs-2">Nom audite</th>
+										<th class="col-xs-2" style="visibility:hidden">Nom user</th>
+										<th class="col-xs-1" >Action</th>
+
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td><input type="text" hidden="hidden"
-											data-th-field="*{ID_AUDITE}"></input></td>
-										<td><input class="form-control" type="text"
-											data-th-field="*{nom_audite}" placeholder="Nom"></input></td>
+										<td><input class="form-control" type="text" 
+											data-th-field="*{date_a_visiter}"></input></td>
+										 <td>
+                                    			<select class="form-control" th:field="*{id_auditor}">
+                                     			 <option th:each="auditor : ${allAuditors}" th:value="${auditor.id}" th:text="${auditor.username}">Dropdown</option>
+                                   				 </select>
+                                			</td>
+                                			 <td>
+                                    			<select class="form-control" th:field="*{ID_AUDITE}">
+                                     			 <option th:each="audite : ${allAudites}" th:value="${audite.ID_AUDITE}" th:text="${audite.nom_audite}">Dropdown</option>
+                                   				 </select>
+                                			</td>
+
+									
+										<td><input class="form-control" type="text" id="user" style="visibility:hidden"
+											data-th-field="*{id_user}" placeholder="user"></input></td>
 										
-										<td><input class="form-control" type="text"
-											data-th-field="*{isValid}" placeholder="Valid"></input></td>
-										<td><input class="form-control" type="text"
-											data-th-field="*{matricule}" placeholder="Matricule"></input></td>
-
-										<td><select class="form-control" th:field="*{ID_OP}">
-												<option th:each="operator : ${allOperators}"
-													th:value="${operator.ID_OP}" th:text="${operator.nom_op}">Dropdown</option>
-										</select></td>
-										<td><select class="form-control" id="gouvernorat">
-												<option>-- --</option>
-												<option th:each="gouvernorat : ${allGouvernorat}"
-													th:value="${gouvernorat.ID_Gouv}"
-													th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
-
-
-										</select></td>
-										<td><select class="form-control" id="ville">
-												<option>-- --</option>
-										</select></td>
-										<td><select class="form-control" id="localisation">
-												<option>-- --</option>
-										</select></td>
-
-										<td><input class="form-control" type="text" id="loco"
-											data-th-field="*{ID_LOC}" placeholder="type"
-											style="visibility: hidden"></input></td>
-
+										
+                                			
+<!-- 											<td><input class="form-control" type="text" id="loco" -->
+<!-- 											data-th-field="*{ID_LOC}" placeholder="type" style="visibility:hidden"></input></td> -->
+										<!--                                 <td> -->
+										<!--                                     <select class="form-control" th:field="*{enabled}"> -->
+										<!-- 							          <option th:each="type : ${enabledOptions}" th:value="${type}" th:text="${type}">Dropdown</option> -->
+										<!--                                     </select> -->
+										<!--                                 </td> -->
+										<!--                                 <td> -->
+										<!--                                     <select class="form-control" th:field="*{roleId}"> -->
+										<!--                                       <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.rolename}">Dropdown</option> -->
+										<!--                                     </select> -->
+										<!--                                 </td> -->
 										<td>
-											<button type="submit" class="btn btn-primary">Add
-												Camion</button>
+											<button type="submit" class="btn btn-primary">Add Visit</button>
 										</td>
 									</tr>
 									<!-- 							<tr> -->
 									<!-- 								<td class="col-xs-1"></td> -->
-									<!-- 								<td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}">username error</td> -->
+									<!-- 								<td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('')}" data-th-errors="*{username}">username error</td> -->
 									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}">password error</td> -->
 									<!--                                 <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('mail')}" data-th-errors="*{mail}">mail error</td> -->
 									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('phone')}" data-th-errors="*{phone}">phone error</td> -->
-									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('fname')}" data-th-errors="*{fname}">fname error</td> -->
+									<!--                 ++                <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('fname')}" data-th-errors="*{fname}">fname error</td> -->
 									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('lname')}" data-th-errors="*{lname}">lname error</td> -->
 									<!--                                 <td class="col-xs-1 text-danger" data-th-if="${#fields.hasErrors('enabled')}" data-th-errors="*{enabled}">enabled error</td> -->
 									<!--                                 <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('roleId')}" data-th-errors="*{roleId}">role error</td> -->
@@ -319,7 +237,9 @@
 									<!-- 							</tr> -->
 								</tbody>
 							</table>
+
 						</div>
+
 					</form>
 					<div class="alert alert-danger alert-dismissable"
 						th:if="${error != null}">
@@ -333,6 +253,15 @@
 							aria-hidden="true">&times;</button>
 						<h4 data-th-text="${message}">Success!</h4>
 					</div>
+					
+					
+					
+					
+					
+					
+
+
+				
 
 
 				</div>
@@ -343,6 +272,7 @@
 		<!-- page wrapper -->
 	</div>
 	<!-- /#wrapper -->
+
 
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

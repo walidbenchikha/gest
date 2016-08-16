@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	}
 
     @Override
-    public User getUser(int userId) throws UserNotFoundException {
+    public User getUser(int userId)  {
         return userDAO.getUser(userId);
     }
 

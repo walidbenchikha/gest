@@ -16,4 +16,7 @@ public interface CamionService {
 
 	public List<Camion> getCamion();
 
+	public List<Camion> getCamionByName(String nom_audite, String operator, String gouvernorat, String ville,
+			String localisation);
+
 }

@@ -2,6 +2,7 @@ package com.globe.gest.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -36,5 +37,13 @@ public class GouvernoratDAOImpl implements GouvernoratDAO {
         String hql = "FROM Gouvernorat g ORDER BY g.id";
         return getCurrentSession().createQuery(hql).list();
     }
+	
+	@Override
+	public int getGouvernorat(String gouvernorat) {
+		String hql = "select g.ID_Gouv FROM Gouvernorat g where g.Nom_Gouver =:gouvernorat ";
+		
+		Query query=  getCurrentSession().createQuery(hql).setString("gouvernorat",gouvernorat);
+		return  (int) query.uniqueResult();
+	}
 
 }

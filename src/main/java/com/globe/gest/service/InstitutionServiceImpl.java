@@ -46,6 +46,12 @@ public class InstitutionServiceImpl implements InstitutionService {
 	public List<Institution> getInstitution() {
 		return institutionDAO.getInstitution();
 	}
+
+	@Override
+	public List<Institution> getInstitutionByName(String nom_audite, String operator, String gouvernorat, String ville,
+			String localisation) {
+		return institutionDAO.getInstitutionByName(nom_audite,operator, gouvernorat, ville, localisation);
+	}
 	
 	
 	
