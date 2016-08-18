@@ -15,6 +15,8 @@ public interface VisiteDAO {
 //	public void deleteShops(int shopsId);
 
 	public List<Visite> getVisite();
+	
+	public List<Visite> getVisited();
 
 //	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, String gouvernorat,
 //			String ville, String localisation);

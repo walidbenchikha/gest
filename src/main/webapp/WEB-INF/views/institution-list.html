@@ -47,112 +47,77 @@
 </script>
 <script>
 
-function sendAjaxRequest(){
-	var gouvernorat = $("#gouvernorat").val();
-	$("#inst").html(gouvernorat);
-	$.get( "http://localhost:8080/gest/institution/ville?gouvernorat="+gouvernorat, function( data ) {
-		$("#ville").empty();
-		$("#ville").append($("<option></option>")
-				.attr("value","Tout")
-                .text("Tout"));
-		data.forEach(function(item, i) {
-			$("#ville").append($("<option></option>")
-	                   .attr("value",item)
-	                   .text(item));
-			});
+function sendAjaxRequest(gouvernorat,idville) {
+	$.get("http://localhost:8080/gest/institution/ville?gouvernorat="
+			+ gouvernorat, function(data) {
+		$(idville).empty();
+		$(idville).append(
+				$("<option></option>").attr("value", 0).text("Tout"));
+		
+		$.each(data,function(key,value){
+			$(idville).append(
+					$("<option></option>").attr("value", key).text(value));
 		});
-	}
-	
-function sendAjaxRequestA(){
-	var gouvernorat = $("#gouvernorat1").val();
-	$.get( "http://localhost:8080/gest/institution/ville1?gouvernorat="+gouvernorat, function( data ) {
-		$("#ville1").empty();
-		$("#ville1").append($("<option></option>")
-				.attr("value","Tout")
-                .text("Tout"));
-		data.forEach(function(item, i) {
-			$("#ville1").append($("<option></option>")
-	                   .attr("value",item)
-	                   .text(item));
-			});
-		});
-	}
-function sendAjaxRequest2(){
-	var ville = $("#ville").val();
-	$.get( "http://localhost:8080/gest/institution/localisation?ville="+ville, function( data ) {
-		$("#localisation").empty();
-		$("#localisation").append($("<option></option>")
-				.attr("value","Tout")
-                .text("Tout"));
-		data.forEach(function(item, i) {
-			
-			$("#localisation").append($("<option></option>")
-	                          .attr("value",item)
-	                          .text(item));
-			});
-		});
-	}
-	
-function sendAjaxRequest2A(){
-	var ville = $("#ville1").val();
-	$.get( "http://localhost:8080/gest/institution/localisation?ville="+ville, function( data ) {
-		$("#localisation1").empty();
-		$("#localisation1").append($("<option></option>")
-				.attr("value","Tout")
-                .text("Tout"));
-		data.forEach(function(item, i) {
-			
-			$("#localisation1").append($("<option></option>")
-	                          .attr("value",item)
-	                          .text(item));
-			});
-		});
-	}
-	
 
-	
-function sendAjaxRequest3(){
-	
-	
-	var localisation = $("#localisation").val();
-	$("#institution").html(localisation);
-	
-	$.get( "http://localhost:8080/gest/institution/loc?localisation="+localisation, function( data ) {
-	
-		
-			document.getElementById('loco').value=data;
-			
-			
 	});
-	}
+}
+
+
+function sendAjaxRequest2(ville,idloc) {
 	
-	
-	
-	$(document).ready( function() {
-		$("#gouvernorat").change(function() {
-			sendAjaxRequest();
-			
+	$.get("http://localhost:8080/gest/institution/localisation?ville=" + ville,
+			function(data) {
+				$(idloc).empty();
+				$(idloc).append(
+						$("<option></option>").attr("value", 0).text(
+								"Tout"));
+				
+				$.each(data,function(key,value){
+					$(idloc).append(
+							$("<option></option>").attr("value", key)
+									.text(value));
+				});
+					
 			});
+}
+
+function sendAjaxRequestTest() {
+
+	$.get("http://localhost:8080/gest/institution/test", function(data) {
+		$.each(data,function(key,value){
+			alert(key+":"+value);
+			$("#shops").html(key+":"+value);
+		});
 		
-		$("#gouvernorat1").change(function() {
-			sendAjaxRequestA();			
-			});
-		
-		$("#ville").change(function() {
-			sendAjaxRequest2();
-			}); 
-		
-		$("#ville1").change(function() {
-			sendAjaxRequest2A();
-			}); 
-		
-		$("#localisation").change(function() {
-			sendAjaxRequest3();
-			}); 
-		}
-	);
+
+	});
+}
+
+$(document).ready(function() {
 	
-	
+	$("#gouvernorat").change(function() {
+		var g = $("#gouvernorat").val();
+		sendAjaxRequest(g,"#ville");
+
+	});
+
+	$("#gouvernorat1").change(function() {
+		var g = $("#gouvernorat1").val();
+		sendAjaxRequest(g,"#ville1");
+	});
+
+	$("#ville").change(function() {
+		var v = $("#ville").val();
+		sendAjaxRequest2(v,"#localisation");
+	});
+
+	$("#ville1").change(function() {
+		var v = $("#ville1").val();
+		sendAjaxRequest2(v,"#localisation1");
+	});
+
+
+});
 </script>
         
 
@@ -179,14 +144,14 @@ function sendAjaxRequest3(){
 									<th class="col-xs-1">Nom Audite</th>
 									<th class="col-xs-1">Latitude</th>
 									<th class="col-xs-1">Longitude</th>
-									<th class="col-xs-2">Adresse</th>
+									<th class="col-xs-1">Adresse</th>
 									<th class="col-xs-1">Phone</th>
 									<th class="col-xs-1">Raison sociale</th>
 									<th class="col-xs-1">Operator</th>
 									<th class="col-xs-1">Gouvernorat</th>
 									<th class="col-xs-1">Ville</th>
 									<th class="col-xs-1">Localisation</th>
-
+									<th class="col-xs-1">Valid</th>
 									<th class="col-xs-1" >Action</th>
 								</tr>
 							</thead>
@@ -202,6 +167,7 @@ function sendAjaxRequest3(){
 									<td data-th-text="${institution.localisation.ville.gouvernorat.Nom_Gouver}">gouvernorat</td>
 									<td data-th-text="${institution.localisation.ville.Nom_Ville}">ville</td>
 									<td data-th-text="${institution.localisation.Nom_Loc}">Localisation</td>
+									<td data-th-text="${institution.isValid}">Valid</td>
 
 									<td>
 										<div class="btn-group">
@@ -272,17 +238,17 @@ function sendAjaxRequest3(){
 									<tr>
 										<th class="col-xs-1"></th>
 										<th class="col-xs-1">Nom Institution</th>
-                           				<th class="col-xs-2" >Is Valid</th>
+                           				<th class="col-xs-2">Valid</th>
 										<th class="col-xs-1">Latitude</th>
 										<th class="col-xs-1">Longitude</th>
-										<th class="col-xs-2">Adresse</th>
+										<th class="col-xs-1">Adresse</th>
 										<th class="col-xs-1">Phone</th>
 										<th class="col-xs-1">Raison sociale</th>
 										<th class="col-xs-1">Operator</th>
 										<th class="col-xs-1">Gouvernorat</th>
 										<th class="col-xs-1">Ville</th>
 										<th class="col-xs-1">Localisation</th>
-										<th class="col-xs-1" style="visibility:hidden">Localisation</th>
+										
 										<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 
 									</tr>
@@ -294,8 +260,15 @@ function sendAjaxRequest3(){
 										<td><input class="form-control" type="text"
 											data-th-field="*{nom_audite}" placeholder="Nom"></input></td>
 										
-										<td><input class="form-control" type="text"
-											data-th-field="*{isValid}" placeholder="Valid"></input></td>
+											 <td>
+                                    <select class="form-control" th:field="*{isValid}">
+							          <option th:value="1" th:text="True">Dropdown</option>
+							          <option th:value="0" th:text="False">Dropdown</option>
+                                    </select>
+                                </td>										
+
+
+
 										<td><input class="form-control" type="text"
 											data-th-field="*{latitude_boutique}" placeholder="latitude"></input></td>
 										<td><input class="form-control" type="text"
@@ -314,25 +287,24 @@ function sendAjaxRequest3(){
                                 			</td>
                                 			<td>
                                     			<select class="form-control" id="gouvernorat">
-                                     			 <option >-- --</option>
-                                     			 <option th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.ID_Gouv}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
+                                     			 <option th:value="0" >-- --</option>
+                                     			 <option  th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.ID_Gouv}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
                                    				 
                                    				
                                    				 </select>
                                 			</td>
                                 			<td>
                                     			<select class="form-control" id="ville" >
-                                     			 <option >-- --</option>
+                                     			 <option th:value="0">-- --</option>
                                    				 </select>
                                 			</td>
                                 			<td>
-                                    			<select class="form-control" id="localisation"  >
-                                     			 <option >-- --</option>
+                                    			<select class="form-control" id="localisation" th:field="*{ID_LOC}" >
+                                     			 
                                    				 </select>
                                 			</td>
                                 			
-											<td><input class="form-control" type="text" id="loco"
-											data-th-field="*{ID_LOC}" placeholder="type" style="visibility:hidden"></input></td>
+											
 											<td>
 											<button type="submit" class="btn btn-primary">Add
 												Institution</button>

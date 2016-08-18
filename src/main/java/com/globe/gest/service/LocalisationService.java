@@ -13,5 +13,7 @@ public interface LocalisationService {
 	
 	public int getLocalisation(String localisation);
 	
+	public int getVille(int localisation);
+	
 
 }

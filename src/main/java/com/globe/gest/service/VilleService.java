@@ -10,5 +10,7 @@ public interface VilleService {
 
 	public List<Ville> getVille(int gouvernorat);
 	public int getVille(String ville);
+	public int getGouvernorat(int ville);
+	public List<Ville> getVilleTest(int i);
 
 }

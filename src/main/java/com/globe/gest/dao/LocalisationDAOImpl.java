@@ -50,5 +50,14 @@ public class LocalisationDAOImpl implements LocalisationDAO {
 		return  (int) query.uniqueResult();
 
 	}
+	
+	@Override
+	public int getVille(int localisation) {
+		String hql = "select l.ville.ID_ville FROM Localisation l where l.ID_LOC =:loc ";
+		
+		Query query=  getCurrentSession().createQuery(hql).setParameter("loc",localisation);
+		return  (int) query.uniqueResult();
+
+	}
 
 }

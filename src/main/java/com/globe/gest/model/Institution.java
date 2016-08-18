@@ -19,7 +19,6 @@ import com.google.common.base.Objects;
 @Entity
 @Table(name="institution")
 @DiscriminatorValue( value="institution" )
-
 public class Institution  extends Audite implements Serializable {
 
 	private static final long serialVersionUID = 96285180113476324L;

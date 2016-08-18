@@ -47,8 +47,8 @@ public class CamionServiceImpl implements CamionService {
 	}
 
 	@Override
-	public List<Camion> getCamionByName(String nom_audite, String operator, String gouvernorat, String ville,
-			String localisation) {
+	public List<Camion> getCamionByName(String nom_audite, String operator, int gouvernorat, int ville,
+			int localisation) {
 		return camionDAO.getCamionByName(nom_audite,operator, gouvernorat, ville, localisation);
 		}
 

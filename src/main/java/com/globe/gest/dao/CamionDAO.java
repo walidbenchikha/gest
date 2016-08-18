@@ -18,8 +18,8 @@ public interface CamionDAO {
 
 	public List<Camion> getCamion();
 
-	public List<Camion> getCamionByName(String nom_audite, String operator, String gouvernorat, String ville,
-			String localisation);
+	public List<Camion> getCamionByName(String nom_audite, String operator, int gouvernorat, int ville,
+			int localisation);
 
 
 }

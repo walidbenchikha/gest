@@ -34,6 +34,11 @@ public class LocalisationServiceImpl implements LocalisationService {
 	public int getLocalisation(String localisation) {
 		return localisationDAO.getLocalisation(localisation);
 	}
+	
+	@Override
+	public int getVille(int localisation) {
+		return localisationDAO.getVille(localisation);
+	}
 
 
 }

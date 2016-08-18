@@ -67,8 +67,8 @@ public class CamionDAOImpl implements CamionDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Camion> getCamionByName(String nom_audite, String operator, String gouvernorat, String ville,
-			String localisation) {
+	public List<Camion> getCamionByName(String nom_audite, String operator, int gouvernorat, int ville,
+			int localisation) {
 		String sql = "FROM Camion s  where 1=1 ";
 
 		if (!("".equals(nom_audite))) {
@@ -79,15 +79,16 @@ public class CamionDAOImpl implements CamionDAO {
 			sql += " and s.operator.nom_op = :op ";
 		}
 
-		if (!("Tout".equals(localisation))) {
-			sql += " and s.localisation.Nom_Loc = :loc ";
+		if (gouvernorat!=0) {
+			sql += " and s.localisation.ville.gouvernorat.ID_Gouv = :gouv ";
+			
 		}
 
-		if (!("Tout".equals(ville)) && ("Tout".equals(localisation))) {
-			sql += " and s.localisation.ville.Nom_Ville = :ville ";
+		if (ville!=0 && gouvernorat!=0) {
+			sql += " and s.localisation.ville.ID_ville = :ville ";
 		}
-		if (!("Tout".equals(gouvernorat)) && ("Tout".equals(localisation)) && ("Tout".equals(ville))) {
-			sql += " and s.localisation.ville.gouvernorat.Nom_Gouver = :gouv ";
+		if (gouvernorat!=0 && ville!=0 && localisation!=0) {
+			sql += " and s.localisation.ID_LOC = :loc ";
 		}
 
 		Query query = getCurrentSession().createQuery(sql);
@@ -100,16 +101,17 @@ public class CamionDAOImpl implements CamionDAO {
 			query.setParameter("op", operator);
 		}
 
-		if (!("Tout".equals(localisation))) {
-			query.setParameter("loc", localisation);
+		if (gouvernorat!=0) {
+			query.setParameter("gouv", gouvernorat);
+			
 		}
 
-		if (!("Tout".equals(ville)) && ("Tout".equals(localisation))) {
+		if (ville!=0 && gouvernorat!=0) {
 			query.setParameter("ville", ville);
 		}
 
-		if (!("Tout".equals(gouvernorat)) && ("Tout".equals(localisation)) && ("Tout".equals(ville))) {
-			query.setParameter("gouv", gouvernorat);
+		if (gouvernorat!=0 && ville!=0 && localisation!=0) {
+			query.setParameter("loc", localisation);
 		}
 
 		return query.list();

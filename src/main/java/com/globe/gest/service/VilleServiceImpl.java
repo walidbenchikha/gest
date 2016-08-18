@@ -34,6 +34,16 @@ public class VilleServiceImpl implements VilleService {
         return villeDAO.getVille(ville);
     }
 	
+	@Override
+    public int getGouvernorat(int ville) {
+        return villeDAO.getGouvernorat(ville);
+    }
+
+	@Override
+	public List<Ville> getVilleTest(int i) {
+		
+		return villeDAO.getVilleTest(i);
+	}
 	
 
 }

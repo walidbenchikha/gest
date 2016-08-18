@@ -10,4 +10,6 @@ public interface VilleDAO {
 
 	public List<Ville> getVille(int gouvernorat);
 	public int getVille(String ville);
+	public int getGouvernorat(int ville);
+	public List<Ville> getVilleTest(int i);
 }

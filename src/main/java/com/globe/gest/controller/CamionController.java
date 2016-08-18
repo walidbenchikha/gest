@@ -1,8 +1,10 @@
 package com.globe.gest.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -63,48 +65,33 @@ public class CamionController {
 	@RequestMapping(value = "/ville")
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
-	public Set<String> getVille(int gouvernorat) {
-		Set<String> set = new HashSet<String>();
-		List<Ville> list = villeService.getVille(gouvernorat);
-		for (Ville i : list) {
-			set.add(i.getNom_Ville());
+	public Map<Integer,String> getVille(int gouvernorat) {
+		Map<Integer,String> m1 = new HashMap<>(); 
+		List<Ville>  list= villeService.getVille(gouvernorat);
+		for(Ville i:list){
+			m1.put(i.getID_ville(),i.getNom_Ville());
 		}
-		return set;
-	}
+		return  m1;
 
-	@RequestMapping(value = "/ville1")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
-	@ResponseBody
-	public Set<String> getVilles(String gouvernorat) {
-		Set<String> set = new HashSet<String>();
-		int id = gouvernoratService.getGouvernorat(gouvernorat);
-		List<Ville> list = villeService.getVille(id);
-		for (Ville i : list) {
-			set.add(i.getNom_Ville());
-		}
-		return set;
 	}
+	
 
+
+	
 	@RequestMapping(value = "/localisation")
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
-	public Set<String> getLocalisation(String ville) {
-		Set<String> set = new HashSet<String>();
-		int id = villeService.getVille(ville);
-		List<Localisation> list = localisationService.getLocalisations(id);
-		for (Localisation i : list) {
-			set.add(i.getNom_Loc());
+	public Map<Integer,String> getLocalisation(int ville) {
+		Map<Integer,String> m1 = new HashMap<>(); 
+		List<Localisation>  list= localisationService.getLocalisations(ville);
+		for(Localisation i:list){
+			m1.put(i.getID_LOC(),i.getNom_Loc());
 		}
-		return set;
-	}
+		return  m1;
 
-	@RequestMapping(value = "/loc")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
-	@ResponseBody
-	public int getLoc(String localisation) {
-		int id = localisationService.getLocalisation(localisation);
-		return id;
 	}
+	
+	
 
 	@ModelAttribute("allOperators")
 	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
@@ -163,13 +150,10 @@ public class CamionController {
 			RedirectAttributes redirectAttrs) {
 
 		logger.debug("IN: Camion/edit-GET:  ID to query = " + id);
-
 		if (!model.containsAttribute("camionDTO")) {
 			logger.debug("Adding camionDTO object to model");
 			Camion camion = camionService.getCamion(id);
-			System.out.println("/////////////////////////////////im heeeereee camion/////////////");
 			CamionDTO camionDTO = getCamionDTO(camion);
-			System.out.println("******************************" + camion.getNom_audite());
 			logger.debug("Camion/edit-GET:  " + camionDTO.toString());
 			model.addAttribute("camionDTO", camionDTO);
 		}
@@ -196,12 +180,8 @@ public class CamionController {
 			return "redirect:/camion/edit?id=" + camionDTO.getID_AUDITE();
 		} else if (action.equals(messageSource.getMessage("button.action.save", null, Locale.US))) {
 			logger.debug("Camion/edit-POST:  " + camionDTO.toString());
-			System.out.println("im in ediiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit");
 			Camion camion = getCamion(camionDTO);
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa" + camion.getNom_audite());
 			camionService.updateCamion(camion);
-			System.out.println("updaaaaaaaaaaaaaaaaaaaateeeeeeeeeeeeeeeed");
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa" + camion.getNom_audite());
 		}
 		return "redirect:/camion/list";
 	}
@@ -280,9 +260,9 @@ public class CamionController {
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	public String searchUsers(@RequestParam(value = "nom_audite", required = false) String nom_audite,
 			@RequestParam(value = "operator", required = false) String operator,
-			@RequestParam(value = "Governorate", required = false) String gouvernorat,
-			@RequestParam(value = "Ville", required = false) String ville,
-			@RequestParam(value = "Localisation", required = false) String localisation, Model model,
+			@RequestParam(value = "Governorate", required = false) int gouvernorat,
+			@RequestParam(value = "Ville", required = false) int ville,
+			@RequestParam(value = "Localisation", required = false) int localisation, Model model,
 			RedirectAttributes redirectAttrs) {
 		logger.debug("IN: Camion/list-GET");
 

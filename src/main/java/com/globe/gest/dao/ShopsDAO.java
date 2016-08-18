@@ -16,7 +16,7 @@ public interface ShopsDAO {
 
 	public List<Shops> getShops();
 
-	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, String gouvernorat,
-			String ville, String localisation);
+	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, int gouvernorat,
+			int ville, int localisation);
 
 }

@@ -1,8 +1,10 @@
 package com.globe.gest.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -61,47 +63,48 @@ import com.globe.gest.service.VilleService;
 	@RequestMapping(value = "/ville")
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
-	public Set<String> getVille(int gouvernorat) {
-		Set<String> set = new HashSet<String>();
+	public Map<Integer,String> getVilles(int gouvernorat) {
+		Map<Integer,String> m1 = new HashMap<>(); 
 		List<Ville>  list= villeService.getVille(gouvernorat);
 		for(Ville i:list){
-			set.add(i.getNom_Ville());
+			m1.put(i.getID_ville(),i.getNom_Ville());
 		}
-		return  set;
+		return  m1;
+
 	}
 	
-	@RequestMapping(value = "/ville1")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
-	@ResponseBody
-	public Set<String> getVilles(String gouvernorat) {
-		Set<String> set = new HashSet<String>();
-		int id= gouvernoratService.getGouvernorat(gouvernorat);
-		List<Ville>  list= villeService.getVille(id);
-		for(Ville i:list){
-			set.add(i.getNom_Ville());
-		}
-		return  set;
-	}
+
+
 	
 	@RequestMapping(value = "/localisation")
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
-	public Set<String> getLocalisation(String ville) {
-		Set<String> set = new HashSet<String>();
-		int id = villeService.getVille(ville);
-		List<Localisation>  list= localisationService.getLocalisations(id);
+	public Map<Integer,String> getLocalisations(int ville) {
+		Map<Integer,String> m1 = new HashMap<>(); 
+		List<Localisation>  list= localisationService.getLocalisations(ville);
 		for(Localisation i:list){
-			set.add(i.getNom_Loc());
-		}	
-		return  set;
+			m1.put(i.getID_LOC(),i.getNom_Loc());
+		}
+		return  m1;
+
 	}
 	
-	@RequestMapping(value = "/loc")
+	
+	@RequestMapping(value = "/getVille")
 	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
 	@ResponseBody
-	public int getLoc(String localisation) {
-		int id = localisationService.getLocalisation(localisation);
-		return id;
+	public int getVille(int localisation) {
+		int ville= localisationService.getVille(localisation);
+		return ville;
+	}
+	
+	@RequestMapping(value = "/getGouvernorat")
+	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@ResponseBody
+	public int getGouvernorat(int ville) {
+		return villeService.getGouvernorat(ville);
+				
+	
 	}
 	
 	@ModelAttribute("allOperators")
@@ -164,13 +167,9 @@ import com.globe.gest.service.VilleService;
 		logger.debug("IN: Institution/edit-GET:  ID to query = " + id);
 
 		if (!model.containsAttribute("institutionDTO")) {
-			System.out.println("//////////////////WELCOOOMEE INSTI");
 			logger.debug("Adding institutionDTO object to model");
 			Institution institution = institutionService.getInstitution(id);
-			System.out.println("/////////////////////////////////im heeeereee institution/////////////");
 			InstitutionDTO institutionDTO = getInstitutionDTO(institution);
-			System.out.println("**********************"+institution.getNom_audite());
-			
 			logger.debug("Institution/edit-GET:  " + institutionDTO.toString());
 			model.addAttribute("institutionDTO", institutionDTO);
 		}
@@ -191,19 +190,17 @@ import com.globe.gest.service.VilleService;
 			// institutionDTO.getInstitutionname()}, Locale.US);
 			// redirectAttrs.addFlashAttribute("message", message);
 		} else if (result.hasErrors()) {
-			System.out.println("errooooooooooooooooooooooooooor");
+			
 			logger.debug("Institution-edit error: " + result.toString());
 			redirectAttrs.addFlashAttribute("org.springframework.validation.BindingResult.institutionDTO", result);
 			redirectAttrs.addFlashAttribute("institutionDTO", institutionDTO);
 			return "redirect:/institution/edit?id=" + institutionDTO.getID_AUDITE();
 		} else if (action.equals(messageSource.getMessage("button.action.save", null, Locale.US))) {
-			System.out.println("saaaaaaaaaaaaaaaaaaaaaaaaaaveeee");
+			
 			logger.debug("Institution/edit-POST:  " + institutionDTO.toString());
-			System.out.println("im in ediiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit");
 			Institution institution = getInstitution(institutionDTO);
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+institution.getNom_audite());
 			institutionService.updateInstitution(institution);
-			System.out.println("updaaaaaaaaaaaaaaaaateeeeeeeeeeeeeeeeeed");}
+		}
 		return "redirect:/institution/list";
 	}
 
@@ -288,9 +285,9 @@ import com.globe.gest.service.VilleService;
     String nom_audite,
     
     @RequestParam(value = "operator", required = false) String operator,
-    @RequestParam(value = "Governorate", required = false) String gouvernorat,
-    @RequestParam(value = "Ville", required = false) String ville,
-    @RequestParam(value = "Localisation", required = false) String localisation,
+    @RequestParam(value = "Governorate", required = false) int gouvernorat,
+    @RequestParam(value = "Ville", required = false) int ville,
+    @RequestParam(value = "Localisation", required = false) int localisation,
     Model model, RedirectAttributes redirectAttrs) {
         logger.debug("IN: institution/list-GET");
 

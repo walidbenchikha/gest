@@ -48,5 +48,22 @@ public class VilleDAOImpl implements VilleDAO {
 		Query query=  getCurrentSession().createQuery(hql).setString("ville",ville);
 		return  (int) query.uniqueResult();
 	}
+	
+	@Override
+	public int getGouvernorat(int ville) {
+		String hql = "select v.gouvernorat.ID_Gouv FROM Ville v where v.ID_ville =:ville ";
+		
+		Query query=  getCurrentSession().createQuery(hql).setParameter("ville",ville);
+		return  (int) query.uniqueResult();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Ville> getVilleTest(int i) {
+		String hql = "FROM Ville v where v.gouvernorat.ID_Gouv =1 ";
+		
+		Query query=  getCurrentSession().createQuery(hql);
+		return query.list();
+	}
 
 }

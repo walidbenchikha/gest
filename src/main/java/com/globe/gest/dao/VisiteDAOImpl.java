@@ -74,6 +74,15 @@ public class VisiteDAOImpl implements VisiteDAO {
 		System.out.println("*******************2");
 		return getCurrentSession().createQuery(hql).list();
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Visite> getVisited() {
+		System.out.println("*******************1");
+		String hql = "from Visite v where v.date_visite is not null";
+		System.out.println("*******************2");
+		return getCurrentSession().createQuery(hql).list();
+	}
 
 //	@Override
 //	@SuppressWarnings("unchecked")

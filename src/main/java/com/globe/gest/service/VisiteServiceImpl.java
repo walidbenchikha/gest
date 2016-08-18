@@ -46,6 +46,10 @@ public class VisiteServiceImpl implements VisiteService {
 		return visiteDAO.getVisite();
 	}
 
+	@Override
+	public List<Visite> getVisited() {
+		return visiteDAO.getVisited();
+	}
 //	@Override
 //	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, String gouvernorat,
 //			String ville, String localisation) {

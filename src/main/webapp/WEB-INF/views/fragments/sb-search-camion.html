@@ -78,8 +78,8 @@
      
      
    <select class="form-control" id="gouvernorat1">
-   <option th:value="Tout" >Tout</option>
-    <option th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.Nom_Gouver}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
+   <option th:value="0" th:text="Tout">Tout</option>
+    <option th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.ID_Gouv}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
     </select>
 							
    </div>
@@ -87,14 +87,14 @@
 	<div>
 		<label for="Ville">Ville :</label> <select class="form-control"
 			id="ville1">
-			<option th:value="Tout" >Tout</option>
+			<option th:value="0" th:text="Tout">Tout</option>
 		</select>
 
 	</div>
 <div>
 		<label for="Localisation">Localisation :</label> 
 		<select class="form-control" id="localisation1"  >
-		 <option th:value="Tout" >Tout</option>
+		 <option th:value="0" th:text="Tout">Tout</option>
 		 </select>
 
 	</div>

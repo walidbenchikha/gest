@@ -46,8 +46,8 @@ public class ShopsServiceImpl implements ShopsService {
 	}
 
 	@Override
-	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, String gouvernorat,
-			String ville, String localisation) {
+	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, int gouvernorat,
+			int ville, int localisation) {
 		return shopsDAO.getShopsByName(nom_audite, stype, operator, gouvernorat, ville, localisation);
 	}
 
