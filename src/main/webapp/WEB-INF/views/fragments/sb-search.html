@@ -56,22 +56,20 @@
      <label for="username">Username:</label>
      <input type="text" class="form-control" id="name" ></input>
 							
-    <!--                       
-     <input type="text" class="form-control" id="fn" name="username" th:field="*{username}"  />--> 
    </div>
      
       <div>
-     <label for="mail">E-Mail:</label>
-     <input type="email" class="form-control" id="mail" />
-   </div>
+						<label for="operator">Operator :</label> <select
+							class="form-control" id="operator1">
+							<option th:value="Tout">Tout</option>
+							<option th:each="operator : ${allOperators}"
+								th:value="${operator.nom_op}" th:text="${operator.nom_op}">Dropdown</option>
+						</select>
 
-   <div >
-     <label for="fname">First Name:</label>
-     <input type="text" class="form-control" id="G" />
-   </div>
+					</div>
    
    
-   <a href="#" onclick="this.href='search?username='+document.getElementById('name').value+'&amp;mail='+document.getElementById('mail').value">
+   <a href="#" onclick="this.href='search?username='+document.getElementById('name').value+'&amp;operator='+document.getElementById('operator1').value">
 	<button type="button" class="btn btn-primary" style="marging-top: 8px;">Submit</button></a>
    
    

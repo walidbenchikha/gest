@@ -49,26 +49,26 @@ public class AuditorController {
     private MessageSource messageSource;
     
     @ModelAttribute("allOperators")
-	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITOR_LIST_GET','CTRL_AUDITOR_EDIT_GET')")
 	public List<Operator> getAllOperators() {
 		
 		return operatorService.getOperators();
 	}
 
     @ModelAttribute("allRoles")
-    @PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+    @PreAuthorize("hasAnyRole('CTRL_AUDITOR_LIST_GET','CTRL_AUDITOR_EDIT_GET')")
     public List<Role> getAllRoles() {
         return roleService.getRoles();
     }
     
     @ModelAttribute("getRole")
-    @PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+    @PreAuthorize("hasAnyRole('CTRL_AUDITOR_LIST_GET','CTRL_AUDITOR_EDIT_GET')")
     public Role getRole() {
     	return roleService.getRole();
     }
 
     @ModelAttribute("enabledOptions")
-    @PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+    @PreAuthorize("hasAnyRole('CTRL_AUDITOR_LIST_GET','CTRL_AUDITOR_EDIT_GET')")
     public boolean[] getEnabledOptions() {
         boolean[] array = new boolean[2];
         array[0] = true;
@@ -77,7 +77,7 @@ public class AuditorController {
     }
 
     @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
-    @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+    @PreAuthorize("hasRole('CTRL_AUDITOR_LIST_GET')")
     public String listUsers(Model model) {
         logger.debug("IN: User/list-GET");
 
@@ -95,14 +95,14 @@ public class AuditorController {
     }
     
     @RequestMapping(value = {"/", "/search"}, method = RequestMethod.GET)
-    @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+    @PreAuthorize("hasRole('CTRL_AUDITOR_LIST_GET')")
     public String searchUsers(@RequestParam(value = "username", required = false)
     String username,
-    @RequestParam(value = "mail", required = false) String mail,
+    @RequestParam(value = "operator", required = false) String operator,
     Model model, RedirectAttributes redirectAttrs) {
         logger.debug("IN: User/list-GET");
 
-        List<User> users = userService.getAuditorsByName(username,mail);
+        List<User> users = userService.getAuditorsByName(username,operator);
         model.addAttribute("users", users);
 
         // if there was an error in /add, we do not want to overwrite
@@ -116,7 +116,7 @@ public class AuditorController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('CTRL_USER_ADD_POST')")
+    @PreAuthorize("hasRole('CTRL_AUDITOR_ADD_POST')")
     public String addUser(@Valid @ModelAttribute UserDTO userDTO,
             BindingResult result, RedirectAttributes redirectAttrs) {
         
@@ -147,7 +147,7 @@ public class AuditorController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('CTRL_USER_EDIT_GET')")
+    @PreAuthorize("hasRole('CTRL_AUDITOR_EDIT_GET')")
     public String editUserPage(@RequestParam(value = "id", required = true)
             Integer id, Model model, RedirectAttributes redirectAttrs) {
 
@@ -166,7 +166,7 @@ public class AuditorController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('CTRL_USER_EDIT_POST')")
+    @PreAuthorize("hasRole('CTRL_AUDITOR_EDIT_POST')")
     public String editUser(@Valid @ModelAttribute UserDTO userDTO,
             BindingResult result, RedirectAttributes redirectAttrs,
             @RequestParam(value = "action", required = true) String action) {
@@ -206,7 +206,7 @@ public class AuditorController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('CTRL_USER_DELETE_GET')")
+    @PreAuthorize("hasRole('CTRL_AUDITOR_DELETE_GET')")
     public String deleteUser(
             @RequestParam(value = "id", required = true) Integer id,
             @RequestParam(value = "phase", required = true) String phase,
@@ -246,7 +246,7 @@ public class AuditorController {
         return "redirect:/auditor/list";
     }
 
-    @PreAuthorize("hasAnyRole('CTRL_USER_EDIT_GET','CTRL_USER_DELETE_GET')")
+    @PreAuthorize("hasAnyRole('CTRL_AUDITOR_EDIT_GET','CTRL_AUDITOR_DELETE_GET')")
     public UserDTO getUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -271,7 +271,7 @@ public class AuditorController {
         return userDTO;
     }
 
-    @PreAuthorize("hasAnyRole('CTRL_USER_ADD_POST','CTRL_USER_EDIT_POST')")
+    @PreAuthorize("hasAnyRole('CTRL_AUDITOR_ADD_POST','CTRL_AUDITOR_EDIT_POST')")
     public User getUser(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());
@@ -297,7 +297,7 @@ public class AuditorController {
         return user;
     }
     
-    @PreAuthorize("hasAnyRole('CTRL_USER_EDIT_GET','CTRL_USER_DELETE_GET','CTRL_USER_ADD_POST','CTRL_USER_EDIT_POST')")
+    @PreAuthorize("hasAnyRole('CTRL_AUDITOR_EDIT_GET','CTRL_AUDITOR_DELETE_GET','CTRL_AUDITOR_ADD_POST','CTRL_AUDITOR_EDIT_POST')")
     public Role setNullRole() {
         Role role = new Role();
         role.setId(0);

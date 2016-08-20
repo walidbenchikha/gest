@@ -33,6 +33,8 @@
 .dropdown-menu {
 	min-width: 0px;
 }
+
+
 </style>
 
 
@@ -43,9 +45,6 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
-</script>
 
 
 
@@ -57,9 +56,12 @@
 	src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
 <script type='text/javascript'
 	src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+	
+	<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
+<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-geocoding.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<script type='text/javascript' src='resources/leaf-demo.js'></script>
 
 
 <body>
@@ -80,24 +82,17 @@
 
 				<form class="form-horizontal" role="form"
 					style="margin: 0px 8px 0px 8px;" action="#"
-					data-th-action="@{/shops/search}" method="get">
+					data-th-action="@{/map/search}" method="get">
 
 					<div>
-						<label for="nom_audite" id="momo">Nom Boutique:</label> <input
-							type="text" class="form-control" id="name"></input>
-					</div>
-
-
-					<div>
-						<label for="stype">Type :</label> <select class="form-control"
-							id="stype">
+						<label for="auditor" >Auditor</label>
+						<select
+							class="form-control" id="auditor1">
 							<option th:value="Tout">Tout</option>
-							<option th:value="Franchise">Franchise</option>
-							<option th:value="Normale">Normale</option>
+							<option th:each="auditor : ${allAuditors}"
+								th:value="${auditor.username}" th:text="${auditor.username}">Dropdown</option>
 						</select>
-
 					</div>
-
 
 
 					<div>
@@ -110,43 +105,21 @@
 
 					</div>
 
-					<div>
-						<label for="Governorate">Governorate :</label> <select
-							class="form-control" id="gouvernorat1">
-							<option th:value="Tout">Tout</option>
-							<option th:each="gouvernorat : ${allGouvernorat}"
-								th:value="${gouvernorat.Nom_Gouver}"
-								th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>
-						</select>
+
+
+<div class="form-group">
+						<div class="col-xs-10">
+							<!-- 							<button class="btn btn-primary pull-right" id="mkk"  ></button> -->
+							<a id="submit_markers" href="#" onclick="removeAllMarkers()"><button
+									type="button" class="btn btn-info">Show Shops</button></a>
+						</div>
+
+
 
 					</div>
 
-					<div>
-						<label for="Ville">Ville :</label> <select class="form-control"
-							id="ville1">
-							<option th:value="Tout">Tout</option>
-						</select>
-
-					</div>
-					<div>
-						<label for="Localisation">Localisation :</label> <select
-							class="form-control" id="localisation1">
-							<option th:value="Tout">Tout</option>
-						</select>
-
-					</div>
-
-
-
-
-
-					<a href="#"
-						onclick="this.href='search?nom_audite='+document.getElementById('name').value+'&amp;stype='+document.getElementById('stype').value+'&amp;operator='+document.getElementById('operator1').value+'&amp;Governorate='+document.getElementById('gouvernorat1').value+'&amp;Ville='+document.getElementById('ville1').value+'&amp;Localisation='+document.getElementById('localisation1').value">
-						<button type="button" class="btn btn-primary"
-							style="marging-top: 8px;">Submit</button>
-					</a>
-
-
+<button id="reve" onclick="removeAllMarkers()"
+					class="btn btn-default">Clear markers</button>
 
 				</form>
 			</div>
@@ -162,7 +135,7 @@
 				<div class="col-xs-12">
 
 					<h4 class="page-header" id="shops">MAP</h4>
-						<div id="map" style="width: 100%; height: 300px;"></div>
+						<div id="map" style="width: 100%; height: 600px;"></div>
 
 
 				</div>
@@ -173,6 +146,103 @@
 		<!-- page wrapper -->
 	</div>
 	<!-- /#wrapper -->
+
+
+
+<script type="text/javascript">
+		$(document).ready(function() {
+
+		});
+
+		// 		event on click
+		$('#submit_markers').click(
+				function load() {
+					//var user = $('#user').val();
+					var operator = $('#operator1').val();
+					//var governorate = $('#governorate').val();
+
+					// 		$("#loading-text").text("Loading data");
+					// 		$("#loading_mask").show();
+
+					var request = $.ajax({
+						type : "GET",
+						url : "/map/loadShops",	
+
+						data :  "operator=" + operator ,
+ 								
+						dataType : "json",
+					});
+
+					request.success(function(data) {
+						// 			$("#loading_mask").hide();
+						//displayMarkers(data);
+						markers = data;
+
+						DisplayMarkers(markers);
+
+						// call next ajax function
+// 						DisplaySTAT1();
+// 						DisplayDetailsTable(markers);
+					});
+					request.fail(function(jqXHR, textStatus) {
+						// 			$("#loading_mask").hide();
+						alert(textStatus);
+					});
+
+				});
+
+
+
+
+
+
+
+
+
+		
+
+
+		// 	functions
+
+		function DisplayMarkers(markers) {
+
+			var markerArray = [];
+
+			Mar = new L.FeatureGroup();
+			
+					var marker = L
+							.marker([ 5.342925, -3.981171 ], {
+								icon : orangeIcon
+							//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+							})
+							.bindPopup().addTo(map);
+
+				
+
+				// 				'<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Panel title</h3> </div><div class="panel-body"> Panel content</div> </div>'
+
+				markerArray.push(L.marker([ 5.342925, -3.981171]));
+				Mar.addLayer(marker);
+			
+			map.addLayer(Mar);
+			var group = L.featureGroup(markerArray);
+			map.fitBounds(group.getBounds());
+			//return false;
+		}
+		                  // zoom the map to the polyline
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -194,6 +264,20 @@
 	<!-- SB Admin Scripts - Include with every page -->
 	<script type="text/javascript" src="../../resources/js/sb-admin.js"
 		data-th-src="@{/resources/js/sb-admin.js}"></script>
+
+
+<!-- 	<script src="resources/js/jquery.min.js"></script> -->
+<script type="text/javascript"
+		src="../../resources/js/jquery.min.js"
+		data-th-src="@{/resources/js/jquery.min.js}"></script>
+
+	<!-- 	<script type='text/javascript' src='resources/markers.json'></script> -->
+<!-- 	<script type='text/javascript' src='resources/leaf-demo.js'></script> -->
+
+<script type="text/javascript"
+		src="../../resources/leaf-demo.js"
+		data-th-src="@{/resources/leaf-demo.js}"></script>
+
 
 </body>
 </html>

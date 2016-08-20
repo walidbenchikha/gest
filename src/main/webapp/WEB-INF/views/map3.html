@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:dt="http://github.com/dandelion/datatables">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-th-text="#{shops.list.page.title}">Title</title>
+</head>
+<!-- Core CSS - Include with every page -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/bootstrap-3.1.1.min.css"
+	data-th-href="@{/resources/css/bootstrap-3.1.1.min.css}" />
+
+<link type="text/css" rel="stylesheet"
+	href="../../resources/font-awesome/css/font-awesome.css"
+	data-th-href="@{/resources/font-awesome/css/font-awesome.css}" />
+
+<!-- SB Admin CSS - Include with every page -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/sb-admin.css"
+	data-th-href="@{/resources/css/sb-admin.css}" />
+
+<style>
+.no-border-on-me>thead>tr>th, .no-border-on-me>tbody>tr>th,
+	.no-border-on-me>tfoot>tr>th, .no-border-on-me>thead>tr>td,
+	.no-border-on-me>tbody>tr>td, .no-border-on-me>tfoot>tr>td {
+	border-top-style: none;
+	border-bottom-style: none;
+}
+.dropdown-menu {
+	min-width: 0px;
+}
+</style>
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+
+
+<!-- ====================leaflet======================= -->
+<link rel="stylesheet" type="text/css"
+	href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<script type='text/javascript'
+	src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+<script type='text/javascript'
+	src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+	
+	<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
+<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-geocoding.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
+
+
+
+
+<body>
+
+	<div id="wrapper">
+		<!-- /#wrapper -->
+
+		<div data-th-replace="fragments/sb-admin :: top-nav"></div>
+		
+		
+
+
+
+<!-- 		<nav data-th-fragment="vert-nav" -->
+<!-- 			class="navbar-default navbar-static-side"> -->
+<!-- 			<div class="sidebar-collapse"> -->
+
+
+<!-- 				<form class="form-horizontal" role="form" -->
+<!-- 					style="margin: 0px 8px 0px 8px;" action="#" -->
+<!-- 					data-th-action="@{/shops/search}" method="get"> -->
+
+<!-- 					<div> -->
+<!-- 						<label for="nom_audite" id="momo">Nom Boutique:</label> <input -->
+<!-- 							type="text" class="form-control" id="name"></input> -->
+<!-- 					</div> -->
+
+
+<!-- 					<div> -->
+<!-- 						<label for="stype">Type :</label> <select class="form-control" -->
+<!-- 							id="stype"> -->
+<!-- 							<option th:value="Tout">Tout</option> -->
+<!-- 							<option th:value="Franchise">Franchise</option> -->
+<!-- 							<option th:value="Normale">Normale</option> -->
+<!-- 						</select> -->
+
+<!-- 					</div> -->
+
+
+
+<!-- 					<div> -->
+<!-- 						<label for="operator">Operator :</label> <select -->
+<!-- 							class="form-control" id="operator1"> -->
+<!-- 							<option th:value="Tout">Tout</option> -->
+<!-- 							<option th:each="operator : ${allOperators}" -->
+<!-- 								th:value="${operator.nom_op}" th:text="${operator.nom_op}">Dropdown</option> -->
+<!-- 						</select> -->
+
+<!-- 					</div> -->
+
+<!-- 					<div> -->
+<!-- 						<label for="Governorate">Governorate :</label> <select -->
+<!-- 							class="form-control" id="gouvernorat1"> -->
+<!-- 							<option th:value="Tout">Tout</option> -->
+<!-- 							<option th:each="gouvernorat : ${allGouvernorat}" -->
+<!-- 								th:value="${gouvernorat.Nom_Gouver}" -->
+<!-- 								th:text="${gouvernorat.Nom_Gouver}">Dropdown</option> -->
+<!-- 						</select> -->
+
+<!-- 					</div> -->
+
+<!-- 					<div> -->
+<!-- 						<label for="Ville">Ville :</label> <select class="form-control" -->
+<!-- 							id="ville1"> -->
+<!-- 							<option th:value="Tout">Tout</option> -->
+<!-- 						</select> -->
+
+<!-- 					</div> -->
+<!-- 					<div> -->
+<!-- 						<label for="Localisation">Localisation :</label> <select -->
+<!-- 							class="form-control" id="localisation1"> -->
+<!-- 							<option th:value="Tout">Tout</option> -->
+<!-- 						</select> -->
+
+<!-- 					</div> -->
+
+
+
+
+
+<!-- 					<a href="#" -->
+<!-- 						onclick="this.href='search?nom_audite='+document.getElementById('name').value+'&amp;stype='+document.getElementById('stype').value+'&amp;operator='+document.getElementById('operator1').value+'&amp;Governorate='+document.getElementById('gouvernorat1').value+'&amp;Ville='+document.getElementById('ville1').value+'&amp;Localisation='+document.getElementById('localisation1').value"> -->
+<!-- 						<button type="button" class="btn btn-primary" -->
+<!-- 							style="marging-top: 8px;">Submit</button> -->
+<!-- 					</a> -->
+
+
+
+<!-- 				</form> -->
+<!-- 			</div> -->
+
+<!-- 		</nav> -->
+
+		
+		
+		
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-xs-12">
+
+					<h4 class="page-header" id="shops">MAP</h4>
+						<div id="map" style="width: 100%; height: 300px;"></div>
+
+
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- page wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script type="text/javascript"
+		src="../../resources/js/jquery-1.11.0.min.js"
+		data-th-src="@{/resources/js/jquery-1.11.0.min.js}"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script type="text/javascript"
+		src="../../resources/js/bootstrap-3.1.1.min.js"
+		data-th-src="@{/resources/js/bootstrap-3.1.1.min.js}"></script>
+
+	<!-- Core Scripts - Include with every page -->
+	<script type="text/javascript"
+		src="../../resources/js/plugins/metisMenu/jquery.metisMenu.js"
+		data-th-src="@{/resources/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+
+	<!-- SB Admin Scripts - Include with every page -->
+	<script type="text/javascript" src="../../resources/js/sb-admin.js"
+		data-th-src="@{/resources/js/sb-admin.js}"></script>
+
+
+	<script src="resources/js/jquery.min.js"></script>
+
+
+	<!-- 	<script type='text/javascript' src='resources/markers.json'></script> -->
+	<script type='text/javascript' src='resources/leaf-demo.js'></script>
+
+
+
+
+</body>
+</html>

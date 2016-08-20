@@ -22,6 +22,6 @@ public interface UserDAO {
     
     public List<User> getAuditors();
     
-    public List<User> getAuditorsByName(String name, String mail);
+    public List<User> getAuditorsByName(String name, String operator);
 
 }

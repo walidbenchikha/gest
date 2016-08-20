@@ -63,9 +63,9 @@ public class CamionController {
 	private GouvernoratService gouvernoratService;
 
 	@RequestMapping(value = "/ville")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	@ResponseBody
-	public Map<Integer,String> getVille(int gouvernorat) {
+	public Map<Integer,String> getVilles(int gouvernorat) {
 		Map<Integer,String> m1 = new HashMap<>(); 
 		List<Ville>  list= villeService.getVille(gouvernorat);
 		for(Ville i:list){
@@ -79,9 +79,9 @@ public class CamionController {
 
 	
 	@RequestMapping(value = "/localisation")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	@ResponseBody
-	public Map<Integer,String> getLocalisation(int ville) {
+	public Map<Integer,String> getLocalisations(int ville) {
 		Map<Integer,String> m1 = new HashMap<>(); 
 		List<Localisation>  list= localisationService.getLocalisations(ville);
 		for(Localisation i:list){
@@ -91,23 +91,40 @@ public class CamionController {
 
 	}
 	
+	@RequestMapping(value = "/getVille")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
+	@ResponseBody
+	public int getVille(int localisation) {
+		int ville= localisationService.getVille(localisation);
+		return ville;
+	}
+	
+	@RequestMapping(value = "/getGouvernorat")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
+	@ResponseBody
+	public int getGouvernorat(int ville) {
+		return villeService.getGouvernorat(ville);
+				
+	
+	}
+	
 	
 
 	@ModelAttribute("allOperators")
-	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_LIST_GET')")
 	public List<Operator> getAllOperators() {
 
 		return operatorService.getOperators();
 	}
 
 	@ModelAttribute("allGouvernorat")
-	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_LIST_GET')")
 	public List<Gouvernorat> getAllGouvernorat() {
 		return gouvernoratService.getGouvernorat();
 	}
 
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	public String listCamion(Model model) {
 		logger.debug("IN: User/list-GET");
 
@@ -125,7 +142,7 @@ public class CamionController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('CTRL_USER_ADD_POST')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_ADD_POST')")
 	public String addCamion(@Valid @ModelAttribute CamionDTO camionDTO, BindingResult result,
 			RedirectAttributes redirectAttrs) {
 
@@ -145,7 +162,7 @@ public class CamionController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_EDIT_GET')")
 	public String editCamionPage(@RequestParam(value = "id", required = true) Integer id, Model model,
 			RedirectAttributes redirectAttrs) {
 
@@ -161,7 +178,7 @@ public class CamionController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('CTRL_USER_EDIT_POST')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_EDIT_POST')")
 	public String editCamion(@Valid @ModelAttribute CamionDTO camionDTO, BindingResult result,
 			RedirectAttributes redirectAttrs, @RequestParam(value = "action", required = true) String action) {
 
@@ -187,7 +204,7 @@ public class CamionController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_DELETE_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_DELETE_GET')")
 	public String deleteCamion(@RequestParam(value = "id", required = true) Integer id,
 			@RequestParam(value = "phase", required = true) String phase, Model model,
 			RedirectAttributes redirectAttrs) {
@@ -221,7 +238,7 @@ public class CamionController {
 		return "redirect:/camion/list";
 	}
 
-	@PreAuthorize("hasAnyRole('CTRL_USER_EDIT_GET','CTRL_USER_DELETE_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_EDIT_GET','CTRL_AUDITY_DELETE_GET')")
 	public CamionDTO getCamionDTO(Camion camion) {
 		CamionDTO camionDTO = new CamionDTO();
 		camionDTO.setID_AUDITE(camion.getID_AUDITE());
@@ -239,7 +256,7 @@ public class CamionController {
 		return camionDTO;
 	}
 
-	@PreAuthorize("hasAnyRole('CTRL_USER_ADD_POST','CTRL_USER_EDIT_POST')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_ADD_POST','CTRL_AUDITY_EDIT_POST')")
 	public Camion getCamion(CamionDTO camionDTO) {
 		Camion camion = new Camion();
 		camion.setID_AUDITE(camionDTO.getID_AUDITE());
@@ -257,7 +274,7 @@ public class CamionController {
 	}
 
 	@RequestMapping(value = { "/", "/search" }, method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	public String searchUsers(@RequestParam(value = "nom_audite", required = false) String nom_audite,
 			@RequestParam(value = "operator", required = false) String operator,
 			@RequestParam(value = "Governorate", required = false) int gouvernorat,

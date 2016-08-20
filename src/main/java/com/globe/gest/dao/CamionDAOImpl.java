@@ -46,6 +46,8 @@ public class CamionDAOImpl implements CamionDAO {
 		camionToUpdate.setDtype(camion.getDtype());
 		camionToUpdate.setIsValid(camion.getIsValid());
 		camionToUpdate.setMatricule(camion.getMatricule());
+		camionToUpdate.setOperator(camion.getOperator());
+		camionToUpdate.setLocalisation(camion.getLocalisation());
 		getCurrentSession().update(camionToUpdate);
 
 	}

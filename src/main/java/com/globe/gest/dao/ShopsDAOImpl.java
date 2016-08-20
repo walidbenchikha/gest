@@ -54,6 +54,8 @@ public class ShopsDAOImpl implements ShopsDAO {
 		shopsToUpdate.setAdresse_boutique(shops.getAdresse_boutique());
 		shopsToUpdate.setPhone_boutique(shops.getPhone_boutique());
 		shopsToUpdate.setStype(shops.getStype());
+		shopsToUpdate.setOperator(shops.getOperator());
+		shopsToUpdate.setLocalisation(shops.getLocalisation());
 		getCurrentSession().update(shopsToUpdate);
 
 	}
@@ -134,5 +136,72 @@ public class ShopsDAOImpl implements ShopsDAO {
 		return query.list();
 
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Shops> findShopsMarkers(String operator) {
+		
+
+		String sql = "FROM Audite shop  where 1 ";
+
+//		if (!("".equals(user)) && !("All".equals(user))) {
+//			sql += " and shop.username like :user ";
+//		}
+
+
+		if (!("".equals(operator)) && !("Tout".equals(operator))) {
+			sql += " and shop.idoperator like :operator ";
+		}
+		
+//		if (!("".equals(governorate)) && !("All".equals(governorate))) {
+//			sql += " and shop.gouvernorat like :governorate ";
+//		}
+//		
+//		if (!("".equals(dateCompare))) {
+//			sql += " and ue.Date = :dateCompare ";
+//		}
+//
+//		if (!("".equals(operator)) && !("All".equals(operator))) {
+//			sql += " and ue.operator in (:operator) ";
+//		}
+//
+//		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+//			sql += " and ue.Time >= :timeStart and  ue.Time < :timeEnd";
+//		}
+		
+		
+		Query query = getCurrentSession().createQuery(sql);
+
+//		if (!("".equals(user)) && !("All".equalsIgnoreCase(user))) {
+//			query.setParameter("user", "%" + user + "%");
+//		}
+
+		if (!("".equals(operator)) && !("Tout".equalsIgnoreCase(operator))) {
+			query.setParameter("operator", "%" + operator + "%");
+		}
+		
+//		if (!("".equals(governorate)) && !("All".equalsIgnoreCase(governorate))) {
+//			query.setParameter("governorate", "%" + governorate + "%");
+//		}
+//		if (!("".equals(dateCompare))) {
+//			query.setParameter("dateCompare", dateCompare);
+//		}
+//
+//		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+//			query.setParameter("timeStart", timeStart);
+//			query.setParameter("timeEnd", timeEnd);
+//		}
+//
+//		if (!("".equals(operator)) && !("All".equals(operator))) {
+//			query.setParameterList("operator", operatorsArr);
+//		}
+
+
+			System.out.println("***************************la requette est "+ sql +"******");
+			return query.list();
+		
+	}
+	
+	
 
 }

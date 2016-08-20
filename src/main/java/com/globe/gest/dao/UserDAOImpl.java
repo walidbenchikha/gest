@@ -99,6 +99,7 @@ public class UserDAOImpl implements UserDAO {
 	        userToUpdate.setPassword(user.getPassword());
 	        userToUpdate.setUsername(user.getUsername());
 	        userToUpdate.setRole(user.getRole());
+	        userToUpdate.setOperator(user.getOperator());
             getCurrentSession().update(userToUpdate);
 	    }
 	}
@@ -127,27 +128,41 @@ public class UserDAOImpl implements UserDAO {
     
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> getAuditorsByName(String name, String mail) {
-    	if (name==""){
-    		if (mail==""){
-    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR'";
-    			return getCurrentSession().createQuery(hql).list();
-    		}
-    		else{
-    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR'  and u.mail=:mail";
-    	        return getCurrentSession().createQuery(hql).setParameter("mail",mail).list();
-    		}
-    	}
-    	else{
-    		if (mail==""){
-    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR' and u.username= :name";
-    			return getCurrentSession().createQuery(hql).setParameter("name",name).list();
-    		}
-    		else{
-    			String hql = "FROM User u where u.role.rolename='ROLE_AUDITOR' and u.username= :name and u.mail=:mail";
-    	        return getCurrentSession().createQuery(hql).setParameter("name",name).setParameter("mail",mail).list();
-    		}
-    		
-    	}
+    public List<User> getAuditorsByName(String name, String operator) {
+    	String sql = "FROM User u  where u.role.rolename='ROLE_AUDITOR' ";
+
+		if (!("".equals(name))) {
+			sql += " and u.username like :name ";
+		}
+
+		if (!("Tout".equals(operator))) {
+			sql += " and u.operator.nom_op = :op ";
+		}
+
+		
+
+		Query query = getCurrentSession().createQuery(sql);
+
+		if (!("".equals(name))) {
+			query.setParameter("name", name + "%");
+		}
+
+		if (!("Tout".equals(operator))) {
+			query.setParameter("op", operator);
+		}
+
+
+		return query.list();
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     }
 }

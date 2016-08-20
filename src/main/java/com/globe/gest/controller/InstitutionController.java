@@ -61,7 +61,7 @@ import com.globe.gest.service.VilleService;
 	private GouvernoratService gouvernoratService;
 	
 	@RequestMapping(value = "/ville")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	@ResponseBody
 	public Map<Integer,String> getVilles(int gouvernorat) {
 		Map<Integer,String> m1 = new HashMap<>(); 
@@ -77,7 +77,7 @@ import com.globe.gest.service.VilleService;
 
 	
 	@RequestMapping(value = "/localisation")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	@ResponseBody
 	public Map<Integer,String> getLocalisations(int ville) {
 		Map<Integer,String> m1 = new HashMap<>(); 
@@ -91,7 +91,7 @@ import com.globe.gest.service.VilleService;
 	
 	
 	@RequestMapping(value = "/getVille")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	@ResponseBody
 	public int getVille(int localisation) {
 		int ville= localisationService.getVille(localisation);
@@ -99,7 +99,7 @@ import com.globe.gest.service.VilleService;
 	}
 	
 	@RequestMapping(value = "/getGouvernorat")
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	@ResponseBody
 	public int getGouvernorat(int ville) {
 		return villeService.getGouvernorat(ville);
@@ -108,21 +108,21 @@ import com.globe.gest.service.VilleService;
 	}
 	
 	@ModelAttribute("allOperators")
-	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_LIST_GET')")
 	public List<Operator> getAllOperators() {
 		
 		return operatorService.getOperators();
 	}
 	
 	@ModelAttribute("allGouvernorat")
-	@PreAuthorize("hasAnyRole('CTRL_USER_LIST_GET','CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_LIST_GET')")
 	public List<Gouvernorat> getAllGouvernorat() {
 		return gouvernoratService.getGouvernorat();
 	}
 	
 
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
 	public String listShops(Model model) {
 		logger.debug("IN: Institution/list-GET");
 
@@ -140,7 +140,7 @@ import com.globe.gest.service.VilleService;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('CTRL_USER_ADD_POST')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_ADD_POST')")
 	public String addInstitution(@Valid @ModelAttribute InstitutionDTO institutionDTO, BindingResult result,
 			RedirectAttributes redirectAttrs) {
 
@@ -160,7 +160,7 @@ import com.globe.gest.service.VilleService;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_EDIT_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_EDIT_GET')")
 	public String editInstitutionPage(@RequestParam(value = "id", required = true) Integer id, Model model,
 			RedirectAttributes redirectAttrs) {
 
@@ -177,7 +177,7 @@ import com.globe.gest.service.VilleService;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('CTRL_USER_EDIT_POST')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_EDIT_POST')")
 	public String editInstitution(@Valid @ModelAttribute InstitutionDTO institutionDTO, BindingResult result,
 			RedirectAttributes redirectAttrs, @RequestParam(value = "action", required = true) String action) {
 
@@ -205,7 +205,7 @@ import com.globe.gest.service.VilleService;
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_DELETE_GET')")
+	@PreAuthorize("hasRole('CTRL_AUDITY_DELETE_GET')")
 	public String deleteInstitution(@RequestParam(value = "id", required = true) Integer id,
 			@RequestParam(value = "phase", required = true) String phase, Model model,
 			RedirectAttributes redirectAttrs) {
@@ -239,7 +239,7 @@ import com.globe.gest.service.VilleService;
 		return "redirect:/institution/list";
 }
 
-	@PreAuthorize("hasAnyRole('CTRL_USER_EDIT_GET','CTRL_USER_DELETE_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_EDIT_GET','CTRL_AUDITY_DELETE_GET')")
 	public InstitutionDTO getInstitutionDTO(Institution institution) {
 		InstitutionDTO institutionDTO = new InstitutionDTO();
 		institutionDTO.setID_AUDITE(institution.getID_AUDITE());
@@ -259,7 +259,7 @@ import com.globe.gest.service.VilleService;
 		return institutionDTO;
 	}
 
-	@PreAuthorize("hasAnyRole('CTRL_USER_ADD_POST','CTRL_USER_EDIT_POST')")
+	@PreAuthorize("hasAnyRole('CTRL_AUDITY_ADD_POST','CTRL_AUDITY_EDIT_POST')")
 	public Institution getInstitution(InstitutionDTO institutionDTO) {
 		Institution institution = new Institution();
 		institution.setID_AUDITE(institutionDTO.getID_AUDITE());
@@ -280,7 +280,7 @@ import com.globe.gest.service.VilleService;
 	}
 	
 	@RequestMapping(value = {"/", "/search"}, method = RequestMethod.GET)
-    @PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
+    @PreAuthorize("hasRole('CTRL_AUDITY_LIST_GET')")
     public String searchUsers(@RequestParam(value = "nom_audite", required = false)
     String nom_audite,
     

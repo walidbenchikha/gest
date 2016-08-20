@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<User> getAuditorsByName(String name, String mail) {
-		return userDAO.getAuditorsByName(name, mail);
+	public List<User> getAuditorsByName(String name, String operator) {
+		return userDAO.getAuditorsByName(name, operator);
 	}
 	
     @Override

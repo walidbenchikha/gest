@@ -38,6 +38,148 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+function sendAjaxRequest(gouvernorat,idville) {
+	$.get("http://localhost:8080/gest/camion/ville?gouvernorat="
+			+ gouvernorat, function(data) {
+		$(idville).empty();
+		$(idville).append(
+				$("<option></option>").attr("value", 0).text("Tout"));
+		
+		$.each(data,function(key,value){
+
+				$(idville).append(
+						$("<option></option>").attr("value", key).text(value));
+
+		});
+
+	});
+}
+
+
+function sendAjaxRequest2(ville,idloc) {
+	
+	$.get("http://localhost:8080/gest/camion/localisation?ville=" + ville,
+			function(data) {
+				$(idloc).empty();
+				$(idloc).append(
+						$("<option></option>").attr("value", 0).text(
+								"Tout"));
+				
+				$.each(data,function(key,value){
+					$(idloc).append(
+							$("<option></option>").attr("value", key)
+									.text(value));
+				});
+					
+			});
+}
+
+function sendAjaxRequestA(gouvernorat,idville,ville) {
+	$.get("http://localhost:8080/gest/camion/ville?gouvernorat="
+			+ gouvernorat, function(data) {
+		$(idville).empty();
+		$(idville).append(
+				$("<option></option>").attr("value", 0).text("Tout"));
+		
+		$.each(data,function(key,value){
+			if(key==ville){
+			$(idville).append(
+					$("<option></option>").attr("value", key).attr('selected', 'selected').text(value));
+			}
+			else{
+				$(idville).append(
+						$("<option></option>").attr("value", key).text(value));
+			}
+		});
+
+	});
+}
+
+
+function sendAjaxRequest2A(ville,idloc,localisation) {
+	
+	$.get("http://localhost:8080/gest/camion/localisation?ville=" + ville,
+			function(data) {
+				$(idloc).empty();
+				$(idloc).append(
+						$("<option></option>").attr("value", 0).text(
+								"Tout"));
+				
+				$.each(data,function(key,value){
+					if(key==localisation){
+					$(idloc).append(
+							$("<option></option>").attr("value", key).attr('selected', 'selected')
+									.text(value));
+					}else{
+						$(idloc).append(
+								$("<option></option>").attr("value", key)
+										.text(value));
+					}
+				});
+					
+			});
+}
+
+
+
+	
+function sendAjax(){
+	var ville;
+	var gouvernorat;
+	$("#inst").html("hjhghjhg");
+	var localisation = $("#localisation").val();
+	$("#inst").html(localisation);
+	$.get( "http://localhost:8080/gest/camion/getVille?localisation="+localisation, function( data ) {
+		ville=data;
+		$.get( "http://localhost:8080/gest/camion/getGouvernorat?ville="+ville, function( data ) {
+			gouvernorat=data;
+			$("#gouvernorat").val(gouvernorat);
+			sendAjaxRequestA(gouvernorat,"#ville",ville);
+			sendAjaxRequest2A(ville,"#localisation",localisation);
+
+			
+	});
+		
+});
+}
+	
+	
+	
+	$(document).ready( function() {
+		
+		
+		sendAjax();
+		
+		
+		$("#gouvernorat").change(function() {
+			var g = $("#gouvernorat").val();
+			sendAjaxRequest(g,"#ville");
+
+		});
+
+		$("#gouvernorat1").change(function() {
+			var g = $("#gouvernorat1").val();
+			sendAjaxRequest(g,"#ville1");
+		});
+
+		$("#ville").change(function() {
+			var v = $("#ville").val();
+			sendAjaxRequest2(v,"#localisation");
+		});
+
+		$("#ville1").change(function() {
+			var v = $("#ville1").val();
+			sendAjaxRequest2(v,"#localisation1");
+		});
+
+	
+		}
+	);
+	
+	
+</script>
     <title >Edit Camion</title>
 </head>
 
@@ -82,6 +224,43 @@
 								<input type="text" class="form-control" data-th-value="*{isValid}" data-th-field="*{isValid}" ></input>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-5 control-label" >Operator</label>
+							<div class="col-sm-7">
+							<select class="form-control" th:field="*{ID_OP}">
+                                     			 <option th:each="operator : ${allOperators}" th:value="${operator.ID_OP}" th:text="${operator.nom_op}">Dropdown</option>
+                                   				 </select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-5 control-label" >Gouvernorat</label>
+							<div class="col-sm-7">
+							<select class="form-control" id="gouvernorat">
+                                     			 <option th:value="0">-- --</option>
+                                     			 <option th:each="gouvernorat : ${allGouvernorat}" th:value="${gouvernorat.ID_Gouv}" th:text="${gouvernorat.Nom_Gouver}">Dropdown</option>		
+                                   				 </select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" >Ville</label>
+							<div class="col-sm-7">
+							<select class="form-control" id="ville" >
+                                     		 <option th:value="0">-- --</option>
+                                   				 </select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" >Localisation</label>
+							<div class="col-sm-7">
+							<select class="form-control" id="localisation" th:field="*{ID_LOC}" >
+                                     			  <option th:value="*{ID_LOC}">-- --</option>
+                                   				 </select>
+							</div>
+						</div>
+						
+						
 <!-- 						<div class="form-group"> -->
 <!-- 							<label class="col-sm-5 control-label" >User First Name</label> -->
 <!-- 							<div class="col-sm-7"> -->

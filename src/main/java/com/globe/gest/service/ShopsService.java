@@ -18,5 +18,7 @@ public interface ShopsService {
 
 	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, int gouvernorat,
 			int ville, int localisation);
+	
+	public List<Shops> findShopsMarkers(String operator);
 
 }

@@ -51,4 +51,14 @@ public class ShopsServiceImpl implements ShopsService {
 		return shopsDAO.getShopsByName(nom_audite, stype, operator, gouvernorat, ville, localisation);
 	}
 
+	@Override
+		public List<Shops> findShopsMarkers(String operator) {
+			
+	return shopsDAO.findShopsMarkers(operator);
+			
+		}
+	
+	
+	
+
 }
