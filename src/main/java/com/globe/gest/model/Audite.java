@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -21,7 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
 @Entity
@@ -46,8 +47,17 @@ public class Audite implements Serializable {
 		this.dtype = dtype;
 	}
 	
-	 @OneToMany(mappedBy="audite")
+	@JsonIgnore
+	 @OneToMany(mappedBy="audite", fetch=FetchType.EAGER)
 	    private Set<Visite> visite;
+
+	public Set<Visite> getVisite() {
+		return visite;
+	}
+
+	public void setVisite(Set<Visite> visite) {
+		this.visite = visite;
+	}
 
 	@Id
 	@GeneratedValue
@@ -70,6 +80,11 @@ public class Audite implements Serializable {
 
 	@Column(name = "isValid", length = 64)
 	private int isValid;
+	
+	//this audity is added by this user
+	@ManyToOne
+    @JoinColumn(name="ADDEDBY")
+    public User user;
 
 	/*
 	 * @NotNull(message = "{error.audite.ID_OP.null}")
@@ -90,6 +105,15 @@ public class Audite implements Serializable {
 	 * @Column(name = "ID_Gouv", length = 64) private int ID_Gouv;
 	 */
 	
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="ID_OP")
 	private Operator operator;

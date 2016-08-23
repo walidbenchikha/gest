@@ -6,8 +6,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.common.base.Objects;
 
 @Entity
@@ -41,7 +43,8 @@ public class Role extends BaseEntity implements Serializable, GrantedAuthority  
     @Column(name = "rolename", length = 50)
     private String rolename;
     
-    //@OneToMany(cascade = CascadeType.ALL)  
+    //@OneToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
     @OneToMany(fetch = FetchType.EAGER)  
     @JoinTable(name = "user_roles",   
         joinColumns        = {@JoinColumn(name = "role_id", referencedColumnName = "id")},  
@@ -49,6 +52,7 @@ public class Role extends BaseEntity implements Serializable, GrantedAuthority  
     )  
     private Set<User> userRoles;
     
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_permissions",
         joinColumns        = { @JoinColumn(name = "role_id",       referencedColumnName = "id") },

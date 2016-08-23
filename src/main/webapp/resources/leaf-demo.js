@@ -1,6 +1,8 @@
 var polyline ;
 var Mar;
+var mark;
 var markers =[];
+
 //var stat =[];
 var points =[];
 var map = L.map( 'map', {

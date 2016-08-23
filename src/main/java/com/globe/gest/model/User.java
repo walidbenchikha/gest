@@ -17,12 +17,16 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.common.base.Objects;
 
 @Entity
@@ -52,12 +56,38 @@ public class User extends BaseEntity implements UserDetails {
 	private String password;
 	
 	
-	 @OneToMany(mappedBy="user")
+	@JsonIgnore
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	public Set<Audite> shops ;
+	
+	 public Set<Audite> getShops() {
+		return shops;
+	}
+
+	public void setShops(Set<Audite> shops) {
+		this.shops = shops;
+	}
+
+	@JsonIgnore
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 	    private Set<Visite> visiteUser;
 	 
-	  @OneToMany(mappedBy="auditor")
+	@JsonIgnore
+	  @OneToMany(mappedBy="auditor", fetch=FetchType.EAGER)
 	    private Set<Visite> visiteAuditor;
 
+//	  @JsonIgnore
+//	    @OneToMany(mappedBy="auditor", fetch=FetchType.EAGER)
+//		public Set<Track> track;
+
+//
+//	public Set<Track> getTrack() {
+//		return track;
+//	}
+//
+//	public void setTrack(Set<Track> track) {
+//		this.track = track;
+//	}
 
 	public Set<Visite> getVisiteUser() {
 		return visiteUser;
@@ -102,12 +132,14 @@ public class User extends BaseEntity implements UserDetails {
 	@Column(name = "enabled")
 	private boolean enabled;
 
+	@JsonManagedReference
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "role_id", referencedColumnName = "id") })
 	private Role role;
 
+	//@LazyCollection(LazyCollectionOption.FALSE)
 	 @ManyToOne
 	 @JoinColumn(name="ID_OP")
 	 private Operator operator;

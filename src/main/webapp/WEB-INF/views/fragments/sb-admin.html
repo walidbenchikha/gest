@@ -87,7 +87,8 @@
 			                    <li><a href="#" data-th-href="@{/pub/list}"><i class="fa fa-gear fa-fw"></i>Pub</a></li>
                             </ul>
                     </li>
-                    <li class="dropdown" >
+
+                    <li class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
 		                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		                        <i class="fa fa-user fa-fw"></i>
 		                        <font color="#049cbd" >Administration</font>
@@ -100,6 +101,7 @@
                             </ul>
 		                    <!-- /.dropdown-user -->
 		            </li>
+		            
                     <li class="dropdown" data-th-if="${currentUser != null}">
 		                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		                        <i class="fa fa-user fa-fw"></i>

@@ -52,9 +52,9 @@ public class ShopsServiceImpl implements ShopsService {
 	}
 
 	@Override
-		public List<Shops> findShopsMarkers(String operator) {
+		public List<Shops> findShopsMarkers(String operator, String auditor) {
 			
-	return shopsDAO.findShopsMarkers(operator);
+	return shopsDAO.findShopsMarkers(operator,auditor);
 			
 		}
 	

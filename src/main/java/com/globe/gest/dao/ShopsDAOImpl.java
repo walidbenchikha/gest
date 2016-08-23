@@ -139,18 +139,18 @@ public class ShopsDAOImpl implements ShopsDAO {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Shops> findShopsMarkers(String operator) {
+	public List<Shops> findShopsMarkers(String operator,String auditor) {
 		
 
-		String sql = "FROM Audite shop  where 1 ";
+		String sql = "FROM Shops shop  where 1=1 ";
 
-//		if (!("".equals(user)) && !("All".equals(user))) {
-//			sql += " and shop.username like :user ";
-//		}
+		if ( !("Tout".equals(auditor))) {
+			sql += " and shop.user.username like :auditor ";
+		}
 
 
-		if (!("".equals(operator)) && !("Tout".equals(operator))) {
-			sql += " and shop.idoperator like :operator ";
+		if ( !("Tout".equals(operator))) {
+			sql += " and shop.operator.nom_op like :operator ";
 		}
 		
 //		if (!("".equals(governorate)) && !("All".equals(governorate))) {
@@ -172,12 +172,13 @@ public class ShopsDAOImpl implements ShopsDAO {
 		
 		Query query = getCurrentSession().createQuery(sql);
 
-//		if (!("".equals(user)) && !("All".equalsIgnoreCase(user))) {
-//			query.setParameter("user", "%" + user + "%");
-//		}
+		if (!("Tout".equals(auditor))) {
+			query.setParameter("auditor", "%" + auditor + "%");
+		}
 
-		if (!("".equals(operator)) && !("Tout".equalsIgnoreCase(operator))) {
+		if (!("Tout".equals(operator))) {
 			query.setParameter("operator", "%" + operator + "%");
+			
 		}
 		
 //		if (!("".equals(governorate)) && !("All".equalsIgnoreCase(governorate))) {

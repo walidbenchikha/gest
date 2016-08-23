@@ -180,7 +180,7 @@
 									<th class="col-xs-1">Gouvernorat</th>
 									<th class="col-xs-1">Ville</th>
 									<th class="col-xs-1">Localisation</th>
-
+									<th class="col-xs-1">Added By</th>
 									<th class="col-xs-1" data-th-text="#{user.list.actions.label}">Action</th>
 								</tr>
 							</thead>
@@ -198,6 +198,7 @@
 										data-th-text="${shops.localisation.ville.gouvernorat.Nom_Gouver}">gouvernorat</td>
 									<td data-th-text="${shops.localisation.ville.Nom_Ville}">ville</td>
 									<td data-th-text="${shops.localisation.Nom_Loc}">Localisation</td>
+									<td data-th-text="${shops.user.username}">added by</td>
 									<td>
 										<div class="btn-group">
 											<button class="btn btn-warning btn-xs dropdown-toggle"

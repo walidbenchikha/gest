@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.common.base.Objects;
 
 @Entity
@@ -32,6 +33,7 @@ public class Permission extends BaseEntity implements GrantedAuthority {
     @Column(name = "permissionname", length = 50)
     private String permissionname;
     
+    @JsonBackReference
     @OneToMany(fetch = FetchType.EAGER)  
     @JoinTable(name = "role_permissions",   
         joinColumns        = {@JoinColumn(name = "permission_id", referencedColumnName = "id")},  

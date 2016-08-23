@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -16,6 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
 
@@ -38,8 +40,8 @@ public class Gouvernorat implements Serializable {
 	  private String Nom_Gouver;
     
     
-    
-    @OneToMany(mappedBy="gouvernorat")
+    @JsonIgnore
+    @OneToMany(mappedBy="gouvernorat", fetch=FetchType.EAGER)
 	public Set<Ville> ville;
 
 	public Set<Ville> getVille() {

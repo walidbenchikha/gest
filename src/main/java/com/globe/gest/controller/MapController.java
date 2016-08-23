@@ -3,7 +3,10 @@ package com.globe.gest.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.globe.gest.model.Operator;
 import com.globe.gest.model.Shops;
+import com.globe.gest.model.Track;
 import com.globe.gest.model.User;
+import com.globe.gest.model.Ville;
 import com.globe.gest.service.OperatorService;
 import com.globe.gest.service.ShopsService;
+import com.globe.gest.service.TrackService;
 import com.globe.gest.service.UserService;
+import com.thoughtworks.xstream.XStream;
 
 
 @Controller
@@ -41,52 +48,62 @@ public class MapController {
 	private UserService userService;
 	
 	@Autowired
+	private TrackService trackService;
+	
+	@Autowired
 	private ShopsService shopsService;
 	
 	@ModelAttribute("allOperators")
-	@PreAuthorize("hasAnyRole('CTRL_AUDITY_LIST_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_MAP_LIST_GET')")
 	public List<Operator> getAllOperators() {
 		
 		return operatorService.getOperators();
 	}
 	
 	@ModelAttribute("allAuditors")
-	@PreAuthorize("hasAnyRole('CTRL_AUDITY_LIST_GET')")
+	@PreAuthorize("hasAnyRole('CTRL_MAP_LIST_GET')")
 	public List<User> getAllAuditors() {
 		
 		return userService.getAuditors();
 	}
 	
+	@ModelAttribute("allAuditors1")
+	@PreAuthorize("hasRole('CTRL_MAP_LIST_GET')")
+	@ResponseBody
+	public Map<Integer,String> getAuditors() {
+		Map<Integer,String> m1 = new HashMap<>(); 
+		List<User>  list= userService.getAuditors();
+		for(User i:list){
+			m1.put(i.getId(),i.getUsername());
+		}
+		return  m1;
+
+	}
 	
 	
-	@RequestMapping(value = "/loadShops", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Shops> loadShops(
-//			@RequestParam("user") String user,
-			@RequestParam("operator") String operator
-		//	@RequestParam("governorate") String governorate
-			) {
+	@RequestMapping(value = "/loadShops")
+	@PreAuthorize("hasRole('CTRL_MAP_LIST_GET')")
+	@ResponseBody
+	public List<Shops> loadShops(@RequestParam("operator") String operator, 
+			@RequestParam("auditor") String auditor) {
 
 		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOKay");
 		
 		//XStream xstream = new XStream();
-		List<Shops> shopsMarkers = this.findShops(operator);
+		List<Shops> shopsMarkers = shopsService.findShopsMarkers(operator,auditor);
+		Iterator<Shops> iterator = shopsMarkers.iterator();
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next().getNom_audite());
+		}
+		System.out.println("blue");
 		//String xml = xstream.toXML(shopsMarkers);
+		//System.out.println(xml);
 		
 		return shopsMarkers;
 
 	}
 
-	private List<Shops> findShops( String operator) {
-		List<Shops> results = new ArrayList<Shops>();
 
-//		ShopService shopService = ApplicationContextProvider
-//				.getApplicationContext().getBean("shopService",
-//						ShopService.class);
-
-		results = shopsService.findShopsMarkers(operator);
-		System.out.println("****le nombre de markeurs est = "	+ results.size());
-		return results;
-	}
 	
 
 
@@ -97,6 +114,32 @@ public class MapController {
 
 		
 		return "map";
+	}
+	
+	
+	@RequestMapping(value = "/loadTrack", method = RequestMethod.GET, produces = "application/json")
+	@PreAuthorize("hasRole('CTRL_MAP_LIST_GET')")
+	public @ResponseBody List loadTrack(
+			@RequestParam("auditor") int auditor) {
+
+		//XStream xstream = new XStream();
+		List<Track> tracking = this.findTrack(auditor);
+		//String xml = xstream.toXML(shopsMarkers);
+
+		return tracking;
+
+	}
+
+	private List findTrack(int auditor) {
+		List results = new ArrayList();
+
+//		ShopService shopService = ApplicationContextProvider
+//				.getApplicationContext().getBean("shopService",
+//						ShopService.class);
+
+		results = trackService.findUserTrack(auditor);
+		System.out.println("****le nombre de point tracking est = "	+ results.size());
+		return results;
 	}
 
 	

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -16,6 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
 
@@ -44,7 +46,8 @@ public class Operator implements Serializable {
     @Column(name = "description_op", length = 100)
 	  private String description_op;
     
-    @OneToMany(mappedBy="operator")
+    @JsonIgnore
+    @OneToMany(mappedBy="operator", fetch=FetchType.EAGER)
     private Set<User> users;
     
     
@@ -56,7 +59,8 @@ public class Operator implements Serializable {
 		this.users = users;
 	}
 
-	@OneToMany(mappedBy="operator")
+	@JsonIgnore
+	@OneToMany(mappedBy="operator", fetch=FetchType.EAGER)
     private Set<Audite> audite;
     
 

@@ -21,7 +21,6 @@ public class Shops extends Audite implements Serializable {
 	static Logger logger = LoggerFactory.getLogger(Strategy.class);
 
 	@Column(name = "stype")
-
 	private String stype;
 
 	public String getStype() {
