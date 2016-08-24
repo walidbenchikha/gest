@@ -23,6 +23,16 @@ var orangeIcon = L.icon({
     iconAnchor: [9, 21],
     popupAnchor: [0, -14]
 });
+
+var iconentreprise = L.icon({
+    iconUrl: myURL + 'images/iconentreprise.png',
+    //iconRetinaUrl: myURL + 'images/pin48.png',
+    iconSize: [29, 24],
+    iconAnchor: [9, 21],
+    popupAnchor: [0, -14]
+});
+
+
 var mtnIcon = L.icon({
     iconUrl: myURL + 'images/mtn.png',
     //iconRetinaUrl: myURL + 'images/pin48.png',

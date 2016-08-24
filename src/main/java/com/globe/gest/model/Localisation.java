@@ -40,6 +40,14 @@ public class Localisation implements Serializable {
     @Column(name = "Nom_Loc", length = 64)
 	  private String Nom_Loc;
     
+    @Column(name = "longitude", length = 15)
+	  private String longitude;
+    
+    @Column(name = "latitude", length = 15)
+	  private String latitude;
+    
+    
+    
     @ManyToOne
     @JoinColumn(name="ID_ville")
     public Ville ville;
@@ -82,13 +90,30 @@ public class Localisation implements Serializable {
 	}
 	
 	
-	@Override
-    public String toString() {
-        return String.format("%s(ID_LOC=%d, Nom_Loc='%s')", 
-                this.getClass().getSimpleName(), this.getID_LOC(),
-                this.getNom_Loc());
-    }
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
 	
+	
+	@Override
+	public String toString() {
+		return "Localisation [ID_LOC=" + ID_LOC + ", Nom_Loc=" + Nom_Loc + ", longitude=" + longitude + ", latitude="
+				+ latitude + ", ville=" + ville + ", audite=" + audite + "]";
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o)

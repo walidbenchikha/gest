@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.globe.gest.model.Audite;
+import com.globe.gest.model.STAT1;
 import com.globe.gest.model.Shops;
 
 @Repository
@@ -137,12 +139,82 @@ public class ShopsDAOImpl implements ShopsDAO {
 
 	}
 	
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public List<Shops> findShopsMarkers(String operator,String auditor) {
+//		
+//
+//		String sql = "FROM Shops shop  where 1=1 ";
+//
+//		if ( !("Tout".equals(auditor))) {
+//			sql += " and shop.user.username like :auditor ";
+//		}
+//
+//
+//		if ( !("Tout".equals(operator))) {
+//			sql += " and shop.operator.nom_op like :operator ";
+//		}
+//		
+////		if (!("".equals(governorate)) && !("All".equals(governorate))) {
+////			sql += " and shop.gouvernorat like :governorate ";
+////		}
+////		
+////		if (!("".equals(dateCompare))) {
+////			sql += " and ue.Date = :dateCompare ";
+////		}
+////
+////		if (!("".equals(operator)) && !("All".equals(operator))) {
+////			sql += " and ue.operator in (:operator) ";
+////		}
+////
+////		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+////			sql += " and ue.Time >= :timeStart and  ue.Time < :timeEnd";
+////		}
+//		
+//		
+//		Query query = getCurrentSession().createQuery(sql);
+//
+//		if (!("Tout".equals(auditor))) {
+//			query.setParameter("auditor", "%" + auditor + "%");
+//		}
+//
+//		if (!("Tout".equals(operator))) {
+//			query.setParameter("operator", "%" + operator + "%");
+//			
+//		}
+//		
+////		if (!("".equals(governorate)) && !("All".equalsIgnoreCase(governorate))) {
+////			query.setParameter("governorate", "%" + governorate + "%");
+////		}
+////		if (!("".equals(dateCompare))) {
+////			query.setParameter("dateCompare", dateCompare);
+////		}
+////
+////		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+////			query.setParameter("timeStart", timeStart);
+////			query.setParameter("timeEnd", timeEnd);
+////		}
+////
+////		if (!("".equals(operator)) && !("All".equals(operator))) {
+////			query.setParameterList("operator", operatorsArr);
+////		}
+//
+//
+//			System.out.println("***************************la requette est "+ sql +"******");
+//			return query.list();
+//		
+//	}
+//	
+	
+	
+	
+	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Shops> findShopsMarkers(String operator,String auditor) {
+	public List<Audite> findShopsMarkers(String operator,String auditor) {
 		
 
-		String sql = "FROM Shops shop  where 1=1 ";
+		String sql = "FROM Audite shop  where 1=1 ";
 
 		if ( !("Tout".equals(auditor))) {
 			sql += " and shop.user.username like :auditor ";
@@ -198,11 +270,130 @@ public class ShopsDAOImpl implements ShopsDAO {
 //		}
 
 
-			System.out.println("***************************la requette est "+ sql +"******");
+			System.out.println("**********************la requette est "+ sql +"******");
 			return query.list();
 		
 	}
+
+	@Override
+	public List<STAT1> findSTAT1(String operator, String auditor) {
+		System.out.println("fara7  ");
+		
+	String sql=" select  a.operator.nom_op , count(a) from Audite a where 1=1";
+	System.out.println("fara7  "+ sql );
+	if ( !("Tout".equals(auditor))) {
+		sql += " and a.user.username like :auditor ";
+	}
+
+
+	if ( !("Tout".equals(operator))) {
+		sql += " and a.operator.nom_op like :operator ";
+	}
+		
+		sql += "group by a.operator.nom_op"; 
+		
+//		if (!("".equals(dateCompare))) {
+//			sql += " and ue.Date = :dateCompare ";
+//		}
+//
+//		if (!("".equals(operator)) && !("All".equals(operator))) {
+//			sql += " and ue.operator in (:operator) ";
+//		}
+//
+//		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+//			sql += " and ue.Time >= :timeStart and  ue.Time < :timeEnd";
+//		}
+		
+		Query query = getCurrentSession().createQuery(sql);
+
+		if (!("Tout".equals(auditor))) {
+			query.setParameter("auditor", "%" + auditor + "%");
+		}
+
+		if (!("Tout".equals(operator))) {
+			query.setParameter("operator", "%" + operator + "%");
+			
+		}
+		
+		
+//		if (!("".equals(dateCompare))) {
+//			query.setParameter("dateCompare", dateCompare);
+//		}
+//
+//		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+//			query.setParameter("timeStart", timeStart);
+//			query.setParameter("timeEnd", timeEnd);
+//		}
+//
+//		if (!("".equals(operator)) && !("All".equals(operator))) {
+//			query.setParameterList("operator", operatorsArr);
+//		}
+		System.out.println("***************************la requette est "+ sql +"******");
+		List<STAT1> St = (List<STAT1>) query.list();
+			
+			return St;
+	}
 	
-	
+		
+//	@Override
+//	public List<STAT1> findSTAT1(String operator, String auditor) {
+//		System.out.println("fara7  ");
+//		
+//	String sql=" select  DISTINCT a.operator.nom_op , a.dtype,  count(a) from Audite a where 1=1";
+//	System.out.println("fara7  "+ sql );
+//	if ( !("Tout".equals(auditor))) {
+//		sql += " and a.user.username like :auditor ";
+//	}
+//
+//
+//	if ( !("Tout".equals(operator))) {
+//		sql += " and a.operator.nom_op like :operator ";
+//	}
+//		
+//		sql += "group by a.operator.nom_op , a.dtype"; 
+//		
+////		if (!("".equals(dateCompare))) {
+////			sql += " and ue.Date = :dateCompare ";
+////		}
+////
+////		if (!("".equals(operator)) && !("All".equals(operator))) {
+////			sql += " and ue.operator in (:operator) ";
+////		}
+////
+////		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+////			sql += " and ue.Time >= :timeStart and  ue.Time < :timeEnd";
+////		}
+//		
+//		Query query = getCurrentSession().createQuery(sql);
+//
+//		if (!("Tout".equals(auditor))) {
+//			query.setParameter("auditor", "%" + auditor + "%");
+//		}
+//
+//		if (!("Tout".equals(operator))) {
+//			query.setParameter("operator", "%" + operator + "%");
+//			
+//		}
+//		
+//		
+////		if (!("".equals(dateCompare))) {
+////			query.setParameter("dateCompare", dateCompare);
+////		}
+////
+////		if (!("".equals(timeStart)) && !("".equals(timeEnd))) {
+////			query.setParameter("timeStart", timeStart);
+////			query.setParameter("timeEnd", timeEnd);
+////		}
+////
+////		if (!("".equals(operator)) && !("All".equals(operator))) {
+////			query.setParameterList("operator", operatorsArr);
+////		}
+//		System.out.println("***************************la requette est "+ sql +"******");
+//		List<STAT1> St = (List<STAT1>) query.list();
+//			
+//			return St;
+//	}
+//	
+//	
 
 }

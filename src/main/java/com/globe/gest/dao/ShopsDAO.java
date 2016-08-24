@@ -2,6 +2,8 @@ package com.globe.gest.dao;
 
 import java.util.List;
 
+import com.globe.gest.model.Audite;
+import com.globe.gest.model.STAT1;
 import com.globe.gest.model.Shops;
 
 public interface ShopsDAO {
@@ -19,6 +21,9 @@ public interface ShopsDAO {
 	public List<Shops> getShopsByName(String nom_audite, String stype, String operator, int gouvernorat,
 			int ville, int localisation);
 
-	public List<Shops> findShopsMarkers(String operator, String auditor);
+//	public List<Shops> findShopsMarkers(String operator, String auditor);
+	public List<Audite> findShopsMarkers(String operator, String auditor);
+
+	public List<STAT1> findSTAT1(String operator, String auditor);
 
 }

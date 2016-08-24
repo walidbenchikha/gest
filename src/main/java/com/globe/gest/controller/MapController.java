@@ -20,16 +20,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.globe.gest.model.Audite;
 import com.globe.gest.model.Operator;
-import com.globe.gest.model.Shops;
+import com.globe.gest.model.STAT1;
 import com.globe.gest.model.Track;
 import com.globe.gest.model.User;
-import com.globe.gest.model.Ville;
 import com.globe.gest.service.OperatorService;
 import com.globe.gest.service.ShopsService;
 import com.globe.gest.service.TrackService;
 import com.globe.gest.service.UserService;
-import com.thoughtworks.xstream.XStream;
 
 
 @Controller
@@ -80,18 +79,41 @@ public class MapController {
 
 	}
 	
+//	
+//	@RequestMapping(value = "/loadShops")
+//	@PreAuthorize("hasRole('CTRL_MAP_LIST_GET')")
+//	@ResponseBody
+//	public List<Shops> loadShops(@RequestParam("operator") String operator, 
+//			@RequestParam("auditor") String auditor) {
+//
+//		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOKay");
+//		
+//		//XStream xstream = new XStream();
+//		List<Shops> shopsMarkers = shopsService.findShopsMarkers(operator,auditor);
+//		Iterator<Shops> iterator = shopsMarkers.iterator();
+//		while (iterator.hasNext()) {
+//			System.out.println(iterator.next().getNom_audite());
+//		}
+//		System.out.println("blue");
+//		//String xml = xstream.toXML(shopsMarkers);
+//		//System.out.println(xml);
+//		
+//		return shopsMarkers;
+//
+//	}
+
 	
 	@RequestMapping(value = "/loadShops")
 	@PreAuthorize("hasRole('CTRL_MAP_LIST_GET')")
 	@ResponseBody
-	public List<Shops> loadShops(@RequestParam("operator") String operator, 
+	public List<Audite> loadShops(@RequestParam("operator") String operator, 
 			@RequestParam("auditor") String auditor) {
 
 		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOKay");
 		
 		//XStream xstream = new XStream();
-		List<Shops> shopsMarkers = shopsService.findShopsMarkers(operator,auditor);
-		Iterator<Shops> iterator = shopsMarkers.iterator();
+		List<Audite> shopsMarkers = shopsService.findShopsMarkers(operator,auditor);
+		Iterator<Audite> iterator = shopsMarkers.iterator();
 		while (iterator.hasNext()) {
 			System.out.println(iterator.next().getNom_audite());
 		}
@@ -102,8 +124,6 @@ public class MapController {
 		return shopsMarkers;
 
 	}
-
-
 	
 
 
@@ -130,7 +150,7 @@ public class MapController {
 
 	}
 
-	private List findTrack(int auditor) {
+	public List findTrack(int auditor) {
 		List results = new ArrayList();
 
 //		ShopService shopService = ApplicationContextProvider
@@ -142,6 +162,20 @@ public class MapController {
 		return results;
 	}
 
+	
+	@RequestMapping(value = "/loadSTAT1", method = RequestMethod.GET, produces = "application/json")
+	@PreAuthorize("hasRole('CTRL_MAP_LIST_GET')")
+	public @ResponseBody List<STAT1> findSTAT1( @RequestParam("operator") String operator, 
+			@RequestParam("auditor") String auditor ) {
+//		List<STAT1> results = new ArrayList<STAT1>();
+//		ShopService shopService = ApplicationContextProvider
+//				.getApplicationContext().getBean("shopService",
+//						ShopService.class);
+		System.out.println("****STAT1 = "	+ auditor + "et "+ operator + "kkkkkkkkkkkk");
+		List<STAT1> results = shopsService.findSTAT1( operator,  auditor );
+		System.out.println("****STAT1 = "	+ results.size());
+		return results;
+	}
 	
 
 }

@@ -31,11 +31,10 @@
 	border-top-style: none;
 	border-bottom-style: none;
 }
+
 .dropdown-menu {
 	min-width: 0px;
 }
-
-
 </style>
 
 
@@ -57,11 +56,14 @@
 	src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
 <script type='text/javascript'
 	src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
-	
-	<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
-<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-geocoding.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
+<script
+	src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-geocoding.js?key=B3cxAIa0Jmxz7rksBy0sCKoSOraP9Lpk"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 
 
@@ -71,8 +73,8 @@
 		<!-- /#wrapper -->
 
 		<div data-th-replace="fragments/sb-admin :: top-nav"></div>
-		
-		
+
+
 
 
 
@@ -80,15 +82,14 @@
 			class="navbar-default navbar-static-side">
 			<div class="sidebar-collapse">
 
-
+				<h3>Find shops</h3>
 				<form class="form-horizontal" role="form"
 					style="margin: 0px 8px 0px 8px;" action="#"
 					data-th-action="@{/map/search}" method="get">
 
 					<div>
-						<label for="auditor" >Auditor</label>
-						<select
-							class="form-control" id="auditor1">
+						<label for="auditor">Auditor</label> <select class="form-control"
+							id="auditor1">
 							<option th:value="Tout">Tout</option>
 							<option th:each="auditor : ${allAuditors}"
 								th:value="${auditor.username}" th:text="${auditor.username}">Dropdown</option>
@@ -108,11 +109,11 @@
 
 
 
-<div class="form-group">
+					<div class="form-group">
 						<div class="col-xs-10">
 							<!-- 							<button class="btn btn-primary pull-right" id="mkk"  ></button> -->
 							<a id="submit_markers" href="#" onclick="removeAllMarkers()"><button
-									type="button" class="btn btn-info">Show Shops</button></a>
+									type="button" class="btn btn-info" style="margin-top: 8px;">Show Shops</button></a>
 						</div>
 
 
@@ -123,57 +124,65 @@
 
 				</form>
 				<button id="reve" onclick="removeAllMarkers()"
-					class="btn btn-default">Clear markers</button>
-				
-				<h2>Users Tracking</h2>
-				<form class="form-horizontal" action="/map/loadTrack" method="POST">
-					<div class="form-group">
-				<div>
-						<label for="auditor" >Auditor</label>
-						<select
-							class="form-control" id="auditor2">
-							<option th:value="Tout">Tout</option>
-							<option th:each="auditor : ${allAuditors}"
-								th:value="${auditor.id}" th:text="${auditor.username}">Dropdown</option>
-						</select>
-					</div>
-				
-					</div>
+					class="btn btn-default" style="margin: 0px 0px 0px 8px;">Clear markers</button>
+
+				<h3>Users Tracking</h3>
+				<form class="form-horizontal" style="margin: 0px 8px 0px 8px;"
+					action="/map/loadTrack" method="POST">
+					
+						<div>
+							<label for="auditor">Auditor</label> <select class="form-control"
+								id="auditor2">
+								<option th:value="Tout">Tout</option>
+								<option th:each="auditor : ${allAuditors}"
+									th:value="${auditor.id}" th:text="${auditor.username}">Dropdown</option>
+							</select>
+						</div>
+
+					
 
 					<div class="form-group">
 						<div class="col-xs-10">
 							<!-- 							<button class="btn btn-primary pull-right" id="mkk"  ></button> -->
 							<a id="submit_Track" href="#" onclick="removetrack()"><button
-									type="button" class="btn btn-info">Show Tracking</button></a>
+									type="button" class="btn btn-info" style="margin-top: 8px;">Show Tracking</button></a>
 						</div>
 					</div>
 
 				</form>
 				<!--/row-->
-				<button onclick="removetrack()" class="btn btn-default">Clear
-					markers</button>
-				
-				
-				
+				<button onclick="removetrack()" class="btn btn-default" style="margin: 0px 0px 0px 8px;">Clear
+					track</button>
+
+
+
 			</div>
 
 		</nav>
 
-		
-		
-		
+
+
+
 
 		<div id="page-wrapper">
 			<div class="row">
+				<div id="statistique1">
+
+					
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-xs-12">
 
-					<h4 class="page-header" id="shops">MAP</h4>
-						<div id="map" style="width: 100%; height: 600px;"></div>
+					<!-- 					<h4 class="page-header" id="shops">MAP</h4> -->
+					<div id="map" style="width: 100%; height: 600px;"></div>
 
 
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
+
+			<div id="detailstable"></div>
 			<!-- /.row -->
 		</div>
 		<!-- page wrapper -->
@@ -182,7 +191,7 @@
 
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		$(document).ready(function() {
 
 		});
@@ -192,228 +201,387 @@
 				function load() {
 					var auditor = $('#auditor1').val();
 					var operator = $('#operator1').val();
-					
+
 					//var governorate = $('#governorate').val();
 
 					// 		$("#loading-text").text("Loading data");
 					// 		$("#loading_mask").show();
 
-					
-					var object ={
-							operator:operator,
-							auditor:auditor
-							
-					};
-					var r =$.param(object);
-					
-					$.get("http://localhost:8080/gest/map/loadShops?"+r, function(data) {
-						
-// 						$.each(data,function(key){
-// 							alert(key.);
-// 						});
-						markers = data;
+					var object = {
+						operator : operator,
+						auditor : auditor
 
-						DisplayMarkers(markers);
-	
-					});
-					
-					
-				
+					};
+					var r = $.param(object);
+
+					$.get("http://localhost:8080/gest/map/loadShops?" + r,
+							function(data) {
+
+								// 						$.each(data,function(key){
+								// 							alert(key.);
+								// 						});
+								markers = data;
+								DisplayMarkers(markers);
+ 								DisplaySTAT1();
+
+								
+							});
 
 				});
 
 
+		function DisplaySTAT1() {
+			var auditor = $('#auditor1').val();
+			var operator = $('#operator1').val();
 
+			var object = {
+				operator : operator,
+				auditor : auditor
 
+			};
+			var r = $.param(object);
+
+			$.get("http://localhost:8080/gest/map/loadSTAT1?" + r, function(
+					data) { 			
+
+// 					$('#op1').html(data[0][0]);
+// 					$('#opval1').text(data[0][1]);
+					
+// 					$('#op2').text(data[1][0]);
+// 					$('#opval2').text(data[1][1]);
+					
+// // 					$('#op3').text(data[2].name);
+// // 					$('#opval3').text(data[2].count);
+					
+						var text = "";
+						var i, j;
+						for (i in data) {
+							text += '<div class="col-sm-4">'
+									+ '<div class="panel panel-info">'
+									+ '<div class="panel-heading">'
+									+ '<h3 class="panel-title">';
+									var aaa = [0,1];
+							for (j in aaa) {
+								if (j == 0) {
+									text += data[i][j]
+											+ '</h3> </div><div class="panel-body">';
+								} else {
+									text += data[i][j]
+											+ '</div></div></div>';
+								}
+							}
+						}
+						text += "<hr></hr>";
+						$("#statistique1").html(text);
+			
+					
+					
+
+			});
+		}
+
+		
+		
+		
 
 
 		$('#submit_Track').click(
 				function load() {
 					var auditor = $('#auditor2').val();
-					
-					
+
 					//var governorate = $('#governorate').val();
 
 					// 		$("#loading-text").text("Loading data");
 					// 		$("#loading_mask").show();
 
-					
-					var object ={
-							
-							auditor:auditor
-							
-					};
-					var r =$.param(object);
-					
-					$.get("http://localhost:8080/gest/map/loadTrack?"+r, function(data) {
-						
-// 						$.each(data,function(key){
-// 							alert(key.);
-// 						});
-						
+					var object = {
 
-						DisplayTrack(data);
-	
-					});
-					
-					
-				
+						auditor : auditor
+
+					};
+					var r = $.param(object);
+
+					$.get("http://localhost:8080/gest/map/loadTrack?" + r,
+							function(data) {
+
+								// 						$.each(data,function(key){
+								// 							alert(key.);
+								// 						});
+
+								DisplayTrack(data);
+
+							});
 
 				});
-
-
-
-
-
 		
-
-
 		// 	functions
 
-				function DisplayMarkers(markers) {
+		function DisplayMarkers(markers) {
 
 			var markerArray = [];
 
 			Mar = new L.FeatureGroup();
 
-				for (var i in markers) {
-					
-					
-				if (markers[i].operator.nom_op == 'orange') {
-					var marker = L
-							.marker([ markers[i].latitude_boutique, markers[i].longitude_boutique ], {
-								icon : orangeIcon
-							//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
-							})
-							.bindPopup('<div id="iw-container" style="margin-bottom: 10px;">'
-											+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
-											+ markers[i].nom_audite
-											+ '</div>'
-											+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
-											+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
-											+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="../../resources/images/logoorange.png" data-th-src="@{/resources/images/logoorange.png}"  height="100" width="100"></img>'
-											+ '<p>Founded in 1996, Orange Côte d’Ivoire (Orange CI) had almost 11 million customers as of December 31, 2015.</p>'
-											+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
-											+ '<p>'
-											+ markers[i].adresse_boutique
-											
-											+ 'Phone. '
-											+ markers[i].phone_boutique
-											+ 'Categoty: '
-											+ markers[i].stype
-											+ 'www: www.orange.ci</p>'
-											+ '</div>'
-											+ '<div class="iw-bottom-gradient" ></div>'
-											+ '</div>'
+			for ( var i in markers) {
+				if (markers[i].dtype == 'shops') {
 
-							).addTo(map);
+					if (markers[i].operator.nom_op == 'orange') {
+						var marker = L
+								.marker(
+										[ markers[i].latitude_boutique,
+												markers[i].longitude_boutique ],
+										{
+											icon : orangeIcon
+										//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+										})
+								.bindPopup(
+										'<div id="iw-container" style="margin-bottom: 10px;">'
+												+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
+												+ markers[i].nom_audite
+												+ '</div>'
+												+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
+												+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
+												+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="../../resources/images/logoorange.png" data-th-src="@{/resources/images/logoorange.png}"  height="100" width="100"></img>'
+												+ '<p>Founded in 1996, Orange Côte d’Ivoire (Orange CI) had almost 11 million customers as of December 31, 2015.</p>'
+												+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
+												+ '<p>'
+												+ markers[i].adresse_boutique
 
-				} else if (markers[i].operator.nom_op == 'ooredoo') {
-					var marker = L
-					.marker([ markers[i].latitude_boutique, markers[i].longitude_boutique ], {
-								icon : mtnIcon
-							//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
-							})
-							.bindPopup(
-									'<div id="iw-container" style="margin-bottom: 10px;">'
-											+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
-											+ markers[i].nom_audite
-											+ '</div>'
-											+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
-											+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
-											+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="resources/images/logomtn.png" data-th-src="@{/resources/images/logomtn.png}"  height="100" width="100"></img>'
-											+ '<p>MTN est une entreprise de Télécommunications dorigine Sud-Africaine crée depuis 1994. La filiale ivoirienne à vu le jour le 1er Juillet 2005. MTN Cote divoire se veut un opérateur global, fournisseur de solutions fixes, mobiles et internet à très haut débit.</p>'
-											+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
-											+ '<p>'
-											+ markers[i].adresse_boutique
-											
-											+ 'Phone. '
-											+ markers[i].phone_boutique
-											+ 'Categoty: '
-											+ markers[i].stype
-											+ 'www: www.mtn.ci</p>'
-											+ '</div>'
-											+ '<div class="iw-bottom-gradient" ></div>'
-											+ '</div>').addTo(map);
+												+ 'Phone. '
+												+ markers[i].phone_boutique
+												+ 'Categoty: '
+												+ markers[i].stype
+												+ 'www: www.orange.ci</p>'
+												+ '</div>'
+												+ '<div class="iw-bottom-gradient" ></div>'
+												+ '</div>'
+
+								).addTo(map);
+
+					} else if (markers[i].operator.nom_op == 'ooredoo') {
+						var marker = L
+								.marker(
+										[ markers[i].latitude_boutique,
+												markers[i].longitude_boutique ],
+										{
+											icon : mtnIcon
+										//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+										})
+								.bindPopup(
+										'<div id="iw-container" style="margin-bottom: 10px;">'
+												+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
+												+ markers[i].nom_audite
+												+ '</div>'
+												+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
+												+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
+												+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="resources/images/logomtn.png" data-th-src="@{/resources/images/logomtn.png}"  height="100" width="100"></img>'
+												+ '<p>MTN est une entreprise de Télécommunications dorigine Sud-Africaine crée depuis 1994. La filiale ivoirienne à vu le jour le 1er Juillet 2005. MTN Cote divoire se veut un opérateur global, fournisseur de solutions fixes, mobiles et internet à très haut débit.</p>'
+												+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
+												+ '<p>'
+												+ markers[i].adresse_boutique
+
+												+ 'Phone. '
+												+ markers[i].phone_boutique
+												+ 'Categoty: '
+												+ markers[i].stype
+												+ 'www: www.mtn.ci</p>'
+												+ '</div>'
+												+ '<div class="iw-bottom-gradient" ></div>'
+												+ '</div>').addTo(map);
+					} else {
+						var marker = L
+								.marker(
+										[ markers[i].latitude_boutique,
+												markers[i].longitude_boutique ],
+										{
+											icon : moovIcon
+										//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+										})
+								.bindPopup(
+										'<div id="iw-container" style="margin-bottom: 10px;">'
+												+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
+												+ markers[i].nom_audite
+												+ '</div>'
+												+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
+												+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
+												+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="resources/images/logomoov.png" data-th-src="@{/resources/images/logomoov.png}" height="100" width="100"></img>'
+												+ '<p>Moov (Côte dIvoire) est un opérateur de téléphonie mobile, filiale dEtisalat, qui opère dans plusieurs pays dAfrique de lOuest.</p>'
+												+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
+												+ '<p>'
+												+ markers[i].adresse_boutique
+
+												+ 'Phone. '
+												+ markers[i].phone_boutique
+												+ 'Categoty: '
+												+ markers[i].stype
+												+ 'www: www.moov.ci</p>'
+												+ '</div>'
+												+ '<div class="iw-bottom-gradient" ></div>'
+												+ '</div>').addTo(map);
+					}
+
+					// 				'<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Panel title</h3> </div><div class="panel-body"> Panel content</div> </div>'
+
+					markerArray.push(L.marker([ markers[i].latitude_boutique,
+							markers[i].longitude_boutique ]));
+					Mar.addLayer(marker);
+
+				} else if (markers[i].dtype == 'institution') {
+
+					if (markers[i].operator.nom_op == 'orange') {
+						var marker = L
+								.marker(
+										[ markers[i].latitude_boutique,
+												markers[i].longitude_boutique ],
+										{
+											icon : iconentreprise
+										//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+										})
+								.bindPopup(
+										'<div id="iw-container" style="margin-bottom: 10px;">'
+												+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
+												+ markers[i].nom_audite
+												+ '</div>'
+												+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
+												+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
+												+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="../../resources/images/logoorange.png" data-th-src="@{/resources/images/logoorange.png}"  height="100" width="100"></img>'
+												+ '<p>Founded in 1996, Orange Côte d’Ivoire (Orange CI) had almost 11 million customers as of December 31, 2015.</p>'
+												+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
+												+ '<p>'
+												+ markers[i].adresse_boutique
+
+												+ 'Phone. '
+												+ markers[i].phone_boutique
+												+ 'Categoty: '
+												//+ markers[i].stype
+												+ 'www: www.orange.ci</p>'
+												+ '</div>'
+												+ '<div class="iw-bottom-gradient" ></div>'
+												+ '</div>'
+
+								).addTo(map);
+
+					} else if (markers[i].operator.nom_op == 'ooredoo') {
+						var marker = L
+								.marker(
+										[ markers[i].latitude_boutique,
+												markers[i].longitude_boutique ],
+										{
+											icon : iconentreprise
+										//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+										})
+								.bindPopup(
+										'<div id="iw-container" style="margin-bottom: 10px;">'
+												+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
+												+ markers[i].nom_audite
+												+ '</div>'
+												+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
+												+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
+												+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="resources/images/logomtn.png" data-th-src="@{/resources/images/logomtn.png}"  height="100" width="100"></img>'
+												+ '<p>MTN est une entreprise de Télécommunications dorigine Sud-Africaine crée depuis 1994. La filiale ivoirienne à vu le jour le 1er Juillet 2005. MTN Cote divoire se veut un opérateur global, fournisseur de solutions fixes, mobiles et internet à très haut débit.</p>'
+												+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
+												+ '<p>'
+												+ markers[i].adresse_boutique
+
+												+ 'Phone. '
+												+ markers[i].phone_boutique
+												+ 'Categoty: '
+												//+ markers[i].stype
+												+ 'www: www.mtn.ci</p>'
+												+ '</div>'
+												+ '<div class="iw-bottom-gradient" ></div>'
+												+ '</div>').addTo(map);
+					} else {
+						var marker = L
+								.marker(
+										[ markers[i].latitude_boutique,
+												markers[i].longitude_boutique ],
+										{
+											icon : iconentreprise
+										//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+										})
+								.bindPopup(
+										'<div id="iw-container" style="margin-bottom: 10px;">'
+												+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
+												+ markers[i].nom_audite
+												+ '</div>'
+												+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
+												+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
+												+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="resources/images/logomoov.png" data-th-src="@{/resources/images/logomoov.png}" height="100" width="100"></img>'
+												+ '<p>Moov (Côte dIvoire) est un opérateur de téléphonie mobile, filiale dEtisalat, qui opère dans plusieurs pays dAfrique de lOuest.</p>'
+												+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
+												+ '<p>'
+												+ markers[i].adresse_boutique
+
+												+ 'Phone. '
+												+ markers[i].phone_boutique
+												+ 'Categoty: '
+												//+ markers[i].stype
+												+ 'www: www.moov.ci</p>'
+												+ '</div>'
+												+ '<div class="iw-bottom-gradient" ></div>'
+												+ '</div>').addTo(map);
+					}
+
+					// 				'<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Panel title</h3> </div><div class="panel-body"> Panel content</div> </div>'
+
+					markerArray.push(L.marker([ markers[i].latitude_boutique,
+							markers[i].longitude_boutique ]));
+					Mar.addLayer(marker);
+
 				} else {
-					var marker = L
-							.marker([ markers[i].latitude_boutique, markers[i].longitude_boutique ], {
-								icon : moovIcon
-							//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
-							})
-							.bindPopup(
-									'<div id="iw-container" style="margin-bottom: 10px;">'
-											+ '<div class="iw-title" style="font-family: '+'Open Sans Condensed'+', sans-serif; font-size: 19px;font-weight: 400;padding: 10px;	background-color: #48b5e9;	color: white;margin: 0;	border-radius: 2px 2px 0 0;">'
-											+ markers[i].nom_audite
-											+ '</div>'
-											+ '<div class="iw-content" style="	font-size: 13px;line-height: 18px;font-weight: 400;	margin-right: 1px;	padding: 15px 5px 20px 15px;max-height: 140px;overflow-y: auto;	overflow-x: hidden;">'
-											+ '<div class="iw-subTitle" style="font-size: 16px;font-weight: 700;	padding: 5px 0;">Description</div>'
-											+ '<img style="float: right;	margin: 0 5px 5px 10px;	" src="resources/images/logomoov.png" data-th-src="@{/resources/images/logomoov.png}" height="100" width="100"></img>'
-											+ '<p>Moov (Côte dIvoire) est un opérateur de téléphonie mobile, filiale dEtisalat, qui opère dans plusieurs pays dAfrique de lOuest.</p>'
-											+ '<div class="iw-subTitle" style="font-size: 16px;	font-weight: 700;	padding: 5px 0;">Contacts</div>'
-											+ '<p>'
-											+ markers[i].adresse_boutique
-											
-											+ 'Phone. '
-											+ markers[i].phone_boutique
-											+ 'Categoty: '
-											+ markers[i].stype
-											+ 'www: www.moov.ci</p>'
-											+ '</div>'
-											+ '<div class="iw-bottom-gradient" ></div>'
-											+ '</div>').addTo(map);
+					var marker = L.circle(
+							[ markers[i].localisation.latitude,
+									markers[i].localisation.longitude ], 2000)
+							.addTo(map);
+					markerArray.push(L.circle([
+							markers[i].localisation.latitude,
+							markers[i].localisation.longitude ], 2000));
+					Mar.addLayer(marker);
 				}
 
-				// 				'<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Panel title</h3> </div><div class="panel-body"> Panel content</div> </div>'
-
-				markerArray.push(L.marker([ markers[i].latitude_boutique, markers[i].longitude_boutique ]));
-				Mar.addLayer(marker);
 			}
 			map.addLayer(Mar);
 			var group = L.featureGroup(markerArray);
 			map.fitBounds(group.getBounds());
 			//return false;
 		}
-		// 		function removeAllMarkers(){
-		// 		    map.removeLayer(Mar);
+
+		function removeAllMarkers() {
+			map.removeLayer(Mar);
+		}
+
+		// 		function DisplayMarkers(markers) {
+
+		// 			var markerArray = [];
+
+		// 			Mar = new L.FeatureGroup();
+
+		// 					var marker = L
+		// 							.marker([ 5.342925, -3.981171 ], {
+		// 								icon : orangeIcon
+		// 							//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
+		// 							})
+		// 							.bindPopup().addTo(map);
+
+		// 				// 				'<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Panel title</h3> </div><div class="panel-body"> Panel content</div> </div>'
+
+		// 				markerArray.push(L.marker([ 5.342925, -3.981171]));
+		// 				Mar.addLayer(marker);
+
+		// 			map.addLayer(Mar);
+		// 			var group = L.featureGroup(markerArray);
+		// 			map.fitBounds(group.getBounds());
+		// 			//return false;
 		// 		}
-		
-		
-// 		function DisplayMarkers(markers) {
+		// zoom the map to the polyline
 
-// 			var markerArray = [];
-
-// 			Mar = new L.FeatureGroup();
-			
-// 					var marker = L
-// 							.marker([ 5.342925, -3.981171 ], {
-// 								icon : orangeIcon
-// 							//	 					'<a href="' + markers[i][2] + '" target="_blank">'+ markers[i][8] + '</a>'
-// 							})
-// 							.bindPopup().addTo(map);
-
-				
-
-// 				// 				'<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Panel title</h3> </div><div class="panel-body"> Panel content</div> </div>'
-
-// 				markerArray.push(L.marker([ 5.342925, -3.981171]));
-// 				Mar.addLayer(marker);
-			
-// 			map.addLayer(Mar);
-// 			var group = L.featureGroup(markerArray);
-// 			map.fitBounds(group.getBounds());
-// 			//return false;
-// 		}
-		                  // zoom the map to the polyline
-		                  
-		                  
-		                  
-		                  function DisplayTrack(points) {
+		function DisplayTrack(points) {
 			//alert('in tracking');
-			
+
 			var polylinePoints = [];
-			for (var i in points) {
-			
+			for ( var i in points) {
+
 				polylinePoints.push(new L.LatLng(points[i][1], points[i][0]));
 			}
 
@@ -430,7 +598,6 @@
 			// 		                   // zoom the map to the polyline
 			map.fitBounds(polyline.getBounds());
 		}
-
 	</script>
 
 
@@ -466,16 +633,14 @@
 		data-th-src="@{/resources/js/sb-admin.js}"></script>
 
 
-<!-- 	<script src="resources/js/jquery.min.js"></script> -->
-<script type="text/javascript"
-		src="../../resources/js/jquery.min.js"
+	<!-- 	<script src="resources/js/jquery.min.js"></script> -->
+	<script type="text/javascript" src="../../resources/js/jquery.min.js"
 		data-th-src="@{/resources/js/jquery.min.js}"></script>
 
 	<!-- 	<script type='text/javascript' src='resources/markers.json'></script> -->
-<!-- 	<script type='text/javascript' src='resources/leaf-demo.js'></script> -->
+	<!-- 	<script type='text/javascript' src='resources/leaf-demo.js'></script> -->
 
-<script type="text/javascript"
-		src="../../resources/leaf-demo.js"
+	<script type="text/javascript" src="../../resources/leaf-demo.js"
 		data-th-src="@{/resources/leaf-demo.js}"></script>
 
 

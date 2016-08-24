@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.globe.gest.dao.ShopsDAO;
+import com.globe.gest.model.Audite;
+import com.globe.gest.model.STAT1;
 import com.globe.gest.model.Shops;
 
 @Service
@@ -51,13 +53,26 @@ public class ShopsServiceImpl implements ShopsService {
 		return shopsDAO.getShopsByName(nom_audite, stype, operator, gouvernorat, ville, localisation);
 	}
 
-	@Override
-		public List<Shops> findShopsMarkers(String operator, String auditor) {
-			
-	return shopsDAO.findShopsMarkers(operator,auditor);
-			
-		}
+//	@Override
+//		public List<Shops> findShopsMarkers(String operator, String auditor) {
+//			
+//	return shopsDAO.findShopsMarkers(operator,auditor);
+//			
+//		}
+//	
 	
+	@Override
+	public List<Audite> findShopsMarkers(String operator, String auditor) {
+		
+return shopsDAO.findShopsMarkers(operator,auditor);
+		
+	}
+
+@Override
+public List<STAT1> findSTAT1(String operator, String auditor) {
+	System.out.println("fara7  ");
+	return shopsDAO.findSTAT1(operator, auditor);
+}
 	
 	
 
