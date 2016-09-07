@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class BoutiqueNormal extends Shops implements Serializable {
 
 	private static final long serialVersionUID = 96285180113476324L;
-	static Logger logger = LoggerFactory.getLogger(Strategy.class);
+	static Logger logger = LoggerFactory.getLogger(BoutiqueNormal.class);
 
 	/*
 	 * @NotNull(message = "{error.boutiquenormal.ID_OP.null}")

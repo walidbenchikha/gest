@@ -30,17 +30,9 @@ public class VisiteDAOImpl implements VisiteDAO {
 		// logger.debug("UserDAOImpl.addUser() - [" + shops.getUsername() +
 		// "]");
 
-		System.out.println("*********33333");
-		System.out.println(visite.toString());
 		getCurrentSession().save(visite);
 	}
-//
-//	@Override
-//	public Shops getShops(int shopsId) {
-//		logger.debug("UserDAOImpl.getUser() - [" + shopsId + "]");
-//		Shops shopsObject = (Shops) getCurrentSession().get(Shops.class, shopsId);
-//		return shopsObject;
-//	}
+
 //
 //	@Override
 //	public void updateShops(Shops shops) {
@@ -58,30 +50,46 @@ public class VisiteDAOImpl implements VisiteDAO {
 //
 //	}
 //
-//	@Override
-//	public void deleteShops(int shopsId) {
-//		Shops shops = getShops(shopsId);
-//		if (shops != null) {
-//			getCurrentSession().delete(shops);
-//		}
-//	}
+
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Visite> getVisite() {
-		System.out.println("*******************1");
-		String hql = "from Visite v";
-		System.out.println("*******************2");
+		String hql = "from Visite v where v.date_visite is null ";
 		return getCurrentSession().createQuery(hql).list();
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Visite> getVisited() {
-		System.out.println("*******************1");
+	public List<Visite> getVisited() {;
 		String hql = "from Visite v where v.date_visite is not null";
-		System.out.println("*******************2");
 		return getCurrentSession().createQuery(hql).list();
+	}
+
+	@Override
+	public Visite getVisite(int id) {
+		
+		Visite visiteObject = (Visite) getCurrentSession().get(Visite.class, id);
+		return visiteObject;
+	}
+
+	@Override
+	public void deleteVisite(int id_visite) {
+		Visite visite = getVisite(id_visite);
+		if (visite != null) {
+			getCurrentSession().delete(visite);
+		}
+	}
+
+	@Override
+	public void updateVisite(Visite visite) {
+		Visite visitToUpdate = getVisite(visite.getId_visite());
+		
+				visitToUpdate.setAudite(visite.getAudite());
+				visitToUpdate.setDate_a_visiter(visite.getDate_a_visiter());
+				visitToUpdate.setAuditor(visite.getAuditor());
+				
+				getCurrentSession().update(visitToUpdate);
 	}
 
 //	@Override

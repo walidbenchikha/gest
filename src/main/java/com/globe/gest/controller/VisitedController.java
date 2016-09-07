@@ -64,8 +64,8 @@ public class VisitedController {
 
 
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	@PreAuthorize("hasRole('CTRL_USER_LIST_GET')")
-	public String listShops(Model model) {
+	@PreAuthorize("hasRole('CTRL_VISITED_LIST_GET')")
+	public String listShops(Model model) {	
 		logger.debug("IN: User/list-GET");
 
 		List<Visite> visite = visiteService.getVisited();

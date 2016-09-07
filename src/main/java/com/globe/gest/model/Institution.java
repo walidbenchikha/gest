@@ -43,7 +43,7 @@ public class Institution  extends Audite implements Serializable {
     @NotNull(message = "{error.shops.adresse_boutique.null}")
     @NotEmpty(message = "{error.shops.adresse_boutique.empty}")
     @Size(max = 50, message = "{error.shops.adresse_boutique.max}")
-    @Column(name = "adresse_boutique", length = 20)
+    @Column(name = "adresse_boutique", length = 50)
     private String adresse_boutique;
     
     @NotNull(message = "{error.shops.phone_boutique.null}")

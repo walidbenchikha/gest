@@ -46,24 +46,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
 
 </script>
-<script>
 
-function sendAjaxRequest(){
-	
-	$.get( "http://localhost:8080/gest/tovisit/user", function( data ) {
-		$("#user").val(data);
-		$("#shops").html(data);
-		});
-	}
-
-	$(document).ready( function() {
-			sendAjaxRequest();
-
-		}
-	);
-	
-	
-</script>
 
 <title data-th-text="#{shops.list.page.title}">Title</title>
 </head>
@@ -113,22 +96,22 @@ function sendAjaxRequest(){
 												data-th-text="#{user.list.actions.label}">
 												Actions<span class="caret"></span>
 											</button>
-<!-- 											  <ul class="dropdown-menu"> -->
+											  <ul class="dropdown-menu">
 
-<!--                                     <li> -->
-<!-- 		                                <a href="#" data-th-href="@{/shops/edit(id=${shops.ID_AUDITE})}"> -->
-<!-- 		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp; -->
-<!-- 		                                    <span data-th-text="#{button.label.edit}">edit</span> -->
-<!-- 		                                </a> -->
-<!--                                     </li> -->
+                                    <li>
+		                                <a href="#" data-th-href="@{/tovisit/edit(id=${visite.id_visite})}">
+		                                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+		                                    <span data-th-text="#{button.label.edit}">edit</span>
+		                                </a>
+                                    </li>
                                     
-<!--                                     <li> -->
-<!-- 		                                <a href="#" data-th-href="@{/shops/delete(id=${shops.ID_AUDITE},phase=stage)}"> -->
-<!-- 		                                   <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp; -->
-<!-- 		                                   <span data-th-text="#{button.label.delete}">delete</span> -->
-<!-- 		                                </a> -->
-<!--                                     </li> -->
-<!-- 								  </ul> -->
+                                    <li>
+		                                <a href="#" data-th-href="@{/tovisit/delete(id=${visite.id_visite},phase=stage)}">
+		                                   <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;
+		                                   <span data-th-text="#{button.label.delete}">delete</span>
+		                                </a>
+                                    </li>
+								  </ul>
 										</div>
 									</td>
 								</tr>

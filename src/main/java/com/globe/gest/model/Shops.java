@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class Shops extends Audite implements Serializable {
 
 	private static final long serialVersionUID = 96285180113476324L;
-	static Logger logger = LoggerFactory.getLogger(Strategy.class);
+	static Logger logger = LoggerFactory.getLogger(Shops.class);
 
 	@Column(name = "stype")
 	private String stype;

@@ -25,21 +25,7 @@ public class VisiteServiceImpl implements VisiteService {
 	public void addVisite(Visite visite) {
 		visiteDAO.addVisite(visite);
 	}
-//
-//	@Override
-//	public Shops getShops(int shopsId) {
-//		return shopsDAO.getShops(shopsId);
-//	}
-//
-//	@Override
-//	public void updateShops(Shops shops) {
-//		shopsDAO.updateShops(shops);
-//	}
-//
-//	@Override
-//	public void deleteShops(int shopsId) {
-//		shopsDAO.deleteShops(shopsId);
-//	}
+
 
 	@Override
 	public List<Visite> getVisite() {
@@ -55,5 +41,20 @@ public class VisiteServiceImpl implements VisiteService {
 //			String ville, String localisation) {
 //		return shopsDAO.getShopsByName(nom_audite, stype, operator, gouvernorat, ville, localisation);
 //	}
+
+	@Override
+	public Visite getVisite(int id) {
+		return visiteDAO.getVisite(id);
+	}
+
+	@Override
+	public void deleteVisite(int id_visite) {
+		visiteDAO.deleteVisite(id_visite);
+	}
+
+	@Override
+	public void updateVisite(Visite visite) {
+		visiteDAO.updateVisite(visite);
+	}
 
 }

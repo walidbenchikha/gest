@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
 public class Camion  extends Audite implements Serializable {
 
 	private static final long serialVersionUID = 96285180113476324L;
-    static Logger logger = LoggerFactory.getLogger(Strategy.class);
+    static Logger logger = LoggerFactory.getLogger(Camion.class);
     
     
     

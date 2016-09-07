@@ -34,7 +34,7 @@ import com.google.common.base.Objects;
 public class Audite implements Serializable {
 
 	private static final long serialVersionUID = 96285180113476324L;
-	static Logger logger = LoggerFactory.getLogger(Strategy.class);
+	static Logger logger = LoggerFactory.getLogger(Audite.class);
 
 	@Column(name = "dtype", insertable = false, updatable = false)
 	private String dtype;
