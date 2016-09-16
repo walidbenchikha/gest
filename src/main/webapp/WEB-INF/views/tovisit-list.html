@@ -46,7 +46,23 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
 
 </script>
-
+<script>
+ 
+ function sendAjaxRequest(){
+ 	
+ 	$.get( "http://localhost:8080/gest/tovisit/user", function( data ) {
+ 		$("#user").val(data);
+ 		});
+ 	}
+ 
+ 	$(document).ready( function() {
+ 			sendAjaxRequest();
+ 
+ 		}
+ 	);
+ 	
+ 	
+ </script>
 
 <title data-th-text="#{shops.list.page.title}">Title</title>
 </head>
